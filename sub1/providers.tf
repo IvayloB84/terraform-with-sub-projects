@@ -1,3 +1,3 @@
 
 module "providers" {
-  source = "./modules/providers"
+  source = "../modules/providers"
