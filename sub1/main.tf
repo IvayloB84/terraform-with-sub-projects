@@ -59,11 +59,11 @@ data "archive_file" "task_payload_zip" {
 }
 
 resource "aws_lambda_function" "task_payload" {
-  function_name    = "tf-lambda-for-module"
+  function_name    = var.function_name
   filename         = data.archive_file.task_payload_zip.output_path
   role             = aws_iam_role.lambda_role.arn
   handler          = "index.handler"
-  runtime          = "nodejs14.x"
+  runtime          = var.compatible_runtimes
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
   source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
   publish          = true
