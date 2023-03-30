@@ -43,7 +43,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-16cb508c-e9d5-4e7d-b80a-d2738e03667e.arn
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
 resource "null_resource" "lambda_dependencies" {
