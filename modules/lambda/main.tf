@@ -1,0 +1,76 @@
+resource "aws_iam_role" "task_payload" {
+  name = "task_payload-role-uxi8"
+
+  assume_role_policy = <<EOF
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "lambda.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81c3014-0f09" {
+
+  name        = "AWSLambdaBasicExecutionRole-f81c3014-0f09"
+  path        = "/"
+  description = "AWS IAM Policy for managing aws lambda role"
+  policy      = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+   {
+     "Action": [
+       "logs:CreateLogGroup",
+       "logs:CreateLogStream",
+       "logs:PutLogEvents"
+     ],
+     "Resource": "arn:aws:logs:*:*:*",
+     "Effect": "Allow"
+   }
+ ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
+  role       = aws_iam_role.task_payload.name
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81c3014-0f09.arn
+}
+
+resource "null_resource" "lambda_dependencies" {
+  provisioner "local-exec" {
+    command = "mkdir lambda || true && cd ./lambda && npm install --legacy-peer-deps"
+  }
+}
+
+data "archive_file" "task_payload_zip" {
+  type        = "zip"
+  source_dir  = "./lambda"
+  output_path = "./task_payload.zip"
+}
+
+resource "aws_lambda_function" "task_payload" {
+  function_name    = "terraform-lambda-task"
+  filename         = data.archive_file.task_payload_zip.output_path
+  role             = aws_iam_role.task_payload.arn
+  handler          = "index.handler"
+  runtime          = "nodejs14.x"
+  depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
+  source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
+  publish          = true
+}
+
+resource "aws_cloudwatch_log_group" "tf-task" {
+  name = "/aws/lambda/${aws_lambda_function.task_payload.function_name}"
+
+  retention_in_days = 14
+}
