@@ -1,3 +1,3 @@
 module "lambdas" {
-  source = "./"
+  source = "./modules"
 }
