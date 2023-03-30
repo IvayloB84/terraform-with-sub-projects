@@ -68,9 +68,3 @@ resource "aws_lambda_function" "task_payload" {
   source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
   publish          = true
 }
-
-resource "aws_cloudwatch_log_group" "tf-task" {
-  name = "/aws/lambda/${aws_lambda_function.task_payload.function_name}"
-
-  retention_in_days = 14
-}
