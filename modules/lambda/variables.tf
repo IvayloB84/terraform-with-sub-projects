@@ -28,3 +28,8 @@ variable "iam_policy_name" {
   description = "Default runtime for lambda"
   type = string
 }
+
+variable = "lambda_handler" {
+  descriptions = "Lambda function handler"
+  type = string 
+}
