@@ -1,6 +1,7 @@
 variable "description" {
   description = "Description of the lambda."
   type        = string
+  default     = "Description"
 }
 
 variable "function_name" {
