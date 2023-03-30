@@ -62,7 +62,7 @@ resource "aws_lambda_function" "task_payload" {
   function_name    = var.function_name
   filename         = data.archive_file.task_payload_zip.output_path
   role             = aws_iam_role.task_payload.arn
-  handler          = "index.handler"
+  handler          = var.lambda_handler
   runtime          = var.compatible_runtimes
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
   source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
