@@ -1,5 +1,5 @@
 resource "aws_iam_role" "task_payload" {
-  name = "task_payload-role-uxi8"
+  name = var.iam_role_name
 
   assume_role_policy = <<EOF
 
@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81c3014-0f09" {
 
-  name        = "AWSLambdaBasicExecutionRole-f81c3014-0f09"
+  name        = var.iam_policy_name
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -59,11 +59,11 @@ data "archive_file" "task_payload_zip" {
 }
 
 resource "aws_lambda_function" "task_payload" {
-  function_name    = "terraform-lambda-task"
+  function_name    = var.function_name
   filename         = data.archive_file.task_payload_zip.output_path
   role             = aws_iam_role.task_payload.arn
   handler          = "index.handler"
-  runtime          = "nodejs14.x"
+  runtime          = var.compatible_runtimes
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
   source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
   publish          = true
