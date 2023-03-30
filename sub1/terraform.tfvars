@@ -32,3 +32,9 @@ variable "iam_policy_name" {
   type = string
   default = "AWSLambdaBasicExecutionRole-f81c3014-0f09"
 }
+
+variable "lambda_handler" {
+  description = " Lambda function handler"
+  type = string
+  default = "index_handler"
+}
