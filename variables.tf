@@ -8,7 +8,7 @@ variable "description" {
 variable "function_name" {
   description = "The function ARN of the Lambda function for which you want to create an alias."
   type        = string
-  default     = ""
+  default     = "tf-lambda-for-module"
 }
 
 variable "function_version" {
