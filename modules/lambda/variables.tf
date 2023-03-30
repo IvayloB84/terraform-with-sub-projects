@@ -1,4 +1,3 @@
-
 variable "description" {
   description = "Description of the alias."
   type        = string
@@ -21,4 +20,16 @@ variable "compatible_runtimes" {
   description = "Default runtime for lambda"
   type = string
   default = "nodejs14.x"
+}
+
+variable "iam_role_name" {
+  description = "Default runtime for lambda"
+  type = string
+  default = ""
+}
+
+variable "iam_policy_name" {
+  description = "Default runtime for lambda"
+  type = string
+  default = ""
 }
