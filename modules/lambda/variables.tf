@@ -29,7 +29,7 @@ variable "iam_policy_name" {
   type = string
 }
 
-variable = "lambda_handler" {
+variable "lambda_handler" {
   descriptions = "Lambda function handler"
   type = string 
 }
