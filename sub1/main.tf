@@ -5,4 +5,6 @@ module "lambda" {
   handler       = "index.lambda_handler"
   runtime       = var.compatible_runtimes
   publish = true
+  
+  source_path = "./sub1"
 }
