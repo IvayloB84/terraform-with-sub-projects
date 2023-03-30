@@ -1,7 +1,6 @@
 variable "description" {
-  description = "Description of the alias."
+  description = "Description of the lambda."
   type        = string
-  default     = "Not needed"
 }
 
 variable "function_name" {
