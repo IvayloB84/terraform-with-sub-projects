@@ -23,3 +23,8 @@ variable "lambda_handler" {
   description = "Lambda function handler"
   type = string 
 }
+
+variable "publish" {
+  description = "Default publish role"
+  type = bool
+}
