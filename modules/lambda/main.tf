@@ -1,5 +1,5 @@
 resource "aws_iam_role" "task_payload" {
-  name = "${var.iam_role_name}
+  name = "${var.iam_role_name}"
 
   assume_role_policy = <<EOF
 
