@@ -1,8 +1,3 @@
-variable "description" {
-  description = "Description of the alias."
-  type        = string
-}
-
 variable "function_name" {
   description = "The function ARN of the Lambda function for which you want to create an alias."
   type        = string
@@ -29,7 +24,7 @@ variable "iam_policy_name" {
   type = string
 }
 
-variable "handler" {
+variable "lambda_handler" {
   description = "Lambda function handler"
   type = string 
 }
