@@ -58,7 +58,6 @@ data "archive_file" "task_payload_zip" {
   output_path = "./task_payload.zip"
 }
 
-/*
 resource "aws_lambda_function" "task_payload" {
   function_name    = "${var.function_name}"
   filename         = data.archive_file.task_payload_zip.output_path
@@ -69,4 +68,3 @@ resource "aws_lambda_function" "task_payload" {
   source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
   publish          = true
 }
-*/
