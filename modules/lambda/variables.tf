@@ -3,11 +3,6 @@ variable "function_name" {
   type        = string
 }
 
-variable "function_version" {
-  description = "Lambda function version for which you are creating the alias. Pattern: ($LATEST|[0-9]+)."
-  type        = string
-}
-
 variable "compatible_runtimes" {
   description = "Default runtime for lambda"
   type = string
