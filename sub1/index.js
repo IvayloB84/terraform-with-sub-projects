@@ -8,3 +8,4 @@ exports.handler = async (event, context) => {
     return event.key1;  // Echo back the first key value
     // throw new Error('Something went wrong');    
 };
+
