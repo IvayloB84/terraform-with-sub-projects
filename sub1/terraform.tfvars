@@ -16,7 +16,7 @@ variable "function_version" {
   default     = ""
 }
 
-variable "compatible_runtimes" {
+variable "runtime" {
   description = "Default runtime for lambda"
   type = string
   default = "nodejs14.x"
@@ -34,7 +34,7 @@ variable "iam_policy_name" {
   default = "AWSLambdaBasicExecutionRole-f81c3014-0f09"
 }
 
-variable "lambda_handler" {
+variable "handler" {
   description = " Lambda function handler"
   type = string
   default = "index_handler"
