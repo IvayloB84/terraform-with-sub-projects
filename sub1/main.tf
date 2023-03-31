@@ -5,8 +5,8 @@ provider "aws" {
 module "lambda" {
   source = "../modules/lambda"
     
-  function_name = var.function_name
-  handler       = var.lambda_handler
-  runtime       = var.compatible_runtimes
+  function_name = "tf-lambda-git"
+  handler       = "index_handler"
+  runtime       = "nodejs14.x"
   publish = true
 }
