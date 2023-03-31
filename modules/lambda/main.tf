@@ -56,6 +56,7 @@ data "archive_file" "task_payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./task_payload.zip"
+  depends_on = [null_resource.lambda_dependencies]
 }
 
 resource "aws_lambda_function" "task_payload" {
