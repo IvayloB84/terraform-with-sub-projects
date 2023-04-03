@@ -13,16 +13,19 @@ variable "compatible_runtimes" {
 variable "iam_role_name" {
   description = "Default runtime for lambda"
   type = string
+  default = ""
 }
 
 variable "iam_policy_name" {
   description = "Default runtime for lambda"
   type = string
+  default = ""
 }
 
 variable "lambda_handler" {
   description = "Lambda function handler"
   type = string 
+  default = ""
 }
 
 variable "publish" {
