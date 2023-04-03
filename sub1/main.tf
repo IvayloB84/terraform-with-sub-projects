@@ -11,5 +11,5 @@ module "lambda" {
   lambda_handler       = "index_handler"
   compatible_runtimes       = "nodejs14.x"
   
-  publish = true
+  publish = true 
 }
