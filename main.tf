@@ -1,30 +1,15 @@
-variable "function_name" {
-  description = "The function ARN of the Lambda function for which you want to create an alias."
-  type        = string
+provider "aws" {
+  region = "us-west-2"
 }
 
-variable "compatible_runtimes" {
-  description = "Default runtime for lambda"
-  type = string
-  default = "nodejs14.x"
-}
-
-variable "iam_role_name" {
-  description = "Default runtime for lambda"
-  type = string
-}
-
-variable "iam_policy_name" {
-  description = "Default runtime for lambda"
-  type = string
-}
-
-variable "lambda_handler" {
-  description = "Lambda function handler"
-  type = string 
-}
-
-variable "publish" {
-  description = "Default publish role"
-  type = bool
+module "lambda" {
+  source = "../modules/lambda"
+    
+  iam_role_name = var.iam_role_name
+  iam_policy_name = var.iam_policy_name
+  function_name = iam_function_name
+  lambda_handler       = var.lambda_handler
+  compatible_runtimes       = var.compatible_runtimes
+  
+  publish = true
 }
