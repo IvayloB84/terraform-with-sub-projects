@@ -1,6 +1,7 @@
 variable "function_name" {
   description = "The function ARN of the Lambda function for which you want to create an alias."
   type        = string
+  default = ""
 }
 
 variable "compatible_runtimes" {
