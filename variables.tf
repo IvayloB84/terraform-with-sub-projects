@@ -27,4 +27,5 @@ variable "lambda_handler" {
 variable "publish" {
   description = "Default publish role"
   type = bool
+  default = true
 }
