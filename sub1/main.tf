@@ -13,4 +13,3 @@ module "lambda" {
   
   publish = true 
 }
-  
