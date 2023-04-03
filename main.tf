@@ -11,5 +11,5 @@ module "lambda" {
   lambda_handler       = var.lambda_handler
   compatible_runtimes       = var.compatible_runtimes
   
-  publish = true
+  publish = var.pulish
 }
