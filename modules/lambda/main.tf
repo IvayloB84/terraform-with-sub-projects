@@ -18,7 +18,7 @@ resource "aws_iam_role" "task_payload" {
 EOF
 }
 
-resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81c3014-0f09" {
+resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81" {
 
   name        = "${var.iam_policy_name}"
   path        = "/"
@@ -43,7 +43,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.task_payload.name
-  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81c3014-0f09.arn
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
 resource "null_resource" "lambda_dependencies" {
@@ -52,20 +52,20 @@ resource "null_resource" "lambda_dependencies" {
   }
 }
 
-data "archive_file" "task_payload_zip" {
+data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
-  output_path = "./task_payload.zip"
+  output_path = "./payload.zip"
   depends_on = [null_resource.lambda_dependencies]
 }
 
 resource "aws_lambda_function" "task_payload" {
   function_name    = "${var.function_name}"
-  filename         = data.archive_file.task_payload_zip.output_path
+  filename         = data.archive_file.payload_zip.output_path
   role             = aws_iam_role.task_payload.arn
   handler          = "${var.lambda_handler}"
   runtime          = "${var.compatible_runtimes}"
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
-  source_code_hash = data.archive_file.task_payload_zip.output_base64sha256
+  source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
 }
