@@ -12,3 +12,4 @@ module "lambda" {
   compatible_runtimes       = "nodejs14.x"
   publish = true 
 }
+  
