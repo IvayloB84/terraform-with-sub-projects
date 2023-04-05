@@ -67,5 +67,7 @@ resource "aws_lambda_function" "payload" {
   runtime          = "${var.compatible_runtimes}"
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
+  
+  ignore_source_code_hash = false
   publish          = true
 } 
