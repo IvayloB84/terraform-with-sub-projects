@@ -28,3 +28,9 @@ variable "publish" {
   description = "Default publish role"
   type = bool
 }
+
+variable "source_code_hash" {
+  description = "Enabling source code hash for lambda"
+  type = bool
+  default = false
+}
