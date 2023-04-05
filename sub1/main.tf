@@ -10,6 +10,6 @@ module "lambda" {
   function_name = "tf-lambda-git"
   lambda_handler       = "index.handler"
   compatible_runtimes       = "nodejs14.x"
-//  source_code_hash = data.archive_file.payload.output_base64sha256
+  source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   publish = true
 }
