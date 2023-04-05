@@ -2,6 +2,8 @@ provider "aws" {
   region = "us-west-2"
 }
 
+data "archive_file" "payload_zip" { }
+
 module "lambda" {
   source = "../modules/lambda"
   
