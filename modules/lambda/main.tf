@@ -1,4 +1,4 @@
-resource "aws_iam_role" "task_payload" {
+resource "aws_iam_role" "payload" {
   name = "${var.iam_role_name}"
 
   assume_role_policy = <<EOF
@@ -42,7 +42,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
-  role       = aws_iam_role.task_payload.name
+  role       = aws_iam_role.payload.name
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
