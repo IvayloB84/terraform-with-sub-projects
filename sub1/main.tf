@@ -10,6 +10,8 @@ module "lambda" {
   function_name = "tf-lambda-git"      
   lambda_handler       = "index.handler"    
   compatible_runtimes       = "nodejs14.x"
+  
+  source_path = "../lambda"
         
   publish = true
 }       
