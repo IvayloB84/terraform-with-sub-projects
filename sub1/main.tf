@@ -11,7 +11,7 @@ module "lambda" {
   lambda_handler       = "index.handler"    
   compatible_runtimes       = "nodejs14.x"
   
-  source_path = "${path.module}/lambda"
+  source_path = "${path.module}/modules/lambda"
         
   publish = true
 }       
