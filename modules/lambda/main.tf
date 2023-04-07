@@ -54,6 +54,7 @@ resource "null_resource" "lambda_dependencies" {
     cd ./lambda 
     npm install --legacy-peer-deps
     EOF
+    interpreter = ["/bin/bash", "-c"]
   }
 }
 
