@@ -3,7 +3,6 @@ resource "aws_iam_role" "payload" {
           
   assume_role_policy = <<EOF
   
-  
 {
     "Version": "2012-10-17",
     "Statement": [
