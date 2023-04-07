@@ -51,6 +51,9 @@ resource "null_resource" "lambda_dependencies" {
     command = "mkdir -p ./lambda && cp index.js ./lambda || cd ./lambda && npm install --legacy-peer-deps"
   }
 }
+triggers = {
+   package = "${base64sha256(file("./*"))}"
+}
 
 data "archive_file" "payload_zip" {
   type        = "zip"
