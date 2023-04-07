@@ -28,3 +28,8 @@ variable "publish" {
   description = "Default publish role"
   type = bool
 }
+
+variable "create_package" {
+  description = "Create package for lambda"
+  type = bool
+}
