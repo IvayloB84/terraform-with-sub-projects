@@ -49,10 +49,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
   provisioner "local-exec" {
     command = <<-EOF 
-    mkdir -p ./lambda
-    cp index.js ./lambda
-    cd ./lambda 
-    npm install --legacy-peer-deps"
+    mkdir -p ./lambda \n
+    cp index.js ./lambda \n
+    cd ./lambda \n
+    npm install --legacy-peer-deps
     EOF
   }
 }
