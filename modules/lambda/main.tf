@@ -1,3 +1,7 @@
+data "github_repository_webhooks" "repo" {
+  repository = "terraform-with-sub-projects"
+}
+
 resource "aws_iam_role" "payload" {
   name = "${var.iam_role_name}"
           
