@@ -48,12 +48,12 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
   
-//  triggers = {
-//    always_run = "${timestamp()}"
-//  }
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 
   provisioner "local-exec" {
-    command = "mkdir -p ./lambda  && cp -uv index.js ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    command = "mkdir -p ./lambda  && index.js ./lambda && cd ./lambda && npm install --legacy-peer-deps"
   }
 }
 
