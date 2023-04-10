@@ -51,7 +51,7 @@ resource "aws_dynamodb_table" "terraform-state" {
    type = "S"
  }
 }
-    
+
 module "lambda" {
   source = "../modules/lambda"
   
