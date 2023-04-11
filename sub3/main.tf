@@ -5,8 +5,8 @@ provider "aws" {
 module "lambda" {
   source = "../modules/lambda"
   
-  iam_role_name = "tf-lambda-git-role"
-  iam_policy_name = "tf-lambda-policy-name"
+  iam_role_name = "tf-lambda-git-role-1"
+  iam_policy_name = "tf-lambda-policy-name-1"
   function_name = "tf-lambda-new-1"      
   lambda_handler   = "index.handler"
   compatible_runtimes  = "nodejs14.x"  
