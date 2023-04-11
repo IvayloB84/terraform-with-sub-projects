@@ -5,7 +5,7 @@ provider "aws" {
 module "lambda" {
   source = "../modules/lambda"
   
-  iam_role_name = "tf-lambda-git-role"
+  iam_role_name = "tf-lambda-iam-role-name"
   iam_policy_name = "tf-lambda-policy-name"
   function_name = "tf-lambda-new"      
   lambda_handler   = "index.handler"
