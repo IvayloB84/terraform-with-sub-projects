@@ -7,4 +7,4 @@ exports.handler = async (event, context) => {
     console.log('value3 =', event.key3);
     return event.key1;  //Echo back the first key value
     // throw new Error('Something went wrong');
-};   
+};
