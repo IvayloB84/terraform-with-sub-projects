@@ -9,7 +9,7 @@ module "lambda" {
   iam_policy_name = "tf-lambda-policy-sub7"
   function_name = "tf-lambda-sub7"      
   lambda_handler   = "index.handler"
-  compatible_runtimes  = "nodejs14.x
+  compatible_runtimes  = nodejs14.x
   
 }
  
