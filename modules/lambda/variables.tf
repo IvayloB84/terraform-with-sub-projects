@@ -6,7 +6,6 @@ variable "function_name" {
 variable "compatible_runtimes" {
   description = "Default runtime for lambda"
   type = string
-  default = "nodejs14.x"
 }
 
 variable "iam_role_name" {
