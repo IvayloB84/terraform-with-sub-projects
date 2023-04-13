@@ -55,7 +55,7 @@ resource "null_resource" "lambda_dependencies" {
   triggers = {
     index   = "${base64sha256(file("./lambda/index.js"))}"
     package = "${base64sha256(file("./lambda/package.json"))}"
-#     lock    = "${base64sha256(file("./lambda/package-lock.json"))}"
+}
 
   provisioner "local-exec" {
     command = "mkdir -p ./lambda  && cd ./lambda && npm install --legacy-peer-deps"
