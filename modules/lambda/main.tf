@@ -53,7 +53,7 @@ resource "null_resource" "lambda_dependencies" {
 //  }
   
   triggers = {
-    index   = "${base64sha256(file("../../**/index.js"))}"
+    index   = "${base64sha256(file("./../../**/index.js"))}"
     package = "${base64sha256(file("package.json"))}"
 }
 
