@@ -53,7 +53,7 @@ resource "null_resource" "lambda_dependencies" {
 //  }
 
   provisioner "local-exec" {
-    command = "mkdir -p ./lambda  && cp -Ruv *{js,json} ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    command = "mkdir -p ./lambda  && cp *{js,json} ./lambda && cd ./lambda && npm install --legacy-peer-deps"
   }
 }
 
