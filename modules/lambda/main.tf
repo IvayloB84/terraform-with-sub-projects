@@ -53,8 +53,8 @@ resource "null_resource" "lambda_dependencies" {
 //  }
   
   triggers = {
-    index   = "${base64sha256(file("./lambda/index.js"))}"
-    package = "${base64sha256(file("/./lambda/package.json"))}"
+    index   = "${base64sha256(file("./index.js"))}"
+    package = "${base64sha256(file("./package.json"))}"
 }
 
   provisioner "local-exec" {
