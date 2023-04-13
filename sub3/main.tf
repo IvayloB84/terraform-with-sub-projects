@@ -9,5 +9,5 @@ module "lambda" {
   iam_policy_name = "tf-lambda-policy-sub3"
   function_name = "tf-lambda-sub3"      
   lambda_handler   = "index.handler"
-  compatible_runtimes  = "nodejs14.x"
+  compatible_runtimes  = "nodejs14.x
 }
