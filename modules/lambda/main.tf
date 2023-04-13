@@ -68,7 +68,7 @@ data "archive_file" "payload_zip" {
   output_path = "./payload.zip"
   depends_on = [null_resource.lambda_dependencies]
 }
-
+        
 resource "aws_lambda_function" "payload" {
   function_name    = "${var.function_name}"
 //  filename         = data.archive_file.payload_zip.output_path
