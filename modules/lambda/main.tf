@@ -47,21 +47,20 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "null_resource" "lambda_dependencies" {
+    provisioner "local-exec" {
+    command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+  }
   
 //  triggers = {
 //    always_run = "${timestamp()}"
 //  }
   
   triggers = {
-    index   = "${base64sha256(file("./../../**/index.js"))}"
-    package = "${base64sha256(file("package.json"))}"
-}
-
-  provisioner "local-exec" {
-    command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    index = sha256(file("${path.module}/index.js"))
+    package = sha256(file("${path.module}/package.json"))
+    lock = sha256(file("${path.module}/package-lock.json"))
   }
 }
-
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
