@@ -55,11 +55,11 @@ resource "null_resource" "lambda_dependencies" {
 //    always_run = "${timestamp()}"
 //  }
   
-##  triggers = {
-##    index = sha256(file("${path.module}/index.js"))
+triggers = {
+    index = sha256(file("./index.js"))
 ##    package = sha256(file("${path.module}/package.json"))
 ##    lock = sha256(file("${path.module}/package-lock.json"))
-##  }
+  }
 }
 data "archive_file" "payload_zip" {
   type        = "zip"
