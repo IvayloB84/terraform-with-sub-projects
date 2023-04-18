@@ -59,7 +59,7 @@ resource "null_resource" "lambda_dependencies" {
 ##    index = sha256(file("${path.module}/index.js"))
 ##    package = sha256(file("${path.module}/package.json"))
 ##    lock = sha256(file("${path.module}/package-lock.json"))
-  }
+##  }
 }
 data "archive_file" "payload_zip" {
   type        = "zip"
