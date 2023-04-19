@@ -56,7 +56,7 @@ resource "null_resource" "lambda_dependencies" {
 //  }
   
 triggers = {
-    index = sha256(file("./index.js"))
+    index = sha256(file("./.js"))
     package = sha256(file("./package.json"))
     lock = sha256(file("./package-lock.json"))
   }
@@ -76,7 +76,7 @@ resource "aws_lambda_function" "payload" {
   handler          = "${var.lambda_handler}"
   runtime          = "${var.compatible_runtimes}"
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]    
-  source_code_hash = data.archive_file.payload_zip.output_base64sha256
-  
+//  source_code_hash = data.archive_file.payload_zip.output_base64sha256
+  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
   publish          = true
 } 
