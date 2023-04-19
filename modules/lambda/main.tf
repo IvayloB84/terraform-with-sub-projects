@@ -54,7 +54,7 @@ data "archive_file" "payload_zip" {
   depends_on = [null_resource.lambda_dependencies]
   }
 
-// resource "null_resource" "lambda_dependencies" {
+ resource "null_resource" "lambda_dependencies" {
 //  triggers = {
 //    src_hash = "${data.archive_file.payload_zip}"
 //    }
