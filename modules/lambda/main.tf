@@ -49,9 +49,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
   triggers = {
     src_hash = "${data.archive_file.payload_zip}"
-  }
+    
     provisioner "local-exec" {
     command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    }
   }
 } 
 
