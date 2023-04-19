@@ -50,7 +50,6 @@ resource "null_resource" "lambda_dependencies" {
   triggers = {
     src_hash = "${data.archive_file.payload_zip}"
   }
-}
     provisioner "local-exec" {
     command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
   }
