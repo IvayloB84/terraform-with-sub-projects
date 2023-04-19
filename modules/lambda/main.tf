@@ -57,8 +57,8 @@ resource "null_resource" "lambda_dependencies" {
   
 triggers = {
     index = sha256(file("./index.js"))
-    package = sha256(file("/package.json"))
-    lock = sha256(file("/package-lock.json"))
+    package = sha256(file("./package.json"))
+    lock = sha256(file("./package-lock.json"))
   }
 }
 data "archive_file" "payload_zip" {
