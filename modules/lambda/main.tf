@@ -50,13 +50,14 @@ data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload.zip"
+  excludes = ["*.tf", "*terraform*"]
   depends_on = [null_resource.lambda_dependencies]
   }
 
-resource "null_resource" "lambda_dependencies" {
-  triggers = {
-    src_hash = "${data.archive_file.payload_zip}"
-    }
+// resource "null_resource" "lambda_dependencies" {
+//  triggers = {
+//    src_hash = "${data.archive_file.payload_zip}"
+//    }
     
     provisioner "local-exec" {
     command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
@@ -72,6 +73,6 @@ resource "aws_lambda_function" "payload" {
   runtime          = var.compatible_runtimes
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]    
 //  source_code_hash = data.archive_file.payload_zip.output_base64sha256
-//  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
+  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
   publish          = true
 } 
