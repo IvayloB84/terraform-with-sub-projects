@@ -60,7 +60,7 @@ data "archive_file" "payload_zip" {
     command = <<-EOF 
       sh = "mkdir -p ./lambda"
       sh = "cd ./lambda && npm install --legacy-peer-deps"
-      >>EOF
+      EOF
   }
 } 
         
