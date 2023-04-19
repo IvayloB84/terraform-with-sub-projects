@@ -54,16 +54,7 @@ resource "null_resource" "lambda_dependencies" {
     command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
   }
 } 
-//  triggers = {
-//    always_run = "${timestamp()}"
-//  }
-  
-//triggers = {
-//    index = sha256(file("./.js"))
-//    package = sha256(file("./package.json"))
-//    lock = sha256(file("./package-lock.json"))
-//  }
-}
+
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
