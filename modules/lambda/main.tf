@@ -70,11 +70,11 @@ data "archive_file" "payload_zip" {
         
 resource "aws_lambda_function" "payload" {
   function_name    = var.function_name
-  filename         = data.archive_file.payload_zip.output_path
+  filename         = "${data.archive_file.payload_zip.output_path}"
 //  filename         = "./payload.zip"
   role             = aws_iam_role.payload.arn
   handler          = var.lambda_handler
-  runtime          = "${var.compatible_runtimes}"
+  runtime          = var.compatible_runtimes
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]    
 //  source_code_hash = data.archive_file.payload_zip.output_base64sha256
   source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
