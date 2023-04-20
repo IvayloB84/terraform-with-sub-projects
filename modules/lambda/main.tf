@@ -54,13 +54,13 @@ resource "null_resource" "lambda_dependencies" {
   } */
     provisioner "local-exec" {
     //command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
-    command = "pwd"
+    command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
   }
 }
      
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "./lambda"
+  source_dir  = "${path.module}/"
   output_path = "./payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
