@@ -22,9 +22,3 @@ variable "lambda_handler" {
   description = "Lambda function handler"
   type = string 
 }
-
-variable "publish" {
-  description = " Lambda to be published on change"
-  type = bool
-  default = true
-}
