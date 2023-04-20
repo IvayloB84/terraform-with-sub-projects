@@ -60,8 +60,8 @@ resource "null_resource" "lambda_dependencies" {
 
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/lambda/"
-  output_path = "${path.module}/lambda/payload.zip"
+  source_dir  = "./lambda/"
+  output_path = "./lambda/payload.zip"
   excludes = ["*.tf", "*terraform*"]
   depends_on = [null_resource.lambda_dependencies]
 }
