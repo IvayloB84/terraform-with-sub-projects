@@ -53,7 +53,8 @@ resource "null_resource" "lambda_dependencies" {
     lock    = "${base64sha256(file("./package-lock.json"))}"
   } */
     provisioner "local-exec" {
-    command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    //command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    command = "pwd"
   }
 }
      
