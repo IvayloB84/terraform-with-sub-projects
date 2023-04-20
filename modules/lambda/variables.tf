@@ -21,4 +21,4 @@ variable "iam_policy_name" {
 variable "lambda_handler" {
   description = "Lambda function handler"
   type        = string
-}    
+}
