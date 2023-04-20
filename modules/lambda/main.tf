@@ -54,11 +54,11 @@ resource "null_resource" "lambda_dependencies" {
      package = "${base64sha256(file("./package.json"))}"
      lock    = "${base64sha256(file("./package-lock.json"))}"
    }
+ }
 
   provisioner "local-exec" {
     command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
     }
-  }
 
 data "archive_file" "payload_zip" {
   type        = "zip"
