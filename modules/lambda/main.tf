@@ -60,7 +60,7 @@ resource "null_resource" "lambda_dependencies" {
      
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "./lambda"
+  source_dir  = "../"
   output_path = "./payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
