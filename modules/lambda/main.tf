@@ -1,6 +1,6 @@
 resource "aws_iam_role" "payload" {
-  name = "${var.iam_role_name}"
-          
+  name = var.iam_role_name
+
   assume_role_policy = <<EOF
   
 {
@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81" {
 
-  name        = "${var.iam_policy_name}"
+  name        = var.iam_policy_name
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -47,32 +47,31 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "null_resource" "lambda_dependencies" {
-  
+
   provisioner "local-exec" {
-  command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+    command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+  }
+  triggers = {
+    index   = "${base64sha256(file("./index.js"))}"
+    package = "${base64sha256(file("./package.json"))}"
+    lock    = "${base64sha256(file("./package-lock.json"))}"
+  }
 }
-     triggers = {
-     index   = "${base64sha256(file("./index.js"))}"
-     package = "${base64sha256(file("./package.json"))}"
-     lock    = "${base64sha256(file("./package-lock.json"))}"
-   }
- }
 
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda/"
   output_path = "./lambda/payload.zip"
-  excludes = ["*.tf", "*terraform*"]
-  depends_on = [null_resource.lambda_dependencies]
+  depends_on  = [null_resource.lambda_dependencies]
 }
-        
+
 resource "aws_lambda_function" "payload" {
-  function_name    = "${var.function_name}"
-  filename         = "${data.archive_file.payload_zip.output_path}"
+  function_name    = var.function_name
+  filename         = data.archive_file.payload_zip.output_path
   role             = aws_iam_role.payload.arn
-  handler          = "${var.lambda_handler}"
-  runtime          = "${var.compatible_runtimes}"
-  depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]    
-  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
+  handler          = var.lambda_handler
+  runtime          = var.compatible_runtimes
+  depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
+  source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
-} 
+}

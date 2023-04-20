@@ -5,20 +5,20 @@ variable "function_name" {
 
 variable "compatible_runtimes" {
   description = "Default runtime for lambda"
-  type = string
+  type        = string
 }
 
 variable "iam_role_name" {
   description = "Default runtime for lambda"
-  type = string
+  type        = string
 }
 
 variable "iam_policy_name" {
   description = "Default runtime for lambda"
-  type = string
+  type        = string
 }
 
 variable "lambda_handler" {
   description = "Lambda function handler"
-  type = string 
+  type        = string
 }
