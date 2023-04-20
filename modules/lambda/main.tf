@@ -55,9 +55,9 @@ resource "null_resource" "lambda_dependencies" {
    }
  }
 
-  provisioner "local-exec" {
-    command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
-    }
+provisioner "local-exec" {
+  command = "mkdir -p ./lambda && cd ./lambda && npm install --legacy-peer-deps"
+}
 
 data "archive_file" "payload_zip" {
   type        = "zip"
