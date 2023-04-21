@@ -49,8 +49,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
    triggers = {
     index   = "${base64sha256(file("./index.js"))}"
-    package = "${base64sha256(file("./package.json"))}"
-    lock    = "${base64sha256(file("./package-lock.json"))}"
+/*     package = "${base64sha256(file("./package.json"))}"
+    lock    = "${base64sha256(file("./package-lock.json"))}" */
   } 
 
     provisioner "local-exec" {
@@ -61,7 +61,7 @@ resource "null_resource" "lambda_dependencies" {
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
-  output_path = "./payload.zip"
+  output_path = "./lambda/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
 
