@@ -64,7 +64,7 @@ data "archive_file" "payload_zip" {
   type        = "zip"
   source_file  = "../../${var.dir}/index.js"
 //  source_dir = "../../${var.dir}/"
-  output_path = "../../${var.dir}/payload.zip"
+  output_path = "../../${var.dir}/lambda/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 
 /*   source {
