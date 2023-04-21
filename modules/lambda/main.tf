@@ -48,7 +48,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
   triggers = {
-    index = "${base64sha256(file("./index.js"))}"
+    index = "${base64sha256(file("./lambda/index.js"))}"
     /*     package = "${base64sha256(file("./package.json"))}"
     lock    = "${base64sha256(file("./package-lock.json"))}" */
   }
@@ -60,8 +60,8 @@ resource "null_resource" "lambda_dependencies" {
 
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${dirname()}/lambda"
-  output_path = "${dirname()}/payload.zip"
+  source_dir  = "${path.module}/lambda"
+  output_path = "${path.module}/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
 
