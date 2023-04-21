@@ -48,7 +48,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
   triggers = {
-    index = "${base64sha256(file("../../${var.dir}/index.js"))}"
+    index = "${base64sha256(file("./index.js"))}"
     /*     package = "${base64sha256(file("./package.json"))}"
     lock    = "${base64sha256(file("./package-lock.json"))}" */
   }
@@ -60,15 +60,15 @@ resource "null_resource" "lambda_dependencies" {
 
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/lambda"
-  output_path = "${path.module}/payload.zip"
+  source_dir  = "../../${var.dir}/"
+  output_path = "../../${var.dir}/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
-  //  filename         = "${data.archive_file.payload_zip.output_path}"
-  filename         = "${path.module}/payload.zip"
+  filename         = "${data.archive_file.payload_zip.output_path}"
+//  filename         = "${path.module}/payload.zip"
   role             = aws_iam_role.payload.arn
   handler          = var.lambda_handler
   runtime          = var.compatible_runtimes
