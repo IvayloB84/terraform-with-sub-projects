@@ -47,23 +47,29 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "null_resource" "lambda_dependencies" {
-  triggers = {
+ /* 
+ triggers = {
     index = "${base64sha256(file("./index.js"))}"
-    /*     package = "${base64sha256(file("./package.json"))}"
-    lock    = "${base64sha256(file("./package-lock.json"))}" */
+    package = "${base64sha256(file("./package.json"))}"
+    lock    = "${base64sha256(file("./package-lock.json"))}" 
   }
+  */
 
   provisioner "local-exec" {
-    command = "mkdir -p ./lambda && npm install --legacy-peer-deps"
+    command = "mkdir -p ./lambda && cd ./lambda && cp ../index.js . && npm install --legacy-peer-deps"
   }
 }
 
 data "archive_file" "payload_zip" {
   type        = "zip"
 //  source_file  = "../../${var.dir}/index.js"
-  source_dir = "../../${var.dir}/"
+//  source_dir = "../../${var.dir}/"
   output_path = "../../${var.dir}/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
+
+  source {
+    filename = "../../${var.dir}/index.js"
+  }
 }
 
 resource "aws_lambda_function" "payload" {
