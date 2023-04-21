@@ -47,17 +47,17 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "null_resource" "lambda_dependencies" {
-   triggers = {
-    index   = "${base64sha256(file("./index.js"))}"
-/*     package = "${base64sha256(file("./package.json"))}"
+  triggers = {
+    index = "${base64sha256(file("./index.js"))}"
+    /*     package = "${base64sha256(file("./package.json"))}"
     lock    = "${base64sha256(file("./package-lock.json"))}" */
-  } 
+  }
 
-    provisioner "local-exec" {
+  provisioner "local-exec" {
     command = "mkdir -p ./lambda && npm install --legacy-peer-deps"
   }
 }
-     
+
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
@@ -66,12 +66,13 @@ data "archive_file" "payload_zip" {
 }
 
 resource "aws_lambda_function" "payload" {
-  function_name    = "${var.function_name}"
-  filename         = "${data.archive_file.payload_zip.output_path}"
+  function_name = var.function_name
+  //  filename         = "${data.archive_file.payload_zip.output_path}"
+  filename         = "${path.module}/payload.zip"
   role             = aws_iam_role.payload.arn
-  handler          = "${var.lambda_handler}"
-  runtime          = "${var.compatible_runtimes}"
+  handler          = var.lambda_handler
+  runtime          = var.compatible_runtimes
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
-  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
+  source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
 }
