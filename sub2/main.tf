@@ -11,5 +11,5 @@ module "lambda" {
   function_name       = "tf-lambda-git-1"
   lambda_handler      = "index.handler"
   compatible_runtimes = "nodejs14.x"
-  dir = "sub2/"
+  dir = "sub2"
 }
