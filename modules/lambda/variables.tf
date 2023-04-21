@@ -22,3 +22,8 @@ variable "lambda_handler" {
   description = "Lambda function handler"
   type        = string
 }
+
+variable "dir" {
+  description = "Lambda variable for "
+  type = string
+}
