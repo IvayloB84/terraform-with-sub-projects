@@ -60,15 +60,15 @@ resource "null_resource" "lambda_dependencies" {
 
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${var.dir}/"
+  source_file  = "../../${var.dir}/index.js"
   output_path = "${var.dir}/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
-  filename         = "${data.archive_file.payload_zip.output_path}"
-//  filename         = "${path.module}/payload.zip"
+  filename      = data.archive_file.payload_zip.output_path
+  //  filename         = "${path.module}/payload.zip"
   role             = aws_iam_role.payload.arn
   handler          = var.lambda_handler
   runtime          = var.compatible_runtimes
