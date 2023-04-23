@@ -1,1 +1,0 @@
-[31m│[0m [0m[1m[31mError: [0m[0m[1mupdating Lambda Function (tf-lambda-git-1) code: operation error Lambda: UpdateFunctionCode, https response error StatusCode: 400, RequestID: fcac5112-23da-4bc9-ae39-448ea188b447, InvalidParameterValueException: Uploaded file must be a non-empty zip[0m
