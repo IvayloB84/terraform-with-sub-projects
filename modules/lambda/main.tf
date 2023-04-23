@@ -1,5 +1,5 @@
 resource "aws_iam_role" "payload" {
-  name = var.iam_role_name
+  name = var.iam_role_name    
 
   assume_role_policy = <<EOF
   
@@ -47,13 +47,14 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "null_resource" "lambda_dependencies" {
- /* 
+ 
  triggers = {
     index = "${base64sha256(file("./index.js"))}"
+   /* 
     package = "${base64sha256(file("./package.json"))}"
     lock    = "${base64sha256(file("./package-lock.json"))}" 
+   */
   }
-  */
 
   provisioner "local-exec" {
     command = "mkdir -p ./lambda && cd ./lambda && cp ../index.js . && npm install --legacy-peer-deps"
@@ -64,7 +65,7 @@ data "archive_file" "payload_zip" {
   type        = "zip"
 //  source_file  = "../../${var.dir}/index.js"
   source_dir = "../../${var.dir}/"
-  output_path = "${var.dir}/.zip"
+  output_path = "./${var.dir}.zip"
   depends_on  = [null_resource.lambda_dependencies]
 
 /*   source {
