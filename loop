@@ -1,0 +1,24 @@
+file_exists() {
+  for _i do [ -f "$_i" ] && return
+  done
+  return 1
+}
+ 
+rc=0
+for dir in */
+do
+  if file_exists "$dir"*.tf && cd "$dir"
+  then
+    terraform init && terraform apply --auto-approve || rc=1
+    cd - >/dev/null
+  fi
+done
+for dir in modules/*/
+do
+  if cd "$dir"
+  then
+    terraform init || rc=1
+    cd - >/dev/null
+  fi
+done
+exit $rc
