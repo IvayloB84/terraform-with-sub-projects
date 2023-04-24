@@ -48,14 +48,6 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
- /*
-  triggers = {
-    index = "${base64sha256(file("${path.root}/index.js"))}" 
-    package = "${base64sha256(file("./package.json"))}"
-    lock    = "${base64sha256(file("./package-lock.json"))}" 
-  }
-*/
-
   provisioner "local-exec" {
 //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"
       command = "mkdir -p ./lambda && rsync -av --exclude '*.tf' --exclude '*.tfstate*' --exclude '*./*' --exclude '*terraform*' --exclude 'lambda/' ./ lambda/ && cd ./lambda && npm install --legacy-peer-deps && cd -"
@@ -64,7 +56,7 @@ resource "null_resource" "lambda_dependencies" {
 
  data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir = "${var.dir}/"
+  source_content = "${var.dir}/"
 //  source_file = "../${var.dir}/index.js"
   output_path = "./lambda/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
@@ -73,7 +65,6 @@ resource "null_resource" "lambda_dependencies" {
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = "${data.archive_file.payload_zip.output_path}"
-  //  filename         = "${path.module}/payload.zip}"
   role             = aws_iam_role.payload.arn
   handler          = "${var.lambda_handler}"
   runtime          = "${var.compatible_runtimes}"
