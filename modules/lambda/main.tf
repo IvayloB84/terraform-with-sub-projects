@@ -48,13 +48,13 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
+ /*
   triggers = {
-    index = "${base64sha256(file("${path.root}/index.js"))}"
-    /* 
+    index = "${base64sha256(file("${path.root}/index.js"))}" 
     package = "${base64sha256(file("./package.json"))}"
     lock    = "${base64sha256(file("./package-lock.json"))}" 
-   */
   }
+*/
 
   provisioner "local-exec" {
     command = "mkdir -p ./lambda && cd ./lambda && cp ../index.js . && npm install --legacy-peer-deps"
