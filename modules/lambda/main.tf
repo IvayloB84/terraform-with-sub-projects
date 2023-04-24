@@ -1,5 +1,5 @@
 resource "aws_iam_role" "payload" {
-  name = var.iam_role_name    
+  name = var.iam_role_name
 
   assume_role_policy = <<EOF
   
@@ -47,10 +47,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "null_resource" "lambda_dependencies" {
- 
- triggers = {
-    index = "${base64sha256(file("./index.js"))}"
-   /* 
+
+  triggers = {
+    index = "${base64sha256(file("${path.module}../../${var.dir}/index.js"))}"
+    /* 
     package = "${base64sha256(file("./package.json"))}"
     lock    = "${base64sha256(file("./package-lock.json"))}" 
    */
@@ -63,8 +63,8 @@ resource "null_resource" "lambda_dependencies" {
 
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir = "${var.dir}/"
-  output_path = "${var.dir}/payload.zip"
+  source_dir  = "${path.module}../../${var.dir}/"
+  output_path = "${path.module}../../${var.dir}/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
 
