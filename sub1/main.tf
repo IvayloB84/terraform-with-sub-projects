@@ -7,7 +7,7 @@ module "lambda" {
 
   iam_role_name       = "tf-lambda-git-role"
   iam_policy_name     = "tf-lambda-policy-name"
-  function_name       = "tf-lambda-git"
+  function_name       = "tf-lambda-sub3"
   lambda_handler      = "index.handler"
   compatible_runtimes = "nodejs14.x"
   dir = "sub1"
