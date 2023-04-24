@@ -50,13 +50,13 @@ resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
 //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"
-      command = "mkdir -p ./lambda && rsync -av --exclude {'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ lambda/ && cd ./lambda && npm install --legacy-peer-deps && cd -"
+      command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ lambda/ && cd ./lambda && npm install --legacy-peer-deps"
   }
 }
 
  data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir = "./"
+  source_dir = "../${var.dir}/"
 //  source_file = "../${var.dir}/index.js"
   output_path = "./lambda/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
