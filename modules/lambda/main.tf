@@ -50,7 +50,7 @@ resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
 //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
-      command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+      command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps && cd -"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_lambda_function" "payload" {
   role             = aws_iam_role.payload.arn
   handler          = "${var.lambda_handler}"
   runtime          = "${var.compatible_runtimes}"
-  depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,null_resource.lambda_dependencies]
+  depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
   source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
   publish          = true
 }
