@@ -54,7 +54,7 @@ resource "null_resource" "lambda_dependencies" {
   }
 }
 
-data "null_data_source" "wait_for_lambda_exporter" {
+data "null_data_source" "wait_for_lambda_dependencies" {
   inputs = {
     lambda_dependencies_id = "${null_resource.lambda_dependencies.id}"
 
@@ -65,7 +65,7 @@ data "null_data_source" "wait_for_lambda_exporter" {
  data "archive_file" "payload_zip" {
   type        = "zip"
 //  source_dir = "lambda/"
-  source_dir = "${data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]}"
+  source_dir = "${data.null_data_source.lambda_dependencies.outputs["source_dir"]}"
   output_path = "./payload.zip"
   depends_on  = [
     null_resource.lambda_dependencies
