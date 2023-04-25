@@ -67,10 +67,9 @@ resource "aws_lambda_function" "payload" {
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
-  timeout       = 900
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    null_resource.lambda_dependencies
+    null_resource.lambda_dependencies,
   ]
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
