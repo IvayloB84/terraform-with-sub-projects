@@ -58,7 +58,7 @@ data "null_data_source" "wait_for_lambda_exporter" {
   inputs = {
     lambda_exporter_id = "${null_resource.lambda_dependencies.id}"
 
-    source_dir = "${var.dir}/lambda/"
+    source_dir = "./${var.dir}/lambda/"
   }
 }
 
