@@ -56,8 +56,8 @@ resource "null_resource" "lambda_dependencies" {
 
 data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/"
-  output_path = "${path.module}/payload.zip"
+  source_dir  = "${var.dir}/"
+  output_path = "${var.dir}/payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
 }
 
