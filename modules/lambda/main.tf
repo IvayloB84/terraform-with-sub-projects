@@ -65,7 +65,7 @@ data "null_data_source" "wait_for_lambda_dependencies" {
  data "archive_file" "payload_zip" {
   type        = "zip"
 //  source_dir = "lambda/"
-  source_dir = "${data.null_data_source.lambda_dependencies.outputs["source_dir"]}"
+  source_dir = "${data.null_data_source.wait_for_lambda_dependencies.outputs["source_dir"]}"
   output_path = "./payload.zip"
   depends_on  = [
     null_resource.lambda_dependencies
