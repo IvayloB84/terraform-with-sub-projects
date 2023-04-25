@@ -49,29 +49,29 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
-//    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
-      command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps && cd -"
+    //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
+    command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps && cd -"
   }
 }
 
- data "archive_file" "payload_zip" {
+data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir = "./lambda/"
+  source_dir  = "./lambda/"
   output_path = "./payload.zip"
-   depends_on  = [
-    null_resource.lambda_dependencies
-    ]
+  depends_on  = [null_resource.lambda_dependencies]
 }
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
-  filename      = "${data.archive_file.payload_zip.output_path}"
-  role             = aws_iam_role.payload.arn
-  handler          = "${var.lambda_handler}"
-  runtime          = "${var.compatible_runtimes}"
-  depends_on       = [
+  filename      = data.archive_file.payload_zip.output_path
+  role          = aws_iam_role.payload.arn
+  handler       = var.lambda_handler
+  runtime       = var.compatible_runtimes
+  timeout       = 900
+  depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    null_resource.lambda_dependencies]
-  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
+    null_resource.lambda_dependencies
+  ]
+  source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
 }
