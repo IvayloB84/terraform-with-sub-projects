@@ -67,10 +67,9 @@ data "null_data_source" "wait_for_lambda_dependencies" {
 //  source_dir = "lambda/"
   source_dir  = "${data.null_data_source.wait_for_lambda_dependencies.outputs["source_dir"]}"
   output_path = "./payload.zip"
-/*   depends_on  = [
+   depends_on  = [
     null_resource.lambda_dependencies
-    ]
- */ 
+    ] 
 }
 
 resource "aws_lambda_function" "payload" {
