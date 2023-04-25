@@ -58,7 +58,7 @@ data "null_data_source" "wait_for_lambda_dependencies" {
   inputs = {
     lambda_dependencies_id = "${null_resource.lambda_dependencies.id}"
 
-    source_dir = "./lambda/"
+    source_dir = "${var.dir}/lambda/"
   }
 }
 
@@ -66,11 +66,12 @@ data "null_data_source" "wait_for_lambda_dependencies" {
   type        = "zip"
 //  source_dir = "lambda/"
   source_dir = "${data.null_data_source.wait_for_lambda_dependencies.outputs["source_dir"]}"
-  output_path = "./payload.zip"
-  depends_on  = [
+  output_path = "${var.dir}/payload.zip"
+/*   depends_on  = [
     null_resource.lambda_dependencies
     ]
-} 
+ */ 
+}
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
