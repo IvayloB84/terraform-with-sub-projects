@@ -48,18 +48,22 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
+    triggers = {
+    always_run = "${timestamp()}"
+  }
+
   provisioner "local-exec" {
     //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
     command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps && cd -"
   }
 }
 
-/* data "archive_file" "payload_zip" {
+ data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda/"
   output_path = "./payload.zip"
   depends_on  = [null_resource.lambda_dependencies]
-} */
+}
 
 resource "aws_lambda_function" "payload" {
   function_name = "${var.function_name}"
