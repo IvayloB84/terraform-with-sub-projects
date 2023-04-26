@@ -55,7 +55,7 @@ resource "null_resource" "lambda_dependencies" {
   provisioner "local-exec" {
     //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
     command = "mkdir -p ./lambda && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','./lambda','*.zip'} ./ ./lambda && cd ./lambda && npm install --legacy-peer-deps && cd -"
-    interpreter = ["/bin/bash", "-c"]
+    interpreter = ["/bin/bash", "-e"]
   }
 }
 
