@@ -48,9 +48,9 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
-  triggers = {
+/*   triggers = {
     always_run = "${timestamp()}"
-  }
+  } */
 
   provisioner "local-exec" {
     //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
@@ -63,6 +63,11 @@ data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload.zip"
+
+  source = {
+    content = "Read Me"
+    filename = "readme.txt"
+  }
   depends_on  = [null_resource.lambda_dependencies]
 }
 
