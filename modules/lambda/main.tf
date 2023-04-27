@@ -67,8 +67,8 @@ data "archive_file" "payload_zip" {
   source = {
     content = "Read Me"
     filename = "readme.txt"
-  }
   depends_on  = [null_resource.lambda_dependencies]
+   }
 }
 
 resource "aws_lambda_function" "payload" {
