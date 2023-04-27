@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
 
   triggers = {
-    dir_sha1 = sha1(join("", [for f in fileset(path.cwd, "/lambda/*"): filesha1(f)]))
+    src_hash = "${data.archive_file.init.output_sha}"
   }
 
 /*   triggers = {
