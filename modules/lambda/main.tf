@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
 
   triggers = {
-    policy_sha1 = "${sha1(file("${var.dir}/"))}"
+    policy_sha1 = "${sha1(file("./${var.dir}/"))}"
   }
 
 /*   triggers = {
