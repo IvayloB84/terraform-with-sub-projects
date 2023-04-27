@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "lambda_dependencies" {
 
   triggers = {
-    src_hash = "${data.archive_file.init.output_sha}"
+    src_hash = "${data.archive_file.payload_zip.output_sha}"
   }
 
 /*   triggers = {
