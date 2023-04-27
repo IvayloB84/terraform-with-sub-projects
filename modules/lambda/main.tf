@@ -65,7 +65,7 @@ data "archive_file" "payload_zip" {
   output_path = "./payload.zip"
 
   source {
-    source_file = "${source_dir}"
+    source_file = ["${source_dir}"]
    }
    depends_on  = [null_resource.lambda_dependencies]
 }
