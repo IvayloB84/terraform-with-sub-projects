@@ -78,6 +78,7 @@ resource "aws_lambda_function" "payload" {
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
+  timeout = 30
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     null_resource.lambda_dependencies
