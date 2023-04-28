@@ -57,7 +57,6 @@ resource "null_resource" "lambda_dependencies" {
   } */
 
   provisioner "local-exec" {
-    //    command = "mkdir -p ./lambda && cd ./lambda && cp -u ../index.js . && npm install --legacy-peer-deps && cd -"  
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"]
   }
@@ -79,7 +78,6 @@ resource "aws_lambda_function" "payload" {
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
-  timeout = 120  
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     null_resource.lambda_dependencies
