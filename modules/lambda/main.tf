@@ -61,7 +61,7 @@ resource "local_file" "payload_zip" {
 resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
-    command = "./config.sh "
+    command = "bash ./config.sh "
   }
   depends_on = [
     local_file.payload_zip
