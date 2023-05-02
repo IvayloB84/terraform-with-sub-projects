@@ -52,7 +52,7 @@ data "template_file" "config" {
 
 resource "local_file" "payload_zip" {
   content  = "${data.template_file.config.rendered}"
-  filename = "${path.module}/config.tpl"
+  filename = "$./lambda/"
 }
 
  data "archive_file" "payload_zip" {
