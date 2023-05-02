@@ -48,9 +48,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
-resource "null_resource" "deploy_files" {    
   triggers = {
-    dir_sha1 = sha1(join("", [for f in fileset("./", "**"): filesha1(f)]))
+    dir_sha1 = sha1(join("", [for f in fileset("${var.dir}", "**"): filesha1(f)]))
   }
 
 /*
@@ -63,7 +62,6 @@ resource "null_resource" "deploy_files" {
     interpreter = ["/bin/bash", "-c"]
     }
   }
-}
 
 data "archive_file" "payload_zip" {
   type        = "zip"
