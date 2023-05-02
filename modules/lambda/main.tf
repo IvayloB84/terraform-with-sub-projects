@@ -48,17 +48,24 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
+/*
   triggers = {
     src_hash = "${data.archive_file.payload_zip.output_sha}"
   }
-
-/*   triggers = {
+   triggers = {
     always_run = "${timestamp()}"
   } */
 
   provisioner "local-exec" {
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"]
+  }
+}
+
+resource "time_sleep” “wait" {
+duration = "5s"
+triggers = {
+arn = aws_iam_role.payload.arn
   }
 }
 
@@ -81,7 +88,7 @@ resource "aws_lambda_function" "payload" {
   timeout = 30
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    null_resource.lambda_dependencies
+    null_resource.lambda_dependencies, resource.time_sleep.wait
   ]
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
