@@ -57,6 +57,10 @@ resource "null_resource" "lambda_dependencies" {
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && zip -r payload.zip * && mv payload.zip ../ "
     interpreter = ["/bin/bash", "-c"]
   }
+
+  triggers = {
+    file_changed = md5("/*")
+  }
 }
 
 data "archive_file" "payload_zip" {
@@ -69,18 +73,17 @@ data "archive_file" "payload_zip" {
     ]
 }
 
-resource "time_sleep" "wait" {
+/* resource "time_sleep" "wait" {
    depends_on = [
     data.archive_file.payload_zip
   ] 
 
 create_duration = "10s"
-  } 
+  }  */
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
- // filename = "./payload.zip"
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
@@ -91,6 +94,5 @@ resource "aws_lambda_function" "payload" {
   ]
   
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
- // source_code_hash = filebase64sha256("./payload.zip")
   publish          = true
 }
