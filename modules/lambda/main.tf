@@ -77,10 +77,8 @@ resource "time_sleep" "wait" {
     null_resource.lambda_dependencies
   ] */
 create_duration = "10s"
- triggers = {
   depends_on = [null_resource.lambda_dependencies]
   } 
-}
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
