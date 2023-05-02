@@ -52,7 +52,7 @@ template = file("${path.module}/config.tpl")
 
 resource "local_file" "payload_zip" {
 content = data.template_file.config.rendered
-filename = "payload.zip"
+filename = "config.sh"
 depends_on = [
 data.template_file.config
 ]
@@ -81,7 +81,7 @@ data.template_file.config
 
 resource "aws_lambda_function" "payload" {
   function_name = "${var.function_name}"
-  filename      = "payload.zip"
+  filename      = "./payload.zip"
   role          = aws_iam_role.payload.arn
   handler       = "${var.lambda_handler}"
   runtime       = "${var.compatible_runtimes}"
