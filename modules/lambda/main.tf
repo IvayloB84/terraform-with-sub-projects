@@ -73,12 +73,11 @@ data "archive_file" "payload_zip" {
 */
 
 resource "time_sleep" "wait" {
-/*   depends_on = [
+   depends_on = [
     null_resource.lambda_dependencies
   ] 
-*/
+
 create_duration = "10s"
-  depends_on = [null_resource.lambda_dependencies]
   } 
 
 resource "aws_lambda_function" "payload" {
