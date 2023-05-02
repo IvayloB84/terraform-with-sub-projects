@@ -77,9 +77,10 @@ data "archive_file" "payload_zip" {
   source_dir  = "./lambda"
   output_path = "./payload.zip"
 
-/*    depends_on  = [
-    null_resource.lambda_dependencies,
-    ] */
+    depends_on  = [
+    null_resource.lambda_dependencies,  
+    resource.time_sleep.wait
+    ]
 }
 
 resource "aws_lambda_function" "payload" {
@@ -91,7 +92,7 @@ resource "aws_lambda_function" "payload" {
   timeout = 30
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    null_resource.lambda_dependencies, resource.time_sleep.wait
+    null_resource.lambda_dependencies
   ]
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
