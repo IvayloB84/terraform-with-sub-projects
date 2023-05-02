@@ -48,8 +48,9 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "lambda_dependencies" {
 
-    triggers = {
-    file_changed = md5("./*")
+resource "null_resource" "deploy_files" {    
+  triggers = {
+    dir_sha1 = sha1(join("", [for f in fileset("./", "**"): filesha1(f)]))
   }
 
 /*
@@ -60,6 +61,7 @@ resource "null_resource" "lambda_dependencies" {
   provisioner "local-exec" {
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && mv payload.zip ../ "
     interpreter = ["/bin/bash", "-c"]
+    }
   }
 }
 
