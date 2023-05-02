@@ -63,10 +63,13 @@ resource "null_resource" "lambda_dependencies" {
 }
 
 resource "time_sleep" "wait" {
-duration = "5s"
-triggers = {
+  depends_on = [
+    null_resource.lambda_dependencies
+  ]
+create_duration = "5s"
+/* triggers = {
 arn = aws_iam_role.payload.arn
-  }
+  } */
 }
 
 data "archive_file" "payload_zip" {
