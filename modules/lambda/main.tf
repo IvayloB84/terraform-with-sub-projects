@@ -62,7 +62,6 @@ data.template_file.config
 
   provisioner "local-exec" {
     command     = "./config.sh"
-//    interpreter = ["/bin/bash", "-c"]
     }
     depends_on = [
       local_file.payload_zip
