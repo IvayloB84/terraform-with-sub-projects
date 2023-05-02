@@ -73,11 +73,11 @@ create_duration = "10s"
   }  */
 
 resource "aws_lambda_function" "payload" {
-  function_name = var.function_name
+  function_name = "${var.function_name}"
   filename      = data.archive_file.payload_zip.output_path
   role          = aws_iam_role.payload.arn
-  handler       = var.lambda_handler
-  runtime       = var.compatible_runtimes
+  handler       = "${var.lambda_handler}"
+  runtime       = "${var.compatible_runtimes}"
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
   ]
