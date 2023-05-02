@@ -92,6 +92,6 @@ resource "aws_lambda_function" "payload" {
   ]
   
   //source_code_hash = data.archive_file.payload_zip.output_base64sha256
-  source_code_source_code_hash = filebase64sha256("payload.zip")
+  source_code_hash = filebase64sha256("payload.zip")
   publish          = true
 }
