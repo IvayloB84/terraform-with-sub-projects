@@ -62,7 +62,7 @@ resource "null_resource" "lambda_dependencies" {
   }
 }
 
-resource "time_sleep” “wait" {
+resource "time_sleep" "wait" {
 duration = "5s"
 triggers = {
 arn = aws_iam_role.payload.arn
