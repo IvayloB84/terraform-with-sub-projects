@@ -1,1 +1,2 @@
-mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ cd ./lambda/ && npm install --legacy-peer-deps
+#!/bin/bash
+mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ cd ./lambda/ && npm install --legacy-peer-deps && zip -r payload.zip * ../ && cd -
