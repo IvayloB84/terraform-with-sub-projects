@@ -67,9 +67,9 @@ resource "time_sleep" "wait" {
     null_resource.lambda_dependencies
   ]
 create_duration = "10s"
-/* triggers = {
-arn = aws_iam_role.payload.arn
-  } */
+ triggers = {
+arn = null_resource_lambda_dependencies
+  } 
 }
 
 data "archive_file" "payload_zip" {
@@ -79,7 +79,6 @@ data "archive_file" "payload_zip" {
 
     depends_on  = [
     null_resource.lambda_dependencies,  
-    resource.time_sleep.wait
     ]
 }
 
@@ -89,7 +88,6 @@ resource "aws_lambda_function" "payload" {
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
-  timeout = 30
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     null_resource.lambda_dependencies
