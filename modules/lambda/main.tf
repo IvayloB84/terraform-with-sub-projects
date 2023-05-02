@@ -53,9 +53,6 @@ data "template_file" "config" {
 resource "local_file" "payload_zip" {
   content  = "${data.template_file.config.rendered}"
   filename = "${path.module}/config.tpl"
-  depends_on = [
-    data.template_file.config
-  ]
 }
 
  data "archive_file" "payload_zip" {
