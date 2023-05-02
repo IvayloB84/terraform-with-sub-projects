@@ -58,7 +58,7 @@ resource "null_resource" "lambda_dependencies" {
   } */
 
   provisioner "local-exec" {
-    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && mv payload.zip ../ "
+    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
     }
   }
