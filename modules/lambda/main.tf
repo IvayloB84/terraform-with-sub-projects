@@ -80,7 +80,7 @@ resource "null_resource" "lambda_dependencies" {
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
-  filename      = "./payload.zip"
+  filename      = "payload.zip"
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
@@ -90,6 +90,6 @@ resource "aws_lambda_function" "payload" {
   ]
 
   //  source_code_hash = data.archive_file.payload_zip.output_base64sha256
-  source_code_hash = filebase64sha256("./${var.dir}/payload.zip")
+  source_code_hash = filebase64sha256("payload.zip")
   publish          = true
 }
