@@ -60,7 +60,7 @@ provisioner "local-exec" {
 command = "${path.module}/config.sh"
 }
 depends_on = [
-local_file.main-py
+local_file.payload_zip
 ]
 }
 
