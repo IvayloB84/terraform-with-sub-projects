@@ -61,7 +61,7 @@ data.template_file.config
  resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
-    command     = "./payload.zip"
+    command     = "./config.sh "
     }
     depends_on = [
       local_file.payload_zip
