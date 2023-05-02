@@ -46,11 +46,6 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
-resource "template_dir" "config" {
-  source_dir      = "./"
-  destination_dir = "./"
-}
-
 /* resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
