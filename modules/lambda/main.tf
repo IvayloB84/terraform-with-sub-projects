@@ -47,8 +47,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 resource "template_dir" "config" {
-  source_dir      = "${path.module}"
-  destination_dir = "./${var.dir}/"
+  source_dir      = "./"
+  destination_dir = "./"
 }
 
 /* resource "null_resource" "lambda_dependencies" {
