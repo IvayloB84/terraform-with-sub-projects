@@ -66,7 +66,7 @@ resource "time_sleep" "wait" {
   depends_on = [
     null_resource.lambda_dependencies
   ]
-create_duration = "5s"
+create_duration = "10s"
 /* triggers = {
 arn = aws_iam_role.payload.arn
   } */
