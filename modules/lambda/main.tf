@@ -52,7 +52,7 @@ data "template_file" "config" {
 
 resource "local_file" "payload_zip" {
   content  = "${data.template_file.config.rendered}"
-  filename = "./lambda/index.*"
+  filename = "./lambda/index.js"
 }
 
  data "archive_file" "payload_zip" {
