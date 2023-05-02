@@ -46,22 +46,22 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
-resource "null_resource" "lambda_dependencies" {
+resource "template_dir" "config" {
+  source_dir      = "${path.module}/modules/lambda/"
+  destination_dir = "${var.dir}/"
 
-  triggers = {
-    dir_sha1 = sha1(join("", [for f in fileset("./", "*"): filesha1(f)]))
+  vars = {
+    consul_addr = "${var.consul_addr}"
   }
+}
 
-/*
-   triggers = {
-    always_run = "${timestamp()}"
-  } */
+/* resource "null_resource" "lambda_dependencies" {
 
   provisioner "local-exec" {
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
     }
-  }
+  } */
 
 data "archive_file" "payload_zip" {
   type        = "zip"
@@ -69,7 +69,7 @@ data "archive_file" "payload_zip" {
   output_path = "./payload.zip"
 
     depends_on  = [
-    null_resource.lambda_dependencies,  
+    resource.template_dir.config  
     ]
 }
 
