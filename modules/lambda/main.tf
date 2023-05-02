@@ -68,7 +68,7 @@ resource "time_sleep" "wait" {
   ]
 create_duration = "10s"
  triggers = {
-arn = null_resource_lambda_dependencies
+  null_resource = null_resource.lambda_dependencies
   } 
 }
 
