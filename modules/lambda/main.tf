@@ -55,6 +55,15 @@ resource "local_file" "payload_zip" {
   filename = "./lambda/index.js"
 }
 
+resource "null_resource" "prepare_lambda_package" {
+provisioner "local-exec" {
+command = "${path.module}/config.sh"
+}
+depends_on = [
+local_file.main-py
+]
+}
+
  data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
