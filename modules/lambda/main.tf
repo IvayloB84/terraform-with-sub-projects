@@ -47,40 +47,30 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
 data "template_file" "config" {
-  template = file("${path.module}/config.tpl")
+  template = "${file("${path.module}/config.tpl")}"
 }
 
 resource "local_file" "payload_zip" {
-  content  = data.template_file.config.rendered
+  content  = "${data.template_file.config.rendered}"
   filename = "${path.module}/config.tpl"
   depends_on = [
     data.template_file.config
   ]
 }
 
-resource "null_resource" "lambda_dependencies" {
-
-  provisioner "local-exec" {
-    command = "bash ./config.sh "
-  }
-  depends_on = [
-    local_file.payload_zip
-  ]
-}
-
-/* data "archive_file" "payload_zip" {
+ data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload.zip"
 
     depends_on  = [
-    resource.null_resource.lambda_dependencies
+    local_file.payload_zip
     ]
-} */
+} 
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
-  filename      = "payload.zip"
+  filename      = data.archive_file.payload_zip.output_path
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
@@ -89,7 +79,6 @@ resource "aws_lambda_function" "payload" {
     null_resource.lambda_dependencies
   ]
 
-  //  source_code_hash = data.archive_file.payload_zip.output_base64sha256
-  source_code_hash = "${filebase64sha256("payload.zip")}"
+ source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
 }
