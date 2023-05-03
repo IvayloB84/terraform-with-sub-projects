@@ -46,12 +46,11 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
-resource "local_file" "config" {
-  content = templatefile("${path.module}/config.tpl", {
-    override = "my value"
-  })
-  filename = "./index.js"
-} 
+resource "null_resource" "archive" {
+  provisioner "local-exec" {
+    command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps &&  zip -r payload.zip * && mv payload.zip ../ && cd -"
+  }
+}
 
  data "archive_file" "payload_zip" {
   type        = "zip"
@@ -60,7 +59,7 @@ resource "local_file" "config" {
   
 
      depends_on  = [
-    local_file.config,
+    "null_resource.archive"
     ] 
 } 
 
