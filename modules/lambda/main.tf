@@ -66,9 +66,11 @@ resource "local_file" "payload_zip" {
   triggers = {
     policy = "${local.policy}"
   }
+
 provisioner "local-exec" {
-command = "echo ${local.policy}"
+command = "sh ${local.policy}"
 }
+
 /* depends_on = [
 local_file.payload_zip
 ] */
