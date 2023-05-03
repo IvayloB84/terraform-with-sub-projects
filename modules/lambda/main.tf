@@ -77,7 +77,7 @@ resource "aws_lambda_function" "payload" {
   role          = "${aws_iam_role.payload.arn}"
   handler       = "${var.lambda_handler}"
   runtime       = "${var.compatible_runtimes}"
-  timeout = 60
+  timeout = 600
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip
