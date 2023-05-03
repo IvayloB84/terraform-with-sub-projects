@@ -1,3 +1,8 @@
+locals {
+ policy = templatefile("./config.tpl", {
+ })   
+}
+
 resource "aws_iam_role" "payload" {
   name ="${var.iam_role_name}"
 
@@ -40,7 +45,7 @@ resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81" {
 }
 EOF
 }
-
+/*
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.payload.name
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
@@ -54,15 +59,18 @@ resource "local_file" "payload_zip" {
   content  = "${data.template_file.config.rendered}"
   filename = "./lambda/index.js"
 }
+*/
 
-/* resource "null_resource" "prepare_lambda_package" {
+ resource "null_resource" "prepare_lambda_package" {
+  triggers = "${local.policy}"
+
 provisioner "local-exec" {
-command = "${path.module}/config.sh"
+command = "echo ${local.policy}"
 }
 depends_on = [
 local_file.payload_zip
 ]
-} */
+} 
 
  data "archive_file" "payload_zip" {
   type        = "zip"
@@ -88,4 +96,3 @@ resource "aws_lambda_function" "payload" {
  source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
 }
-
