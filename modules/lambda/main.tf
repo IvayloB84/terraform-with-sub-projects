@@ -54,6 +54,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "terraform_data" "archive" {
 
+  triggers_replace = [
+    data.archive_file.payload_zip.id
+  ]
+
     provisioner "local-exec" {
     command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./* ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
   }
@@ -67,7 +71,7 @@ resource "terraform_data" "archive" {
   
 
      depends_on  = [
-    terraform_data.archive
+    terraform_data.archive,
     ] 
 }
 
@@ -77,7 +81,7 @@ resource "aws_lambda_function" "payload" {
   role          = "${aws_iam_role.payload.arn}"
   handler       = "${var.lambda_handler}"
   runtime       = "${var.compatible_runtimes}"
-  timeout = 90
+  timeout = 60
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip
