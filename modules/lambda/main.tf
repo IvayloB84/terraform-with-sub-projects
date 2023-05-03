@@ -58,7 +58,7 @@ resource "local_file" "payload_zip" {
 /* resource "null_resource" "prepare_lambda_package" {
 provisioner "local-exec" {
 command = "${path.module}/config.sh"
-}
+}         
 depends_on = [
 local_file.payload_zip
 ]
