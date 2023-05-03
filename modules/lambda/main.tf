@@ -58,11 +58,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 provisioner "local-exec" {
 command = "echo ${local.policy}"
-}
-
- depends_on = [
-local_file.payload_zip
-] 
+} 
 } 
 
  data "archive_file" "payload_zip" {
