@@ -1,5 +1,5 @@
 locals {
- policy = templatefile("./config.tpl", {
+ policy = templatefile("${path.module}/config.tpl", {
  })   
 }
 
@@ -51,7 +51,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
-/*
+
 data "template_file" "config" {
   template = "${file("${path.module}/config.tpl")}"
 }
@@ -60,7 +60,7 @@ resource "local_file" "payload_zip" {
   content  = "${data.template_file.config.rendered}"
   filename = "./lambda/index.js"
 }
-*/
+
 
  resource "null_resource" "prepare_lambda_package" {
   triggers = {
