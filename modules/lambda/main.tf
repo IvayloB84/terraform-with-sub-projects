@@ -52,7 +52,7 @@ resource "null_resource" "archive" {
   }
 }
 
- data "archive_file" "payload_zip" {
+/*  data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload.zip"
@@ -61,7 +61,7 @@ resource "null_resource" "archive" {
      depends_on  = [
     null_resource.archive
     ] 
-} 
+}  */
 
 resource "aws_lambda_function" "payload" {
   function_name = "${var.function_name}"
@@ -71,7 +71,7 @@ resource "aws_lambda_function" "payload" {
   runtime       = "${var.compatible_runtimes}"
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    data.archive_file.payload_zip
+    null_resource.archive
   ]
 
  source_code_hash = data.archive_file.payload_zip.output_base64sha256
