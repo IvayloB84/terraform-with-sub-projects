@@ -55,7 +55,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "terraform_data" "archive" {
 
     provisioner "local-exec" {
-    command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+    command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./* ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
   }
 
 }
