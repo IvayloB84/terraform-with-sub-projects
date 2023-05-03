@@ -54,6 +54,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "terraform_data" "archive" {
 
+  triggers_replace = base64sha256(file("./index.js",))
+
     provisioner "local-exec" {
     command = "${path.module}/config.sh"
   }
