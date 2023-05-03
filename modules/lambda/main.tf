@@ -1,5 +1,5 @@
 resource "aws_iam_role" "payload" {
-  name = var.iam_role_name
+  name ="${var.iam_role_name}"
 
   assume_role_policy = <<EOF
   
@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81" {
 
-  name        = var.iam_policy_name
+  name        = "${var.iam_policy_name}"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -58,7 +58,7 @@ resource "local_file" "payload_zip" {
 /* resource "null_resource" "prepare_lambda_package" {
 provisioner "local-exec" {
 command = "${path.module}/config.sh"
-}         
+}
 depends_on = [
 local_file.payload_zip
 ]
@@ -75,14 +75,14 @@ local_file.payload_zip
 } 
 
 resource "aws_lambda_function" "payload" {
-  function_name = var.function_name
+  function_name = "${var.function_name}"
   filename      = data.archive_file.payload_zip.output_path
-  role          = aws_iam_role.payload.arn
-  handler       = var.lambda_handler
-  runtime       = var.compatible_runtimes
+  role          = "${aws_iam_role.payload.arn}"
+  handler       = "${var.lambda_handler}"
+  runtime       = "${var.compatible_runtimes}"
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    local_file.payload_zip
+    data.archive_file.payload_zip
   ]
 
  source_code_hash = data.archive_file.payload_zip.output_base64sha256
