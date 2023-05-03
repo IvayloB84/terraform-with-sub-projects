@@ -1,3 +1,8 @@
+locals {
+ script = templatefile("${path.module}/config.tpl", {
+ })   
+}
+
 resource "aws_iam_role" "payload" {
   name ="${var.iam_role_name}"
 
@@ -52,23 +57,15 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   }  
 } 
 
-data "null_data_source" "wait_for_lambda_exporter" {
-  inputs = {
-    # This ensures that this data resource will not be evaluated until
-    # after the null_resource has been created.
-    lambda_exporter_id = "${null_resource.prepare_lambda_package.id}"
-
-    # This value gives us something to implicitly depend on
-    # in the archive_file below.
-    source_dir = "./"
-  }
-}
-
  data "archive_file" "payload_zip" {
   type        = "zip"
-//  source_dir  = "./lambda"
-  source_dir = "${data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]}"
+  source_dir  = "./lambda"
   output_path = "./payload.zip"
+  
+
+     depends_on  = [
+    null_resource.prepare_lambda_package
+    ] 
 } 
 
 resource "aws_lambda_function" "payload" {
