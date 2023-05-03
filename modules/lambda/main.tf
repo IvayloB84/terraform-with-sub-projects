@@ -1,5 +1,5 @@
 locals {
- policy = templatefile("${path.module}/config.tpl", {
+ script = templatefile("${path.module}/config.tpl", {
  })   
 }
 
@@ -51,23 +51,29 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
- resource "null_resource" "prepare_lambda_package" {
+/*  resource "null_resource" "prepare_lambda_package" {
   triggers = {
     policy = "${local.policy}"
   }
 
 provisioner "local-exec" {
 command = "echo ${local.policy}"
+}  
 } 
+*/
+
+data "external" {
+  program = ["bash", "${path.module}/config.sh"]
 } 
 
  data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload.zip"
+  
 
      depends_on  = [
-    null_resource.prepare_lambda_package
+    data.external
     ] 
 } 
 
