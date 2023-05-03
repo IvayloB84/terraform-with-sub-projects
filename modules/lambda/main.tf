@@ -57,7 +57,7 @@ resource "terraform_data" "archive" {
   triggers_replace = base64sha256(file("./index.js",))
 
     provisioner "local-exec" {
-    command = "${path.module}/config.sh"
+    command = "chmod +x ${path.module}/config.sh"
   }
 
 }
