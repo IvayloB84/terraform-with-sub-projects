@@ -68,7 +68,7 @@ resource "local_file" "payload_zip" {
   }
 
 provisioner "local-exec" {
-command = "sh ${local.policy}"
+command = "echo ${local.policy}"
 }
 
 /* depends_on = [
