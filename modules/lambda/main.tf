@@ -1,8 +1,3 @@
-locals {
- script = templatefile("${path.module}/config.tpl", {
- })   
-}
-
 resource "aws_iam_role" "payload" {
   name ="${var.iam_role_name}"
 
