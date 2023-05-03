@@ -62,7 +62,7 @@ command = "echo ${local.policy}"
 } 
 */
 
-data "external" {
+data "external" "create_archive" {
   program = ["bash", "${path.module}/config.sh"]
 } 
 
@@ -73,7 +73,7 @@ data "external" {
   
 
      depends_on  = [
-    data.external
+    data.external.create_archive
     ] 
 } 
 
