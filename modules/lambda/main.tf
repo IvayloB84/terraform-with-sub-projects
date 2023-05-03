@@ -67,9 +67,9 @@ resource "local_file" "payload_zip" {
 provisioner "local-exec" {
 command = "echo ${local.policy}"
 }
-depends_on = [
+/* depends_on = [
 local_file.payload_zip
-]
+] */
 } 
 
  data "archive_file" "payload_zip" {
@@ -77,9 +77,9 @@ local_file.payload_zip
   source_dir  = "./lambda"
   output_path = "./payload.zip"
 
-    depends_on  = [
+/*     depends_on  = [
     local_file.payload_zip
-    ]
+    ] */
 } 
 
 resource "aws_lambda_function" "payload" {
