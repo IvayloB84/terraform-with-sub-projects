@@ -63,8 +63,9 @@ resource "local_file" "payload_zip" {
 */
 
  resource "null_resource" "prepare_lambda_package" {
-  triggers = "${local.policy}"
-
+  triggers = {
+    policy = "${local.policy}"
+  }
 provisioner "local-exec" {
 command = "echo ${local.policy}"
 }
