@@ -1,5 +1,5 @@
 locals {
- policy = templatefile("./config.tpl", {
+ policy = templatefile("${module.path}/config.tpl", {
  })   
 }
 
