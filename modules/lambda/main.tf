@@ -65,7 +65,8 @@ resource "null_resource" "archive" {
 
 resource "aws_lambda_function" "payload" {
   function_name = "${var.function_name}"
-  filename      = data.archive_file.payload_zip.output_path
+//  filename      = data.archive_file.payload_zip .output_path
+  filename = "payload.zip"
   role          = "${aws_iam_role.payload.arn}"
   handler       = "${var.lambda_handler}"
   runtime       = "${var.compatible_runtimes}"
@@ -74,6 +75,6 @@ resource "aws_lambda_function" "payload" {
     null_resource.archive
   ]
 
- source_code_hash = data.archive_file.payload_zip.output_base64sha256
+  source_code_hash = "${filebase64sha256("payload.zip")}"
   publish          = true
 }
