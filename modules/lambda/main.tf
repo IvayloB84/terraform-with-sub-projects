@@ -1,8 +1,3 @@
-locals {
- script = templatefile("${path.module}/config.tpl", {
- })   
-}
-
 resource "aws_iam_role" "payload" {
   name ="${var.iam_role_name}"
 
@@ -51,24 +46,28 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
-/*  resource "null_resource" "prepare_lambda_package" {
+  resource "null_resource" "prepare_lambda_package" {
   triggers = {
-    policy = "${local.policy}"
+    index = "${base64sha256(file("./index.js"))}"
+  }  
+} 
+
+data "null_data_source" "wait_for_lambda_exporter" {
+  inputs = {
+    # This ensures that this data resource will not be evaluated until
+    # after the null_resource has been created.
+    lambda_exporter_id = "${null_resource.prepare_lambda_package.id}"
+
+    # This value gives us something to implicitly depend on
+    # in the archive_file below.
+    source_dir = "./"
   }
-
-provisioner "local-exec" {
-command = "echo ${local.policy}"
-}  
-} 
-*/
-
-data "external" "create_archive" {
-  program = ["bash", "${path.module}/config.sh"]
-} 
+}
 
  data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "./lambda"
+//  source_dir  = "./lambda"
+  source_dir = "${data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]}"
   output_path = "./payload.zip"
   
 
