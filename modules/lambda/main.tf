@@ -48,7 +48,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
   resource "null_resource" "prepare_lambda_package" {
   triggers = {
-    index = "${base64sha256(file("${var.dir}/index.js"))}"
+    index = "${base64sha256(file("./${var.dir}/index.js"))}"
   }  
 } 
 
