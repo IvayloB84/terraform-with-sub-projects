@@ -46,10 +46,11 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
 }
 
-  resource "null_resource" "prepare_lambda_package" {
-  triggers = {
-    index = "${base64sha256(file("./${var.dir}/index.js"))}"
-  }  
+resource "local_file" "config" {
+  content = templatefile("${path.module}/config.tpl", {
+    override = "my value"
+  })
+  filename = "./index.js"
 } 
 
  data "archive_file" "payload_zip" {
@@ -59,7 +60,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   
 
      depends_on  = [
-    null_resource.prepare_lambda_package
+    local_file.config,
     ] 
 } 
 
