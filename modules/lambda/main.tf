@@ -75,6 +75,6 @@ resource "aws_lambda_function" "payload" {
     null_resource.archive
   ]
 
-  source_code_hash = "${filebase64sha256("payload.zip")}"
+  source_code_hash = "${filebase64sha256("./payload.zip")}"
   publish          = true
 }
