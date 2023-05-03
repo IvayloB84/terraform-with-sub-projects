@@ -69,11 +69,6 @@ data "null_data_source" "wait_for_lambda_exporter" {
 //  source_dir  = "./lambda"
   source_dir = "${data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]}"
   output_path = "./payload.zip"
-  
-
-     depends_on  = [
-    data.external.create_archive
-    ] 
 } 
 
 resource "aws_lambda_function" "payload" {
