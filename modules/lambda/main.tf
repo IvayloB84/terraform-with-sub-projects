@@ -48,7 +48,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "local_file" "config" {
   content = templatefile("${path.module}/config.tpl", {
-    program = ["bash"]
+    override = "my value"
   })
   filename = "./index.js"
 } 
