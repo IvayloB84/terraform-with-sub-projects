@@ -59,7 +59,7 @@ resource "null_resource" "archive" {
   
 
      depends_on  = [
-    "null_resource.archive"
+    null_resource.archive
     ] 
 } 
 
