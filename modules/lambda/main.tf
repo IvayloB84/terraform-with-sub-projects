@@ -81,9 +81,9 @@ local_file.payload_zip
   source_dir  = "./lambda"
   output_path = "./payload.zip"
 
-/*     depends_on  = [
-    local_file.payload_zip
-    ] */
+     depends_on  = [
+    null_resource.prepare_lambda_package
+    ] 
 } 
 
 resource "aws_lambda_function" "payload" {
