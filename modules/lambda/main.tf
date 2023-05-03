@@ -48,11 +48,11 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "archive" {
   provisioner "local-exec" {
-    command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps &&  zip -r payload.zip * && mv payload.zip ../ && cd -"
+    command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
   }
 }
 
-/*  data "archive_file" "payload_zip" {
+  data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload.zip"
@@ -61,7 +61,7 @@ resource "null_resource" "archive" {
      depends_on  = [
     null_resource.archive
     ] 
-}  */
+}
 
 resource "aws_lambda_function" "payload" {
   function_name = "${var.function_name}"
@@ -73,9 +73,9 @@ resource "aws_lambda_function" "payload" {
   timeout = 60
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    null_resource.archive
+    data.archive_file.payload_zip
   ]
 
-  source_code_hash = "${filebase64sha256("${var.dir}/payload.zip")}"
+  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
   publish          = true
 }
