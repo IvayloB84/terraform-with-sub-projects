@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-west-2"
 }
 
-module "lambda" {
+module "SNS" {
   source = "../modules/SNS"
 
   name        = "sub5-sns"
