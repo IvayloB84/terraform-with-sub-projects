@@ -59,7 +59,9 @@ resource "terraform_data" "archive" {
     interpreter = ["/bin/bash", "-c"]
   }
 
-}
+}    
+
+
 
   data "archive_file" "payload_zip" {
   type        = "zip"
