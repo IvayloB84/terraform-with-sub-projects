@@ -64,12 +64,18 @@ resource "terraform_data" "archive" {
   data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
-  output_path = "./payload.zip"
+  output_path = "./payload-${random_string.r.result}.zip"
   
 
      depends_on  = [
+      random_string.r,
     terraform_data.archive,
     ] 
+}
+
+resource "random_string" "r" {
+  length  = 16
+  special = false
 }
 
 resource "aws_lambda_function" "payload" {
@@ -78,7 +84,7 @@ resource "aws_lambda_function" "payload" {
   role          = "${aws_iam_role.payload.arn}"
   handler       = "${var.lambda_handler}"
   runtime       = "${var.compatible_runtimes}"
-  timeout = 600
+  timeout = 60
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip
