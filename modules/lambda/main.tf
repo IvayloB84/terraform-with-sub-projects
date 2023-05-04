@@ -77,7 +77,7 @@ resource "random_string" "r" {
   special = false
 
   depends_on = [ 
-    data.archive_file.payload_zip
+    terraform_data.archive
     ]
 }
 
