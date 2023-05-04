@@ -75,6 +75,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "random_string" "r" {
   length  = 6
   special = false
+
+  depends_on = [ 
+    null_resource.archive 
+    ]
 }
 
 resource "aws_lambda_function" "payload" {
