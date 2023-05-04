@@ -1,7 +1,9 @@
+## Default AZ (Availability Zone) for the resources
 provider "aws" {
   region = "us-west-2"
 }
 
+## SNS base configuration
 module "sns" {
   source = "../modules/sns"
                            

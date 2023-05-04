@@ -20,10 +20,12 @@ resource "aws_sns_topic" "topic" {
     }
   }
 }
-EOF */
+EOF 
 }
 
-/* resource "aws_sns_topic_policy" "sns_topic_policy" {
+
+
+ resource "aws_sns_topic_policy" "sns_topic_policy" {
   arn = aws_sns_topic.topic.arn
   policy = data.aws_iam_policy_document.topic_policy_document.json
 }
@@ -66,7 +68,8 @@ data "aws_iam_policy_document" "sns_policy_document" {
 
     sid = "__default_statement_ID"
   }
-} */
+  */
+} 
 
 
 /*
