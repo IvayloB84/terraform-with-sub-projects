@@ -67,13 +67,13 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   output_path = "./payload-${random_string.r.result}.zip"
   
 
-     depends_on  = [
+/*      depends_on  = [
       random_string.r,
-    ] 
+    ]  */
 }
 
 resource "random_string" "r" {
-  length  = 16
+  length  = 6
   special = false
 }
 
