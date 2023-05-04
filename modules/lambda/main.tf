@@ -18,7 +18,7 @@ resource "aws_iam_role" "payload" {
 EOF
 }
 
-resource "aws_iam_policy" "AWSLambdaBasicExecutionRole-f81" {
+resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 
   name        = "${var.iam_policy_name}"
   path        = "/"
@@ -43,7 +43,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.payload.name
-  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole-f81.arn
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
 /*  resource "null_resource" "archive" {
@@ -54,9 +54,13 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
  resource "terraform_data" "archive" {
 
-      triggers = {
+  triggers_replace = [
+    random_string.r,
+  ]
+
+/*       triggers = {
     timestamp = timestamp()
-  }
+  } */
 
     provisioner "local-exec" {
     command = "chmod +x ${path.module}/config.sh"
