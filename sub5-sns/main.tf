@@ -3,7 +3,7 @@ provider "aws" {
   region = "us-west-2"
 }
 
-## SNS base configuration
+## SNS basic configuration with name and display name.
 module "sns" {
   source = "../modules/sns"
                            
