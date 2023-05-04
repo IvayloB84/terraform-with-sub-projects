@@ -8,6 +8,11 @@ variable "dispay_name" {
   type        = string
 }
 
+variable "dir" {
+  description = "Variable for Lambda function directory"
+  type        = string
+}
+
 /*
 variable "topic.arn" {
   description = "ARN of the SNS topic"
