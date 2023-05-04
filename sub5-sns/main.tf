@@ -8,4 +8,4 @@ module "sns" {
   name        = "sub5-sns"
   dispay_name = "TF-topic"
   dir         = "sub5-sns"
-}
+} 
