@@ -69,7 +69,6 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
      depends_on  = [
       random_string.r,
-    terraform_data.archive,
     ] 
 }
 
