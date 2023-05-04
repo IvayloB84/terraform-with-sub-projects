@@ -1,10 +1,6 @@
-resource "aws_sns_topic" "updates" {
+resource "aws_sns_topic" "topic" {
   name = "${var.name}"
   display_name = "${var.dispay_name}"
-  
-  tags = {
-    "Name" = "${var.name}"
-  }
 
   delivery_policy = <<EOF
 {

@@ -6,6 +6,6 @@ module "sns" {
   source = "../modules/SNS"
 
   name        = "sub5-sns"
-  dispay_name = "Terraform test module for SNS with Lambda function"
+  dispay_name = "TF-topic"
   dir         = "sub5-sns"
 }
