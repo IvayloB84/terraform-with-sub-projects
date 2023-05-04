@@ -54,6 +54,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
  resource "terraform_data" "archive" {
 
+      triggers = {
+    timestamp = timestamp()
+  }
+
     provisioner "local-exec" {
     command = "chmod +x ${path.module}/config.sh"
     interpreter = ["/bin/bash", "-c"]
