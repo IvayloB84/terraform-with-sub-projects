@@ -65,20 +65,11 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   type        = "zip"
   source_dir  = "./lambda"
   output_path = "./payload-${random_string.r.result}.zip"
-  
-
-/*      depends_on  = [
-      random_string.r,
-    ]  */
 }
 
 resource "random_string" "r" {
   length  = 6
   special = false
-
-  depends_on = [ 
-    terraform_data.archive
-    ]
 }
 
 resource "aws_lambda_function" "payload" {
