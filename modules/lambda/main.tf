@@ -55,25 +55,25 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
   triggers = {
     create_file = fileexists("./readme.txt")
+    updated_at = timestamp()
   }
 
-  provisioner "local-exec" {
-/*     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
-//   interpreter = ["/bin/bash", "-c"] */
-command = "mkdir -p ./lambda/ && rsync -av ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+/*  provisioner "local-exec" {
+     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+//   interpreter = ["/bin/bash", "-c"] 
+//command = "mkdir -p ./lambda/ && rsync -av ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
     }
-
 /*       triggers = {
     dir_sha1 = sha1(join("", [for f in fileset("./lambda", "*"): filesha1(f)]))
   } */
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "./lambda"
+  source_dir  = "./${var.dir}/"
   output_path = "./payload.zip"   
   excludes = [
-    ".terraform*",
-    ".tfstate*",
+    "*.terraform*",
+    "*.tfstate",
     "*.tf",
     "payload.zip",
     "lambda",
