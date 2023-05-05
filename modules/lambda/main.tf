@@ -59,7 +59,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
     }
 
       triggers = {
-    dir_sha1 = sha1(join("", [for f in fileset("./", "**"): filesha1(f)]))
+    dir_sha1 = sha1(join("", [for f in fileset("./lambda", "*"): filesha1(f)]))
   }
  }
   data "archive_file" "payload_zip" {
