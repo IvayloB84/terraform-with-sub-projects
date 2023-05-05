@@ -23,6 +23,19 @@ resource "aws_sns_topic" "topic" {
 }
 EOF 
 */
+
+  application_success_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSSuccessFeedback"
+  application_failure_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
+
+  http_success_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSSuccessFeedback"
+  http_failure_feedback_role_arn  = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
+
+  lambda_success_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSSuccessFeedback"
+  lambda_failure_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
+
+  sqs_success_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSSuccessFeedback"
+  sqs_failure_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
+  
 }
 
 
