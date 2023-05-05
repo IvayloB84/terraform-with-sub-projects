@@ -3,6 +3,7 @@ variable "name" {
   type        = string
 }
 
+/*
 variable "dispay_name" {
   description = "Display name"
   type        = string
@@ -13,7 +14,6 @@ variable "dir" {
   type        = string
 }
 
-/*
 variable "topic.arn" {
   description = "ARN of the SNS topic"
   type        = string

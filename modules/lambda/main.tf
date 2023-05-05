@@ -93,11 +93,10 @@ resource "random_string" "r" {
 */
 
 
-
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [null_resource.archive]
 
-  create_duration = "30s"
+  create_duration = "20s"
 }
 
 resource "aws_lambda_function" "payload" {

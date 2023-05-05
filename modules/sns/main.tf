@@ -1,5 +1,6 @@
 resource "aws_sns_topic" "topic" {
   name = "${var.name}"
+/* 
   display_name = "${var.dispay_name}"
 
 /*   delivery_policy = <<EOF
