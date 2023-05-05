@@ -19,7 +19,7 @@ resource "aws_sns_topic" "topic" {
     "defaultRequestPolicy": {
       "headerContentType": "text/plain; charset=UTF-8"
     }
-  }
+  }                                 
 }
 EOF 
 */
@@ -35,7 +35,7 @@ EOF
 
   sqs_success_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSSuccessFeedback"
   sqs_failure_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
-  
+
 }
 
 
