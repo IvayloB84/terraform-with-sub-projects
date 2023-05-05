@@ -80,7 +80,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   output_path = "./payload.zip"
   depends_on = [ 
     random_string.r,
-    terraform_data.archive
+//    terraform_data.archive
    ]
 }
 
