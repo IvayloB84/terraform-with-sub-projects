@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "topic" {
-  name = var.name
+  name = "sub5-sns"
 /* 
   display_name = "${var.dispay_name}"
 
