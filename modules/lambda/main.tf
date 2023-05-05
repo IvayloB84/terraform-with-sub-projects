@@ -46,17 +46,22 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
-resource "null_resource" "archive" {
+ resource "null_resource" "archive" {
+
+/*
   triggers = {
     create_file = fileexists("./readme.txt")
-  }
+  } */
 
   provisioner "local-exec" {
     command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
-    interpreter = ["/bin/bash", "-c"]
-  }
-}
+   interpreter = ["/bin/bash", "-c"]
+    }
 
+      triggers = {
+    dir_sha1 = sha1(join("", [for f in fileset("./", "**"): filesha1(f)]))
+  }
+ }
   data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
