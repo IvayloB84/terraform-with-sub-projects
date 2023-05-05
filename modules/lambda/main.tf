@@ -62,7 +62,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 /*     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
 //   interpreter = ["/bin/bash", "-c"] 
 */
-command = "npm install --legacy-peer-deps"
+command = "npm install --legacy-peer-deps && pwd"
     }
 
 /*       triggers = {
