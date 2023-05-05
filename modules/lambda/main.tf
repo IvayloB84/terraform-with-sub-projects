@@ -60,7 +60,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   provisioner "local-exec" {
 /*     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
 //   interpreter = ["/bin/bash", "-c"] */
-command = "mkdir -p ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+command = "mkdir -p ./lambda/ && cp -p index.js && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
     }
 
 /*       triggers = {
@@ -70,7 +70,7 @@ command = "mkdir -p ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps 
   data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
-  output_path = "./payload.zip"
+  output_path = "./payload.zip"   
   excludes = [
     ".terraform*",
     ".tfstate*",
