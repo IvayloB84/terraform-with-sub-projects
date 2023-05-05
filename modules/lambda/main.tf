@@ -85,13 +85,11 @@ resource "null_resource" "archive" {
    ]
 }
 
-
 resource "random_string" "r" {
   length  = 16
   special = false
 }
 */
-
 
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [null_resource.archive]
