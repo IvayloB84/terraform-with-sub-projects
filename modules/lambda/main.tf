@@ -74,7 +74,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   source_dir  = "./lambda"
   output_path = "./payload.zip"
   depends_on = [ 
-    random_string.r
+    random_string.r,
+    terraform_data.archive
    ]
 }
 
@@ -93,7 +94,6 @@ resource "aws_lambda_function" "payload" {
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
-    terraform_data.archive
   ]
 
   source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
