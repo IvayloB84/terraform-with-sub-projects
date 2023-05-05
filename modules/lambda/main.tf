@@ -58,18 +58,20 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
     updated_at = timestamp()
   }
 
-/*  provisioner "local-exec" {
-     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+  provisioner "local-exec" {
+/*     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
 //   interpreter = ["/bin/bash", "-c"] 
-//command = "mkdir -p ./lambda/ && rsync -av ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+*/
+command = "npm install --legacy-peer-deps"
     }
+
 /*       triggers = {
     dir_sha1 = sha1(join("", [for f in fileset("./lambda", "*"): filesha1(f)]))
   } */
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.cwd}/"
+  source_dir  = "./${var.dir}/"
   output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
