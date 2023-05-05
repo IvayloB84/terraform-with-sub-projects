@@ -92,7 +92,8 @@ resource "aws_lambda_function" "payload" {
   timeout = 900
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    data.archive_file.payload_zip
+    data.archive_file.payload_zip,
+    terraform_data.archive
   ]
 
   source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
