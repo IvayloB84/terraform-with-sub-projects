@@ -47,12 +47,13 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
   resource "null_resource" "archive" {
-      triggers = {
-    on_every_apply = uuid()
+triggers = {
+    
+    create_file = fileexists("./readme.txt")
   }
 
   provisioner "local-exec" {
-    command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+    command = "touch readme.txt & mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
   }
 } 
 
@@ -80,6 +81,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   output_path = "./payload.zip"
   depends_on = [ 
     random_string.r,
+    null_resource.archive
 //    terraform_data.archive
    ]
 }
