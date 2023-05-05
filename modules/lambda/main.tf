@@ -63,6 +63,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 //   interpreter = ["/bin/bash", "-c"] 
 */
 command = "npm install --legacy-peer-deps && pwd"
+  interpreter = ["/bin/bash", "-c"]
     }
 
 /*       triggers = {
@@ -71,7 +72,7 @@ command = "npm install --legacy-peer-deps && pwd"
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "../"
+  source_dir  = "./"
   output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
