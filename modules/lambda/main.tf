@@ -71,7 +71,7 @@ command = "npm install --legacy-peer-deps && pwd"
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/"
+  source_dir  = "${path.cwd}/"
   output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
