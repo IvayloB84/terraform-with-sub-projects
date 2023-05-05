@@ -46,21 +46,25 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
-/*  resource "null_resource" "archive" {
+  resource "null_resource" "archive" {
+      triggers = {
+    on_every_apply = uuid()
+  }
+
   provisioner "local-exec" {
     command = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
   }
-} */
+} 
 
+/*
  resource "terraform_data" "archive" {
 
   triggers_replace = [
     aws_iam_role.payload.arn,
   ]
 
-/*       triggers = {
+       triggers = {
     timestamp = timestamp()
-  } */
 
     provisioner "local-exec" {
     command = "chmod +x ${path.module}/config.sh"
@@ -68,6 +72,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   }
 
 }     
+} */
 
   data "archive_file" "payload_zip" {
   type        = "zip"
