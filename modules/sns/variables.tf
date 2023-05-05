@@ -1,7 +1,6 @@
-variable "name" {
+variable "some_name" {
   description = "Name of the SNS topic"
   type        = string
-  default = "name-tf-that"
 }
 
 /*
