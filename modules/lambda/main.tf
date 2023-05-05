@@ -47,9 +47,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 }
 
   resource "null_resource" "archive" {
-triggers = {
-    
-    create_file = fileexists("./readme.txt")
+triggers = { 
+    create_file = fileexists("${path.root}/readme.txt")
   }
 
   provisioner "local-exec" {
