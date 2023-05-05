@@ -1,5 +1,5 @@
 resource "aws_iam_role" "payload" {
-  name = var.iam_role_name
+  name = "${var.iam_role_name}"
            
   assume_role_policy = <<EOF
   
@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 
-  name        = var.iam_policy_name
+  name        = "${var.iam_policy_name}"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -52,7 +52,7 @@ resource "null_resource" "archive" {
   }
 
   provisioner "local-exec" {
-    command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && zip -r payload.zip ./* && mv payload.zip ../ && cd -"
+    command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"]
   }
 }
@@ -82,9 +82,9 @@ resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = "${data.archive_file.payload_zip .output_path}"
 //  filename = "payload.zip"
-  role     = aws_iam_role.payload.arn
-  handler  = var.lambda_handler
-  runtime  = var.compatible_runtimes
+  role     = "${aws_iam_role.payload.arn}"
+  handler  = "${var.lambda_handler}"
+  runtime  = "${var.compatible_runtimes}"
   timeout  = 900
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
