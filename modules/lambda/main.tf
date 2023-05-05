@@ -72,7 +72,7 @@ command = "mkdir -p lambda && npm install --legacy-peer-deps && pwd"
   data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
-  output_path = "./payload.zip"   
+  output_path = "./lambda/payload.zip"   
   excludes = [
     "*.terraform*",
     "*.tfstate",
