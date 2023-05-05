@@ -69,7 +69,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "./${var.dir}/"
+  source_dir  = "./"
   output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
