@@ -64,7 +64,6 @@ resource "null_resource" "archive" {
   depends_on = [ 
     random_string.r,
     null_resource.archive
-//    terraform_data.archive
    ]
 }
 
