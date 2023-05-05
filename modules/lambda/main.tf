@@ -48,6 +48,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
  resource "null_resource" "archive" {
 
+    triggers = {
+    updated_at = timestamp()
+  }
+
 /*
   triggers = {
     create_file = fileexists("./readme.txt")
@@ -55,12 +59,12 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
   provisioner "local-exec" {
     command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
-   interpreter = ["/bin/bash", "-c"]
+//   interpreter = ["/bin/bash", "-c"]
     }
 
-      triggers = {
+/*       triggers = {
     dir_sha1 = sha1(join("", [for f in fileset("./lambda", "*"): filesha1(f)]))
-  }
+  } */
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
