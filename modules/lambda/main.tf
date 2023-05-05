@@ -71,8 +71,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path_module}../../${var.dir}/lambda"
-  output_path = "${path_module}../../${var.dir}/payload.zip"
+  source_dir  = "${path_module}/../../${var.dir}/lambda"
+  output_path = "${path_module}/../../${var.dir}/payload.zip"
   depends_on = [ 
     random_string.r
    ]
