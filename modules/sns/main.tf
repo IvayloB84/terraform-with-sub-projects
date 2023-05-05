@@ -3,6 +3,8 @@ resource "aws_sns_topic" "topic" {
 /* 
   display_name = "${var.dispay_name}"
 
+
+
 /*   delivery_policy = <<EOF
 {
   "http": {
