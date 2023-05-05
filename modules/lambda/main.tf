@@ -52,7 +52,7 @@ triggers = {
   }
 
   provisioner "local-exec" {
-    command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
+    command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && zip -r payload.zip ./* && mv payload.zip ../ && cd -"
   }
 } 
 
@@ -72,7 +72,7 @@ triggers = {
   }
 
 }     
-} */
+} 
 
   data "archive_file" "payload_zip" {
   type        = "zip"
@@ -84,6 +84,7 @@ triggers = {
 //    terraform_data.archive
    ]
 }
+*/
 
 resource "random_string" "r" {
   length  = 16
@@ -92,16 +93,18 @@ resource "random_string" "r" {
 
 resource "aws_lambda_function" "payload" {
   function_name = "${var.function_name}"
-  filename      = "${data.archive_file.payload_zip .output_path}"
+//  filename      = "${data.archive_file.payload_zip .output_path}"
+  filename = "payload.zip"
   role          = "${aws_iam_role.payload.arn}"
   handler       = "${var.lambda_handler}"
   runtime       = "${var.compatible_runtimes}"
   timeout = 900
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-    data.archive_file.payload_zip,
+//    data.archive_file.payload_zip,
+  null_resource.archive
   ]
 
-  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
+// source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
   publish          = true
 }                  
