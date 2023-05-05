@@ -1,5 +1,5 @@
 resource "aws_iam_role" "payload" {
-  name ="${var.iam_role_name}"
+  name = var.iam_role_name
 
   assume_role_policy = <<EOF
   
@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 
-  name        = "${var.iam_policy_name}"
+  name        = var.iam_policy_name
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -46,15 +46,15 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
-  resource "null_resource" "archive" {
-triggers = { 
+resource "null_resource" "archive" {
+  triggers = {
     create_file = fileexists("./readme.txt")
   }
 
   provisioner "local-exec" {
     command = "touch readme.txt && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && zip -r payload.zip ./* && mv payload.zip ../ && cd -"
   }
-} 
+}
 
 /*
  resource "terraform_data" "archive" {
@@ -84,27 +84,34 @@ triggers = {
 //    terraform_data.archive
    ]
 }
-*/
+
 
 resource "random_string" "r" {
   length  = 16
   special = false
 }
+*/
+
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [null_resource.archive]
+
+  create_duration = "30s"
+}
 
 resource "aws_lambda_function" "payload" {
-  function_name = "${var.function_name}"
-//  filename      = "${data.archive_file.payload_zip .output_path}"
+  function_name = var.function_name
+  //  filename      = "${data.archive_file.payload_zip .output_path}"
   filename = "payload.zip"
-  role          = "${aws_iam_role.payload.arn}"
-  handler       = "${var.lambda_handler}"
-  runtime       = "${var.compatible_runtimes}"
-  timeout = 900
+  role     = aws_iam_role.payload.arn
+  handler  = var.lambda_handler
+  runtime  = var.compatible_runtimes
+  timeout  = 900
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
-//    data.archive_file.payload_zip,
-  null_resource.archive
+    //    data.archive_file.payload_zip,
+    time_sleep.wait_30_seconds
   ]
 
-// source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
-  publish          = true
+  // source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
+  publish = true
 }                  
