@@ -64,7 +64,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
  resource "null_resource" "archive" {
 
     triggers = {
-    dependencies_versions = filemd5("./*.js")
+    dependencies_versions = filemd5("./index.js")
   }
 
 /*     triggers = {
