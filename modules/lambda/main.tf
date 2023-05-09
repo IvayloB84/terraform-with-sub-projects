@@ -1,5 +1,5 @@
 locals {
-  lambda_src_path = "${path.cwd}"
+  lambda_src_path = "./"
 }
 
 resource "random_uuid" "lambda_src_hash" {
