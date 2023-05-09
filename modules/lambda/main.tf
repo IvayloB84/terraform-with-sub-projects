@@ -63,6 +63,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
  resource "null_resource" "archive" {
 
+    triggers = {
+    dependencies_versions = filemd5("./*")
+  }
+
 /*     triggers = {
     updated_at = timestamp()
   } 
@@ -82,13 +86,11 @@ command = "npm install --legacy-peer-deps && pwd"
   interpreter = ["/bin/bash", "-c"]
     }
 
-/*       triggers = {
-    dir_sha1 = sha1(join("", [for f in fileset("./lambda", "*"): filesha1(f)]))
-  } */
+
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = local.lambda_src_path
+  source_dir  = "./"
   output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
