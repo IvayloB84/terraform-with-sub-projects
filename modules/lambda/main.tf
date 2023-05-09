@@ -1,6 +1,5 @@
 locals {
   lambda_src_path = "./lambda"
-  description     = "Terraform basic Lambda function"
 }
 
 resource "aws_iam_role" "payload" {
@@ -99,7 +98,6 @@ resource "time_sleep" "wait_20_seconds" {
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
-  description   = local.description
   role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
