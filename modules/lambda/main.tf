@@ -6,8 +6,8 @@ resource "random_uuid" "lambda_src_hash" {
   keepers = {
     for filename in setunion(
       fileset(local.lambda_src_path, "*.js"),
-//      fileset(local.lambda_src_path, "requirements.txt"),
-//     fileset(local.lambda_src_path, "core/**/*.py")
+      fileset(local.lambda_src_path, "readme.txt"),
+      fileset(local.lambda_src_path, "core/**/*.json")
     ):
     filename => filemd5("${local.lambda_src_path}/${filename}")
   }
