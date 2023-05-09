@@ -1,16 +1,5 @@
 locals {
-  lambda_src_path = "./"
-}
-
-resource "random_uuid" "lambda_src_hash" {
-  keepers = {
-    for filename in setunion(
-      fileset(local.lambda_src_path, "*.js"),
-      fileset(local.lambda_src_path, "readme.txt"),
-      fileset(local.lambda_src_path, "core/**/*.json")
-    ):
-    filename => filemd5("${local.lambda_src_path}/${filename}")
-  }
+  lambda_src_path = "./lambda"
 }
 
 resource "aws_iam_role" "payload" {
@@ -79,18 +68,27 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 */
 
   provisioner "local-exec" {
-/*     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
-//   interpreter = ["/bin/bash", "-c"] 
-*/
-command = "npm install --legacy-peer-deps && pwd"
+
+command = "mdkir -p ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
   interpreter = ["/bin/bash", "-c"]
     }
+
+    resource "random_uuid" "lambda_src_hash" {
+  keepers = {
+    for filename in setunion(
+      fileset(local.lambda_src_path, "./*.js"),
+      fileset(local.lambda_src_path, "./readme.txt"),
+      fileset(local.lambda_src_path, "./**/*.json")
+    ):
+    filename => filemd5("${local.lambda_src_path}/${filename}")
+  }
+}
 
 
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.cwd}/"
+  source_dir  = "./lambda"
   output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
@@ -112,7 +110,7 @@ command = "npm install --legacy-peer-deps && pwd"
   special = false
 } */
 
-resource "time_sleep" "wait_30_seconds" {
+resource "time_sleep" "wait_20_seconds" {
   depends_on = [null_resource.archive]
 
   create_duration = "20s"
@@ -121,11 +119,10 @@ resource "time_sleep" "wait_30_seconds" {
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = "${data.archive_file.payload_zip .output_path}"
-//  filename = "payload.zip"
   role     = "${aws_iam_role.payload.arn}"
   handler  = "${var.lambda_handler}"
   runtime  = "${var.compatible_runtimes}"
-  timeout = 30
+  timeout = 90
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
