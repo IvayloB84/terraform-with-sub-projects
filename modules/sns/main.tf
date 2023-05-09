@@ -74,7 +74,7 @@ data "aws_iam_policy_document" "sns_policy_document" {
 resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
   topic_arn = "${var.topic.arn}"
   protocol  = "${var.protocol}"
-  endpoint  = "${module.lambda.aws_iam_role.payload.arn}" # "${var.endpoint}"
+  endpoint  = "${module.lambda.aws_iam_role.payload.arn}"
 
   application_success_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSSuccessFeedback"
   application_failure_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
