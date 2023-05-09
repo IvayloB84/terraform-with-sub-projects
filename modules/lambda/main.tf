@@ -85,14 +85,14 @@ data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
   output_path = "${random_uuid.lambda_src_hash.result}.zip"
-  excludes = [
+/*   excludes = [
     "*.terraform*",
     "*.tfstate",
     "*.tf",
     "payload.zip",
     "lambda",
     "*./*"
-  ]
+  ] */
 
   depends_on = [
     null_resource.archive
