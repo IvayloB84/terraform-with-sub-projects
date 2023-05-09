@@ -1,3 +1,18 @@
+locals {
+  lambda_src_path = "${path.cwd}"
+}
+
+resource "random_uuid" "lambda_src_hash" {
+  keepers = {
+    for filename in setunion(
+      fileset(local.lambda_src_path, "*.js"),
+//      fileset(local.lambda_src_path, "requirements.txt"),
+//     fileset(local.lambda_src_path, "core/**/*.py")
+    ):
+    filename => filemd5("${local.lambda_src_path}/${filename}")
+  }
+}
+
 resource "aws_iam_role" "payload" {
   name = "${var.iam_role_name}"
            
@@ -50,13 +65,14 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 /*     triggers = {
     updated_at = timestamp()
-  } */
+  } 
 
 
   triggers = {
     create_file = fileexists("./readme.txt")
     updated_at = timestamp()
   }
+*/
 
   provisioner "local-exec" {
 /*     command = "rm -rf ./lambda payload.zip && mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda/ && npm install --legacy-peer-deps && cd -"
@@ -72,8 +88,8 @@ command = "npm install --legacy-peer-deps && pwd"
  }
   data "archive_file" "payload_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/../../${var.dir}/"
-  output_path = "${path.module}/../../${var.dir}/payload.zip"   
+  source_dir  = local.lambda_src_path
+  output_path = "./payload.zip"   
   excludes = [
     "*.terraform*",
     "*.tfstate",
@@ -84,15 +100,15 @@ command = "npm install --legacy-peer-deps && pwd"
   ]
 
   depends_on = [ 
-    random_string.r,
+    # random_string.r,
     null_resource.archive
    ]
 }
 
-resource "random_string" "r" {
+/* resource "random_string" "r" {
   length  = 16
   special = false
-}
+} */
 
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [null_resource.archive]
@@ -107,7 +123,7 @@ resource "aws_lambda_function" "payload" {
   role     = "${aws_iam_role.payload.arn}"
   handler  = "${var.lambda_handler}"
   runtime  = "${var.compatible_runtimes}"
-  timeout  = 900
+  timeout = 30
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
