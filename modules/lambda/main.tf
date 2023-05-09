@@ -1,9 +1,10 @@
 locals {
   lambda_src_path = "./lambda"
+  description     = "Terraform basic Lambda function"
 }
 
 resource "aws_iam_role" "payload" {
-  name = "${var.iam_role_name}"
+  name = var.iam_role_name
 
   assume_role_policy = <<EOF
   
@@ -24,7 +25,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 
-  name        = "${var.iam_policy_name}"
+  name        = var.iam_policy_name
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -54,8 +55,8 @@ resource "null_resource" "archive" {
 
   triggers = {
     dependencies_versions = filemd5("./index.js")
-    create_file = fileexists("./readme.txt")
-    updated_at = timestamp() 
+    create_file           = fileexists("./readme.txt")
+    updated_at            = timestamp()
 
   }
 
@@ -75,7 +76,7 @@ data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
   output_path = "${var.function_name}-payload.zip"
-/*   excludes = [
+  /*   excludes = [
     "*.terraform*",
     "*.tfstate",
     "*.tf",
@@ -96,11 +97,12 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_function" "payload" {
-  function_name = "${var.function_name}"
+  function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
+  description   = local.description
   role          = aws_iam_role.payload.arn
-  handler       = "${var.lambda_handler}"
-  runtime       = "${var.compatible_runtimes}"
+  handler       = var.lambda_handler
+  runtime       = var.compatible_runtimes
   timeout       = 90
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
