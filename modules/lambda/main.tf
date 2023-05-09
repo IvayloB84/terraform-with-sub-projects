@@ -65,7 +65,7 @@ resource "null_resource" "archive" {
 
   provisioner "local-exec" {
 
-    command     = "mdkir -p ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+    command     = "mkdir -p ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   }
 }
