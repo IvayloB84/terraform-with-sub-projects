@@ -3,8 +3,8 @@ locals {
 }
 
 resource "aws_iam_role" "payload" {
-  name = "${var.iam_role_name}"
-           
+  name = var.iam_role_name
+
   assume_role_policy = <<EOF
   
 {
@@ -24,7 +24,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 
-  name        = "${var.iam_policy_name}"
+  name        = var.iam_policy_name
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -50,13 +50,13 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
- resource "null_resource" "archive" {
+resource "null_resource" "archive" {
 
-    triggers = {
+  triggers = {
     dependencies_versions = filemd5("./index.js")
   }
 
-/*     triggers = {
+  /*     triggers = {
     updated_at = timestamp()
   } 
 
@@ -69,27 +69,26 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
   provisioner "local-exec" {
 
-command = "mdkir -p ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
-  interpreter = ["/bin/bash", "-c"]
-    }
+    command     = "mdkir -p ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+    interpreter = ["/bin/bash", "-c"]
+  }
+}
 
-    resource "random_uuid" "lambda_src_hash" {
+resource "random_uuid" "lambda_src_hash" {
   keepers = {
     for filename in setunion(
       fileset(local.lambda_src_path, "./*.js"),
       fileset(local.lambda_src_path, "./readme.txt"),
       fileset(local.lambda_src_path, "./**/*.json")
-    ):
+    ) :
     filename => filemd5("${local.lambda_src_path}/${filename}")
   }
 }
 
-
- }
-  data "archive_file" "payload_zip" {
+data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = "./lambda"
-  output_path = "./payload.zip"   
+  output_path = "./payload.zip"
   excludes = [
     "*.terraform*",
     "*.tfstate",
@@ -99,10 +98,10 @@ command = "mdkir -p ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
     "*./*"
   ]
 
-  depends_on = [ 
+  depends_on = [
     # random_string.r,
     null_resource.archive
-   ]
+  ]
 }
 
 /* resource "random_string" "r" {
@@ -118,17 +117,17 @@ resource "time_sleep" "wait_20_seconds" {
 
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
-  filename      = "${data.archive_file.payload_zip .output_path}"
-  role     = "${aws_iam_role.payload.arn}"
-  handler  = "${var.lambda_handler}"
-  runtime  = "${var.compatible_runtimes}"
-  timeout = 90
+  filename      = data.archive_file.payload_zip.output_path
+  role          = aws_iam_role.payload.arn
+  handler       = var.lambda_handler
+  runtime       = var.compatible_runtimes
+  timeout       = 90
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
     time_sleep.wait_30_seconds
   ]
 
-  source_code_hash = "${data.archive_file.payload_zip.output_base64sha256}"
-  publish = true
+  source_code_hash = data.archive_file.payload_zip.output_base64sha256
+  publish          = true
 }                  
