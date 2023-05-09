@@ -26,6 +26,7 @@ EOF
 
 }
 
+/*
  resource "aws_sns_topic_policy" "sns_topic_policy" {
   arn = aws_sns_topic.topic.arn
   policy = data.aws_iam_policy_document.topic_policy_document.json
@@ -89,3 +90,4 @@ resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
   sqs_failure_feedback_role_arn = "arn:aws:iam::731672801406:role/SNSFailureFeedback"
 
 }
+*/
