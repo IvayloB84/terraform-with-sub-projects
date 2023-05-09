@@ -99,15 +99,9 @@ data "archive_file" "payload_zip" {
   ]
 
   depends_on = [
-    # random_string.r,
     null_resource.archive
   ]
 }
-
-/* resource "random_string" "r" {
-  length  = 16
-  special = false
-} */
 
 resource "time_sleep" "wait_20_seconds" {
   depends_on = [null_resource.archive]
@@ -125,9 +119,9 @@ resource "aws_lambda_function" "payload" {
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
-    time_sleep.wait_30_seconds
+    time_sleep.wait_20_seconds
   ]
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
-}                  
+}
