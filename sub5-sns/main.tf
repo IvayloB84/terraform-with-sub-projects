@@ -3,6 +3,8 @@ provider "aws" {
   region = "us-west-2"
 }
 
+data "aws_caller_identity" "current" {}
+
 ## SNS basic configuration with name and display name.
 module "sns" {
   source = "../modules/sns"
