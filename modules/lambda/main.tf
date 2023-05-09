@@ -84,7 +84,7 @@ resource "random_uuid" "lambda_src_hash" {
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
-  output_path = "${random_uuid.lambda_src_hash.result}.zip"
+  output_path = "payload.zip"
 /*   excludes = [
     "*.terraform*",
     "*.tfstate",
