@@ -53,9 +53,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "archive" {
 
   triggers = {
-    dependencies_versions = filemd5("./index.js")
+/*     dependencies_versions = filemd5("./index.js")
     create_file = fileexists("./readme.txt")
-    updated_at = timestamp()
+    updated_at = timestamp() */
+    
   }
 
   /*     triggers = {
@@ -70,16 +71,16 @@ resource "null_resource" "archive" {
   }
 }
 
-resource "random_uuid" "lambda_src_hash" {
-  keepers = {
-    for filename in setunion(
-      fileset(local.lambda_src_path, "./*.js"),
-      fileset(local.lambda_src_path, "./readme.txt"),
-      fileset(local.lambda_src_path, "./**/*.json")
-    ) :
-    filename => filemd5("${local.lambda_src_path}/${filename}")
-  }
-}
+# resource "random_uuid" "lambda_src_hash" {
+#   keepers = {
+#     for filename in setunion(
+#       fileset(local.lambda_src_path, "./*.js"),
+#       fileset(local.lambda_src_path, "./readme.txt"),
+#       fileset(local.lambda_src_path, "./**/*.json")
+#     ) :
+#     filename => filemd5("${local.lambda_src_path}/${filename}")
+#   }
+# }
 
 data "archive_file" "payload_zip" {
   type        = "zip"
