@@ -71,21 +71,10 @@ resource "null_resource" "archive" {
   }
 }
 
-# resource "random_uuid" "lambda_src_hash" {
-#   keepers = {
-#     for filename in setunion(
-#       fileset(local.lambda_src_path, "./*.js"),
-#       fileset(local.lambda_src_path, "./readme.txt"),
-#       fileset(local.lambda_src_path, "./**/*.json")
-#     ) :
-#     filename => filemd5("${local.lambda_src_path}/${filename}")
-#   }
-# }
-
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
-  output_path = "payload.zip"
+  output_path = "${var.function_name}-payload.zip"
 /*   excludes = [
     "*.terraform*",
     "*.tfstate",
