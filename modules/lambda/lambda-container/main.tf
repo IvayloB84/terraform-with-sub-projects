@@ -122,6 +122,6 @@ data "aws_iam_policy_document" "image-policy-container" {
 
 resource "aws_iam_policy" "image-demo-container" {
   name   = var.iam_policy
-  path   = "./"
+  path   = "/"
   policy = data.aws_iam_policy_document.image-policy-container.json
 }
