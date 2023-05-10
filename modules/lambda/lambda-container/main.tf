@@ -18,6 +18,7 @@ resource "aws_ecr_repository" "image_demo_lambda_repository" {
 resource "null_resource" "container_image_requirements" {
   triggers = {
     nodejs_file = md5(file("./index.js"))
+    json_file = md5(file("./package.json"))
     docker_file = md5(file("./Dockerfile"))
   }
 
