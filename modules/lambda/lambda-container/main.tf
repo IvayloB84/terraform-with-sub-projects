@@ -49,7 +49,20 @@ data "aws_ecr_image" "image-demo-lambda-repository" {
         "Effect": "Allow",
         "Principal": "*",
         "Action": [
-          "ecr:*"
+                "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:DescribeRepositories",
+      "ecr:GetRepositoryPolicy",
+      "ecr:ListImages",
+      "ecr:DeleteRepository",
+      "ecr:BatchDeleteImage",
+      "ecr:SetRepositoryPolicy",
+      "ecr:DeleteRepositoryPolicy",
         ]
       }
     ]
@@ -65,6 +78,9 @@ resource "aws_lambda_function" "image-lambda-function" {
   role          = aws_iam_role.image-lambda-terraform.arn
   timeout       = 600
   image_uri     = "${aws_ecr_repository.image_demo_lambda_repository.repository_url}@${data.aws_ecr_image.image-demo-lambda-repository.id}"
+  image_config {
+    command           = ["index.handler"]
+  }
   package_type  = "Image"
 }
 
