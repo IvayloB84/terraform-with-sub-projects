@@ -15,7 +15,7 @@ resource "aws_ecr_repository" "image_demo_lambda_repository" {
   force_delete = true
 }
 
-resource "aws_ecr_lifecycle_policy" "foopolicy" {
+/* resource "aws_ecr_lifecycle_policy" "foopolicy" {
   repository = aws_ecr_repository.image_demo_lambda_repository.name
 
   policy = <<EOF
@@ -37,7 +37,33 @@ resource "aws_ecr_lifecycle_policy" "foopolicy" {
     ]
 }
 EOF
+} */
+
+
+resource "aws_ecr_lifecycle_policy" "foopolicy" {
+  repository = aws_ecr_repository.image_demo_lambda_repository.name
+
+  policy = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Keep last 3 images",
+            "selection": {
+                "tagStatus": "tagged",
+                "tagPrefixList": ["v"],
+                "countType": "imageCountMoreThan",
+                "countNumber": 3
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
 }
+EOF
+}
+
 
 resource "null_resource" "container_image_requirements" {
   triggers = {
