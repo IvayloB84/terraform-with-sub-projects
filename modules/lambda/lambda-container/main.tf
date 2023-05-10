@@ -11,7 +11,7 @@ locals {
 }
 
 resource "aws_ecr_repository" "image_demo_lambda_repository" {
-  name         = local.ecr_repository_name
+  name         = var.ecr_repository_name
   force_delete = true
 }
 
@@ -34,8 +34,8 @@ data "aws_ecr_image" "image-demo-lambda-repository" {
   depends_on = [
     null_resource.container_image_requirements
   ]
-  repository_name = local.ecr_repository_name
-  image_tag       = local.ecr_image_tag
+  repository_name = var.ecr_repository_name
+  image_tag       = var.ecr_image_tag
 }
 
  resource "aws_ecr_repository_policy" "git-demo-lambda-repository" {
