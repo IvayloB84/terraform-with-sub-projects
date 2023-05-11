@@ -6,5 +6,5 @@ exports.handler = async (event, context) => {
     console.log('value2 =', event.key2);     
     console.log('value3 =', event.key3);
     return event.key1;  //Echo back the first key value
-    // throw new Error('Also commented on 10.05.2023');
+    // throw new Error('Also commented on 11.05.2023');
 };

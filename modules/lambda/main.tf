@@ -59,11 +59,6 @@ resource "null_resource" "archive" {
 
   }
 
-  /*     triggers = {
-    updated_at = timestamp()
-  } 
-*/
-
   provisioner "local-exec" {
 
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
