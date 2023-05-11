@@ -113,6 +113,7 @@ resource "aws_lambda_function" "image-lambda-function" {
     null_resource.container_image_requirements
   ]
   function_name = var.function_name
+  description = "Lambda function with container image"
   role          = aws_iam_role.image-lambda-terraform.arn
   timeout       = 600
   image_uri     = "${aws_ecr_repository.image_demo_lambda_repository.repository_url}@${data.aws_ecr_image.image-demo-lambda-repository.id}"
