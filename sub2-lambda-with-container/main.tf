@@ -5,9 +5,9 @@ provider "aws" {
 module "lambda-container" {
   source = "../modules/lambda/lambda-container/"
 
-  ecr_repository_name = "sub2-lambda-with-container"
+  ecr_repository_name = "tf-lambda-sub2-container"
   ecr_image_tag = "latest"
-  function_name = "sub2-lambda-with-container"
-  iam_role      = "sub2-lambda-with-container"
-  iam_policy    = "sub2-lambda-with-container"
+  function_name = "tf-lambda-sub2"
+  iam_role      = "tf-lambda-sub2"
+  iam_policy    = "tf-lambda-sub2"
 }
