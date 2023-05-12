@@ -100,7 +100,6 @@ resource "aws_lambda_function" "payload" {
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
-  layers        = ["${aws_lambda_layer_version.simple_nodejs_layer.arn}"]
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
@@ -108,11 +107,4 @@ resource "aws_lambda_function" "payload" {
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
-}
-
-resource "aws_lambda_layer_version" "simple_nodejs_layer" {
-  filename            = "${path.module}/layers/${var.function_name}-layer.zip"
-  layer_name          = var.layer_name
-  source_code_hash    = filebase64sha256("${path.module}/layers/${var.function_name}-layer.zip")
-  compatible_runtimes = ["nodejs14.x", "nodejs16.x"] 
 }
