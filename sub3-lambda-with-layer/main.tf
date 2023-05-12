@@ -5,6 +5,8 @@ provider "aws" {
 module "lambda" {
   source = "../modules/lambda/lambda-layer"
 
+  module "layer" {
+
   iam_role_name       = "tf-lambda-iam-role-sub3"
   iam_policy_name     = "tf-lambda-policy-sub3"
   function_name       = "tf-lambda-sub3"
@@ -13,4 +15,5 @@ module "lambda" {
   layer_name          = "tf-lambda-sub3"
   compatible_runtimes = "nodejs14.x"
   dir                 = "sub3"
+  }
 }
