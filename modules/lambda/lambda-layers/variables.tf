@@ -4,7 +4,8 @@ variable "layer_name" {
   default = ""
 }
 
-variable "dir" {
-  description = "Lambda folder name"
+variable "description" {
+  description = "Lambda layer description"
   type        = string
+  default = ""
 }
