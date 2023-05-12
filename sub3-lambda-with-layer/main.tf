@@ -1,0 +1,15 @@
+provider "aws" {
+  region = "us-west-2"
+}
+
+module "lambda" {
+  source = "../modules/lambda"
+
+  iam_role_name       = "tf-lambda-iam-role-sub3"
+  iam_policy_name     = "tf-lambda-policy-sub3"
+  function_name       = "tf-lambda-sub3"
+  lambda_handler      = "index.handler"
+  lambda_layer = "tf-lambda-sub3"
+  compatible_runtimes = "nodejs14.x"
+  dir                 = "sub3"
+}

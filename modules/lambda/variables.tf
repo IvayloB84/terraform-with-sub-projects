@@ -23,6 +23,11 @@ variable "lambda_handler" {
   type        = string
 }
 
+variable "layer_name" {
+   description = "Layer for Lambda function"
+   type = string
+}
+
 variable "dir" {
   description = "Lambda variable for Lambda function directory"
   type        = string
