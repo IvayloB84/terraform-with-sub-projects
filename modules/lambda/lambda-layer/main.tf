@@ -4,7 +4,7 @@ locals {
   destination_dir = "${path.module}/../layers/${var.layer_name}"
 }
 
-resource "null_resource" {
+resource "null_resource" "layer_dependencies" {
   provisioner "local-exec" {
     command = "mkdir -p ./nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./nodejs/ && cd nodejs && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
@@ -12,7 +12,7 @@ resource "null_resource" {
   } 
 }
 
-data "archive_file" "local_layer_dependencies" {
+data "archive_file" "local_archive" {
   type        = "zip"
   source_dir  = "./"
   output_path = "${local.destination_dir}"
@@ -25,6 +25,6 @@ resource "aws_lambda_layer_version" "lambda_layers" {
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   depends_on = [
-    data.archive_file.local_layer_dependencies
+    data.archive_file.local_archive
   ]
 }
