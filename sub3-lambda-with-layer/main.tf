@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "lambda-layer" {
-  source = "../modules/lambda-layer"
+  source = "../modules/lambda/lambda-layer"
 
   iam_role_name       = "tf-lambda-iam-role-sub3"
   iam_policy_name     = "tf-lambda-policy-sub3"
