@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  destination_dir = "${path.module}/layers/${var.layer_name}/"
+  destination_dir = "${path.module}/layers/${var.layer_name}"
 }
 
 resource "null_resource" "layer_dependencies" {
@@ -14,7 +14,7 @@ resource "null_resource" "layer_dependencies" {
 data "archive_file" "local_archive" {
   type        = "zip"
   source_dir  = "./"
-  output_path = "${local.destination_dir}"
+  output_path = "${local.destination_dir}-layer.zip"
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
