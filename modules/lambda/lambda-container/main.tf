@@ -1,4 +1,4 @@
-## ECR repository with Docker image integration and lambda function
+## ECR repository with Docker image integration and Lambda function
 
 data "aws_caller_identity" "current" {}
 
