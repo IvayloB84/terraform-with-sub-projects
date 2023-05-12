@@ -6,11 +6,6 @@ locals {
   layer_name = "${modules.lambda.lambda-layers.layer_name}"
 }
 
-module "lambda" {
-  source = "../modules/lambda"
-
-}
-
 module "lambda-layer" {
   source = "../modules/lambda/lambda-layer"
 
