@@ -12,5 +12,5 @@ module "lambda-layer" {
   # lambda_handler      = "index.handler"
   layer_name          = "sub3-lambda-with-layer"
   # compatible_runtimes = "nodejs14.x"
-  # dir                 = "sub3-lambda-with-layer"
+  dir                 = "sub3-lambda-with-layer"
   }

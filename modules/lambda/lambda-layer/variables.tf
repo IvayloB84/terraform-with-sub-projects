@@ -3,3 +3,8 @@ variable "layer_name" {
   type        = string
   default = ""
 }
+
+variable "dir" {
+  description = "Lambda folder name"
+  type        = string
+}

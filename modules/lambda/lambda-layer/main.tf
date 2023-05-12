@@ -7,7 +7,7 @@ locals {
 
 resource "null_resource" "layer_dependencies" {
   provisioner "local-exec" {
-    command = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps"
+    command = "mkdir -p ${local.destination_dir}/source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ${var.dir}/ ${var.dir}/source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   } 
 }
