@@ -14,7 +14,7 @@ resource "null_resource" "layer_dependencies" {
 
 data "archive_file" "local_archive" {
   type        = "zip"
-  source_dir  = "./"
+  source_dir  = "${local.layer_src_path}"
   output_path = "${local.destination_dir}/${var.layer_name}.zip"
   depends_on = [ 
     null_resource.layer_dependencies
