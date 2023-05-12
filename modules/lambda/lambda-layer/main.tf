@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  layer_src_path = "${var.dir}/source"
+  layer_src_path = "${path.cwd}/source"
   destination_dir = "${path.module}/layers/${var.layer_name}"
 }
 
