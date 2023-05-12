@@ -87,7 +87,7 @@ data "archive_file" "payload_zip" {
 resource "time_sleep" "wait_20_seconds" {
   depends_on = [
     null_resource.archive
-    ]
+  ]
 
   create_duration = "20s"
 }
@@ -95,12 +95,12 @@ resource "time_sleep" "wait_20_seconds" {
 resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
-  description = var.description
-  role          = "${aws_iam_role.payload.arn}"
+  description   = var.description
+  role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
-  layers = ["${aws_lambda_layer_version.simple_nodejs_layer.arn}"]
+  layers        = ["${aws_lambda_layer_version.simple_nodejs_layer.arn}"]
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
@@ -111,8 +111,8 @@ resource "aws_lambda_function" "payload" {
 }
 
 resource "aws_lambda_layer_version" "simple_nodejs_layer" {
-  filename = "${path.module}/layers/${var.function_name}-layer.zip"
-  layer_name = var.layer_name
-  source_code_hash = "${filebase64sha256("${path.module}/layers/${var.function_name}-layer.zip")}"
+  filename            = "${path.module}/layers/${var.function_name}-layer.zip"
+  layer_name          = var.layer_name
+  source_code_hash    = filebase64sha256("${path.module}/layers/${var.function_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 }
