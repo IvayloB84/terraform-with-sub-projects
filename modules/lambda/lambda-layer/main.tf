@@ -7,14 +7,14 @@ locals {
 
 resource "null_resource" "layer_dependencies" {
   provisioner "local-exec" {
-    command = "mkdir -p ${local.destination_dir}/source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ${var.dir}/ ${var.dir}/source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps"
+    command = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   } 
 }
 
 data "archive_file" "local_archive" {
   type        = "zip"
-  source_dir  = "${local.layer_src_path}"
+  source_dir  = "./source"
   output_path = "${local.destination_dir}/${var.layer_name}.zip"
   depends_on = [ 
     null_resource.layer_dependencies
