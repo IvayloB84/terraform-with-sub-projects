@@ -68,7 +68,7 @@ EOF
 resource "null_resource" "container_image_requirements" {
   triggers = {
     nodejs_file = md5(file("./index.js"))
-    json_file = md5(file("./package.json"))
+    json_file   = md5(file("./package.json"))
     docker_file = md5(file("./Dockerfile"))
   }
 
@@ -89,7 +89,7 @@ data "aws_ecr_image" "image-demo-lambda-repository" {
   image_tag       = var.ecr_image_tag
 }
 
- resource "aws_ecr_repository_policy" "git-demo-lambda-repository" {
+resource "aws_ecr_repository_policy" "git-demo-lambda-repository" {
   repository = aws_ecr_repository.image_demo_lambda_repository.name
   policy     = <<EOF
   {
@@ -113,14 +113,14 @@ resource "aws_lambda_function" "image-lambda-function" {
     null_resource.container_image_requirements
   ]
   function_name = var.function_name
-  description = "Lambda function with container image"
+  description   = "Lambda function with container image"
   role          = aws_iam_role.image-lambda-terraform.arn
   timeout       = 600
   image_uri     = "${aws_ecr_repository.image_demo_lambda_repository.repository_url}@${data.aws_ecr_image.image-demo-lambda-repository.id}"
-    image_config {
-    command           = ["index.handler"]
+  image_config {
+    command = ["index.handler"]
   }
-  package_type  = "Image"
+  package_type = "Image"
 }
 
 resource "aws_iam_role" "image-lambda-terraform" {

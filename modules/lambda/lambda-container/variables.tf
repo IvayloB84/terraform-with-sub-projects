@@ -14,11 +14,11 @@ variable "iam_policy" {
 }
 
 variable "ecr_repository_name" {
-    description = "ECR repository name for Lambda image"
-    type = string
+  description = "ECR repository name for Lambda image"
+  type        = string
 }
 
 variable "ecr_image_tag" {
-    description = "ECR image tag for Lambda image"
-    type = string
+  description = "ECR image tag for Lambda image"
+  type        = string
 }
