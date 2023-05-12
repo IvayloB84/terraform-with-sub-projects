@@ -14,7 +14,7 @@ resource "null_resource" "layer_dependencies" {
 data "archive_file" "local_archive" {
   type        = "zip"
   source_dir  = "./"
-  output_path = "${local.destination_dir}/"
+  output_path = "${local.destination_dir}"
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
