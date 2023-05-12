@@ -8,7 +8,7 @@ resource "null_resource" "layer_dependencies" {
   provisioner "local-exec" {
     command = "mkdir -p ./nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./nodejs/ && cd nodejs && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
-    destination_dir = "${destination_dir}"
+    workingworking_dir = "${destination_dir}"
   } 
 }
 
