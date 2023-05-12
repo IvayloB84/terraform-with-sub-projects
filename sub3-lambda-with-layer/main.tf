@@ -14,7 +14,7 @@ module "lambda" {
   function_name       = "tf-lambda-sub3"
   description         = "Lambda function + layer created with Terraform"
   lambda_handler      = "index.handler"
-  layer_name          = "tf-lambda-sub3"
+  layer_name          = "tf-lambda-sub3-layer"
   compatible_runtimes = "nodejs14.x"
   dir                 = "sub3"
   }
