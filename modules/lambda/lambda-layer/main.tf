@@ -1,13 +1,13 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  layer_src_path = "./nodejs"
+  layer_src_path = "../nodejs"
   destination_dir = "${path.module}/layers/${var.layer_name}"
 }
 
 resource "null_resource" "layer_dependencies" {
   provisioner "local-exec" {
-    command = "mkdir -p ${local.destination_dir}/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./nodejs/ && cd ./nodejs/ && npm install --legacy-peer-deps && cd ../"
+    command = "mkdir -p ${local.destination_dir}/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./nodejs/ && cd ./nodejs/ && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   } 
 }
