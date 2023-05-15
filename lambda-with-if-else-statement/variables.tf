@@ -16,6 +16,12 @@ variable "create_layer" {
   default     = false
 }
 
+variable "function_name" {
+  description = "The function ARN of the Lambda function for which you want to create an alias."
+  type        = string
+  default     = "TF-if-else-statement"
+}
+
 variable "description" {
   description = "The function ARN of the Lambda function for which you want to create an alias."
   type        = string

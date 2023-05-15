@@ -100,7 +100,7 @@ resource "time_sleep" "wait_20_seconds" {
 resource "aws_lambda_function" "payload" {
   count = local.create && var.create_function && !var.create_layer ? 1 : 0
   
-  function_name = var.create_function
+  function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
