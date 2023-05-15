@@ -74,7 +74,7 @@ resource "null_resource" "archive" {
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
-  output_path = "${var.function_name}-payload.zip"
+  output_path = "${var.create_function}-payload.zip"
   /*   excludes = [
     "*.terraform*",
     "*.tfstate",
