@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 provider "aws" {
   region = "us-west-2"
 }
@@ -5,6 +7,9 @@ provider "aws" {
 locals {
   lambda_src_path = "./lambda"
   create = var.create
+
+  layer_src_path  = "${path.cwd}/source"
+  destination_dir = "${path.module}/layers/${var.layer_name}"
 }
 
 resource "aws_iam_role" "payload" {
