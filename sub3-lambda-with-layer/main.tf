@@ -8,7 +8,7 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 module "lambda-layer" {
-  source = "./modules/lambda/lambda-layer"
+  source = "./modules/lambda/lambda-layers"
 
   layer_name =  "sub3-lambda-with-layer"
   function_name       = "tf-lambda-sub3"
