@@ -7,6 +7,9 @@ resource "time_sleep" "wait_20_seconds" {
   create_duration = "20s"
 }
 
+module "lambda" {
+ source = "../modules/lambda/lambda-layer"
+
 module "lambda-layer" {
   source = "../modules/lambda/lambda-layer"
 
@@ -20,3 +23,5 @@ module "lambda-layer" {
     time_sleep.wait_20_seconds 
     ]
   }
+
+}
