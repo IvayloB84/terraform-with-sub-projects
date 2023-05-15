@@ -2,15 +2,6 @@ provider "aws" {
   region = "us-west-2"
 }
 
-module "lambda" {
-   source = "./modules"
-}
-
-locals {
-   vpc_id = "${modules.my_vpc.vpc_id}"
-}
-
-
 resource "time_sleep" "wait_20_seconds" {
 
   create_duration = "20s"

@@ -114,5 +114,5 @@ resource "aws_lambda_function" "payload" {
 }
 
 module "lambda_layers" {
-  source = "../modules/lambda/lambda-layer"
+  source = "../lambda/lambda-layer"
 }
