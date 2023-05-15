@@ -112,3 +112,7 @@ resource "aws_lambda_function" "payload" {
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
 }
+
+module "lambda_layers" {
+  source = "./modules/lambda/lambda-layer"
+}
