@@ -71,7 +71,7 @@ resource "null_resource" "archive" {
 
   provisioner "local-exec" {
 
-    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   }
 }
@@ -79,7 +79,7 @@ resource "null_resource" "archive" {
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
-  output_path = "${var.create_function}-payload.zip"
+  output_path = "${var.function_name}-payload.zip"
   /*   excludes = [
     "*.terraform*",
     "*.tfstate",
@@ -142,7 +142,7 @@ resource "aws_lambda_function" "payload" {
 resource "aws_lambda_layer_version" "lambda_layers" {
   count = local.create && var.create_layer ? 1 : 0
   
-  filename   = "${local.destination_dir}/${var.layer_name}.zip"
+  filename   = "${local.destination_dir}/${var.layer_name}-layer.zip"
   layer_name = var.layer_name
 
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
