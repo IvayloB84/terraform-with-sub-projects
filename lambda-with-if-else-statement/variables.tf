@@ -10,6 +10,12 @@ variable "create_function" {
   default     = true
 }
 
+variable "layers" {
+  description = "List of Lambda Layer Version ARNs (maximum of 5) to attach to your Lambda Function."
+  type        = list(string)
+  default     = null
+}
+
 variable "create_layer" {
   description = "Controls whether Lambda Layer resource should be created"
   type        = bool
