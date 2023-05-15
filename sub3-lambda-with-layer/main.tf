@@ -25,5 +25,7 @@ module "lambda-layer" {
 
   create_layer = true
 
-  depends_on = [ time_sleep.wait_20_seconds ]
+  depends_on = [ 
+    time_sleep.wait_20_seconds 
+    ]
   }
