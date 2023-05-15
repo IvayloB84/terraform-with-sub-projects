@@ -98,7 +98,7 @@ resource "aws_lambda_function" "payload" {
   description   = var.description
   role          = aws_iam_role.payload.arn
   layers = [
-    module.lambda_layers.layer_name_arn
+    module.lambda_layers.lambda_layers_arn
     ]
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
@@ -111,8 +111,4 @@ resource "aws_lambda_function" "payload" {
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
-}
-
-module "lambda_layers" {
-  source = "./modules/lambda/lambda-layer"
 }
