@@ -1,5 +1,11 @@
 variable "layer_name" {
-  description = "Name of Lambda Layer to create"
+  description = "Name of Lambda Layer to create/update"
+  type        = string
+  default     = ""
+}
+
+variable "function_name" {
+  description = "Name of Lambda function to create/update"
   type        = string
   default     = ""
 }
