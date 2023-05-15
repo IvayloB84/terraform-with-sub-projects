@@ -9,7 +9,7 @@ locals {
   create = var.create
 
   layer_src_path  = "${path.cwd}/source"
-  destination_dir = "${path.module}/layers/${var.layer_name}"
+  destination_dir = "./layers/${var.layer_name}"
 }
 
 resource "aws_iam_role" "payload" {
