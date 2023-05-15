@@ -115,4 +115,5 @@ resource "aws_lambda_function" "payload" {
 
 module "lambda_layers" {
   source = "../lambda/lambda-layer"
+  layer_name = var.layer_name
 }
