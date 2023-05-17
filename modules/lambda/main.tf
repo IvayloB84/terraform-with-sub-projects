@@ -109,6 +109,7 @@ resource "aws_lambda_function" "payload" {
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
+    module.lambda_layer.null_resource.layer_dependencies
   ]
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
@@ -118,4 +119,5 @@ resource "aws_lambda_function" "payload" {
 module "lambda_layer" {
 source = "../modules/lambda/lambda-layers" 
 lambda_layer  = var.layer_name
+
 }
