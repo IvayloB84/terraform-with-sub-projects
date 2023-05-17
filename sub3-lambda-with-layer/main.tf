@@ -2,13 +2,9 @@ provider "aws" {
   region = "us-west-2"
 }
 
-resource "time_sleep" "wait_20_seconds" {
-
-  create_duration = "20s"
-}
 
 module "lambda-layer" {
-  source = "./modules/lambda/lambda-layers"
+  source = "../modules/lambda/lambda-layers"
 
   layer_name =  "sub3-lambda-with-layer"
   function_name       = "tf-lambda-sub3"
