@@ -9,7 +9,7 @@ locals {
   create          = var.create
 
   layer_src_path  = "./source"
-  destination_dir = "${path.module}./layers/${var.layer_name}"
+  destination_dir = "${path.module}/layers/${var.function_name}"
 }
 
 resource "aws_iam_role" "payload" {
@@ -104,7 +104,7 @@ resource "null_resource" "layer_dependencies" {
 data "archive_file" "local_archive" {
   type        = "zip"
   source_dir  = local.layer_src_path
-  output_path = "${local.destination_dir}/${var.layer_name}.zip"
+  output_path = "${path.module}/layers/${var.function_name}.zip"
   depends_on = [
     null_resource.layer_dependencies
   ]
@@ -125,7 +125,7 @@ resource "aws_lambda_function" "payload" {
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
-  layers        = var.layers
+  layers        = var.layer_name
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
