@@ -23,7 +23,7 @@ data "archive_file" "local_archive" {
 
 resource "time_sleep" "wait_20_seconds" {
   depends_on = [
-    null_resource.archive
+    null_resource.layer_dependencies
   ]
 
   create_duration = "20s"
