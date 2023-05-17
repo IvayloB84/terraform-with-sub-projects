@@ -103,9 +103,6 @@ resource "aws_lambda_function" "payload" {
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
-/*   layers = [
-    module.lambda_layers.layer_name_arn
-    ] */
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
@@ -113,7 +110,7 @@ resource "aws_lambda_function" "payload" {
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
-    module.lambda_layer.null_resource.layer_dependencies
+    null_resource.archive
   ]
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
