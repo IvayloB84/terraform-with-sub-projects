@@ -99,9 +99,9 @@ resource "aws_lambda_function" "payload" {
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
-  layers = [
+/*   layers = [
     module.lambda_layers.layer_name_arn
-    ]
+    ] */
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
@@ -116,8 +116,8 @@ resource "aws_lambda_function" "payload" {
   publish          = true
 }
 
-module "lambda_layer" {
+/* module "lambda_layer" {
 source = "../modules/lambda/lambda-layers" 
 lambda_layer  = var.layer_name
 
-}
+} */
