@@ -1,3 +1,22 @@
+
+variable "create" {
+  description = "Controls whether resources should be created"
+  type        = bool
+  default     = true
+}
+
+variable "create_function" {
+  description = "Controls whether Lambda Function resource should be created"
+  type        = bool
+  default     = true
+}
+
+variable "create_layer" {
+  description = "Controls whether Lambda Layer resource should be created"
+  type        = bool
+  default     = false
+}
+
 variable "function_name" {
   description = "The function ARN of the Lambda function for which you want to create an alias."
   type        = string
