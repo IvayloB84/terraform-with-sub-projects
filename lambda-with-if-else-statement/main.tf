@@ -133,6 +133,7 @@ resource "aws_lambda_function" "payload" {
   depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
+    null_resource.layer_dependencies
   ]
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
@@ -148,6 +149,7 @@ resource "aws_lambda_layer_version" "lambda_layers" {
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   depends_on = [
-    data.archive_file.local_archive
+    data.archive_file.local_archive,
+    null_resource.layer_dependencies
   ]
 }
