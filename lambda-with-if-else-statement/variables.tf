@@ -37,25 +37,25 @@ variable "description" {
 variable "compatible_runtimes" {
   description = "Default runtime for lambda"
   type        = string
-  default = "nodejs14.x"
+  default     = "nodejs14.x"
 }
 
 variable "iam_role_name" {
   description = "Default runtime for lambda"
   type        = string
-  default = "some-new-tf-iam-role"
+  default     = "some-new-tf-iam-role"
 }
 
 variable "iam_policy_name" {
   description = "Default runtime for lambda"
   type        = string
-  default = "some-new-tf-iam-policy-name"
+  default     = "some-new-tf-iam-policy-name"
 }
 
 variable "lambda_handler" {
   description = "Lambda function handler"
   type        = string
-  default = "index.handler"
+  default     = "index.handler"
 }
 
 variable "layer_name" {

@@ -6,7 +6,7 @@ provider "aws" {
 
 locals {
   lambda_src_path = "./lambda"
-  create = var.create
+  create          = var.create
 
   layer_src_path  = "${path.cwd}/source"
   destination_dir = "./layers/${var.layer_name}"
@@ -120,12 +120,12 @@ resource "time_sleep" "wait_20_seconds" {
 
 resource "aws_lambda_function" "payload" {
   count = local.create && var.create_function && !var.create_layer ? 1 : 0
-  
+
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
-   layers = var.layers
+  layers        = var.layers
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
@@ -141,7 +141,7 @@ resource "aws_lambda_function" "payload" {
 
 resource "aws_lambda_layer_version" "lambda_layers" {
   count = local.create && var.create_layer ? 1 : 0
-  
+
   filename   = "${local.destination_dir}/${var.layer_name}-layer.zip"
   layer_name = var.layer_name
 
