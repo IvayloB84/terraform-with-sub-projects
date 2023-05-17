@@ -21,13 +21,24 @@ data "archive_file" "local_archive" {
   ]
 }
 
+resource "time_sleep" "wait_20_seconds" {
+  depends_on = [
+    null_resource.archive
+  ]
+
+  create_duration = "20s"
+}
+
 resource "aws_lambda_layer_version" "lambda_layers" {
+  count = local.create && var.create_layer ? 1 : 0
+
   filename   = "${local.destination_dir}/${var.layer_name}.zip"
   layer_name = var.layer_name
 
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   depends_on = [
-    data.archive_file.local_archive
+    data.archive_file.local_archive,
+    time_sleep.wait_20_seconds
   ]
 }
