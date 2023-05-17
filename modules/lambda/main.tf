@@ -1,5 +1,9 @@
 locals {
   lambda_src_path = "./lambda"
+  create          = var.create
+
+  layer_src_path  = "./source"
+  destination_dir = "${path.module}./layers/${var.layer_name}"
 }
 
 resource "aws_iam_role" "payload" {
