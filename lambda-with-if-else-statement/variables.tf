@@ -61,5 +61,5 @@ variable "lambda_handler" {
 variable "layer_name" {
   description = "Layer for Lambda function"
   type        = string
-  default     = "layer"
+  default     = ""
 }
