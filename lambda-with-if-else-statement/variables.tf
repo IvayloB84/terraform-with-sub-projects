@@ -28,6 +28,18 @@ variable "create_layer" {
   default     = false
 }
 
+variable "layer_name" {
+  description = "Layer for Lambda function"
+  type        = string
+  default     = ""
+}
+
+variable "description" {
+  description = "Layer for Lambda function"
+  type        = string
+  default     = ""
+}
+
 variable "compatible_runtimes" {
   description = "Default runtime for lambda"
   type        = string
@@ -50,10 +62,4 @@ variable "lambda_handler" {
   description = "Lambda function handler"
   type        = string
   default     = "index.handler"
-}
-
-variable "layer_name" {
-  description = "Layer for Lambda function"
-  type        = string
-  default     = ""
 }
