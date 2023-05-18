@@ -9,7 +9,7 @@ locals {
   create          = var.create
 
   layer_src_path  = "./source"
-  destination_dir = "./layers/${var.function_name}"
+//  destination_dir = "./layers/${var.function_name}"
 }
 
 resource "aws_iam_role" "payload" {
@@ -57,7 +57,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.payload.name
-  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
+  policy_arn = "${aws_iam_policy.AWSLambdaBasicExecutionRole}.arn"
 }
 
 resource "null_resource" "archive" {
@@ -79,7 +79,7 @@ resource "null_resource" "archive" {
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
-  output_path = "${var.function_name}-payload.zip"
+  output_path = "${path.module}/payload/${var.function_name}-payload.zip"
   /*   excludes = [
     "*.terraform*",
     "*.tfstate",
@@ -101,10 +101,10 @@ resource "null_resource" "layer_dependencies" {
   }
 }
 
-data "archive_file" "local_archive" {
+data "archive_file" "local_layer" {
   type        = "zip"
   source_dir  = local.layer_src_path
-  output_path = "${path.module}/layers/${var.function_name}.zip"
+  output_path = "${path.module}/layers/${var.layer_name}-layer.zip"
   depends_on = [
     null_resource.layer_dependencies
   ]
@@ -147,11 +147,11 @@ resource "aws_lambda_layer_version" "lambda_layers" {
 
   filename            = "${path.module}/layers/${var.layer_name}-layer.zip"
   layer_name          = var.layer_name
-  source_code_hash    = filebase64sha256("${path.module}/layers/${var.function_name}-layer.zip")
+  source_code_hash    = filebase64sha256("${path.module}/layers/${var.layer_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   depends_on = [
-    data.archive_file.local_archive,
+    data.archive_file.local_layer,
     null_resource.layer_dependencies
   ]
 }
