@@ -119,6 +119,14 @@ resource "aws_lambda_function" "payload" {
 }
 
 resource "null_resource" "layer_dependencies" {
+
+  triggers = {
+ //   dependencies_versions = filemd5("./index.js")
+ //   create_file           = fileexists("./readme.txt")
+    updated_at            = timestamp()
+
+  }
+
   provisioner "local-exec" {
     command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"]
