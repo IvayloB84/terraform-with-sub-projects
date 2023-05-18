@@ -9,7 +9,7 @@ locals {
   create          = var.create
 
   layer_src_path  = "./source"
-  destination_dir = "${path.module}/layers/${var.function_name}"
+  destination_dir = "./layers/${var.function_name}"
 }
 
 resource "aws_iam_role" "payload" {
@@ -126,7 +126,7 @@ resource "aws_lambda_function" "payload" {
   description   = var.description
   role          = aws_iam_role.payload.arn
   layers        = [
-    aws_lambda_layer_version.lambda_layers_arn
+    aws_lambda_layer_version.lambda_layers_arn,
   ]
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
