@@ -126,7 +126,7 @@ resource "aws_lambda_function" "payload" {
   description   = var.description
   role          = aws_iam_role.payload.arn
   layers        = [
-    lambda_layer_version.lambda_layers_arn
+    aws_lambda_layer_version.lambda_layers_arn
   ]
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
