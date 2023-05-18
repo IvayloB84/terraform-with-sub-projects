@@ -10,6 +10,12 @@ variable "create_function" {
   default     = true
 }
 
+variable "function_name" {
+  description = "The function ARN of the Lambda function for which you want to create an alias."
+  type        = string
+  default     = "TF-if-else-statement"
+}
+
 variable "layers" {
   description = "List of Lambda Layer Version ARNs (maximum of 5) to attach to your Lambda Function."
   type        = list(string)
@@ -20,18 +26,6 @@ variable "create_layer" {
   description = "Controls whether Lambda Layer resource should be created"
   type        = bool
   default     = false
-}
-
-variable "function_name" {
-  description = "The function ARN of the Lambda function for which you want to create an alias."
-  type        = string
-  default     = "TF-if-else-statement"
-}
-
-variable "description" {
-  description = "The function ARN of the Lambda function for which you want to create an alias."
-  type        = string
-  default     = "If else statement test"
 }
 
 variable "compatible_runtimes" {

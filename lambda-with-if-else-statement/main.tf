@@ -6,7 +6,6 @@ provider "aws" {
 
 locals {
   lambda_src_path = "./lambda"
-  create          = var.create
 
   layer_src_path  = "./source"
 //  destination_dir = "./layers/${var.function_name}"
@@ -95,7 +94,7 @@ data "archive_file" "payload_zip" {
 }
 
 resource "aws_lambda_function" "payload" {
-  count = local.create && var.create_function && !var.create_layer ? 1 : 0
+  count = var.create && var.create_function && !var.create_layer ? 1 : 0
 
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
@@ -151,7 +150,7 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
-  count = local.create && var.create_layer ? 1 : 0
+  count = var.create && var.create_layer ? 1 : 0
 
   filename            = "./${var.layer_name}-layer.zip"
   layer_name          = var.layer_name
