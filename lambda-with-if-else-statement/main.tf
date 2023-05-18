@@ -57,7 +57,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.payload.name
-  policy_arn = "${aws_iam_policy.AWSLambdaBasicExecutionRole}.arn"
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
 resource "null_resource" "archive" {
@@ -104,7 +104,7 @@ resource "null_resource" "layer_dependencies" {
 data "archive_file" "local_layer" {
   type        = "zip"
   source_dir  = local.layer_src_path
-  output_path = "${path.module}/layers/${var.layer_name}-layer.zip"
+  output_path = "./layers/${var.layer_name}-layer.zip"
   depends_on = [
     null_resource.layer_dependencies
   ]
