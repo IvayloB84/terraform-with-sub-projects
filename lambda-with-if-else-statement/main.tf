@@ -79,7 +79,7 @@ resource "null_resource" "archive" {
 data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
-  output_path = "${path.module}/payload/${var.function_name}-payload.zip"
+  output_path = "./${var.function_name}-payload.zip"
   /*   excludes = [
     "*.terraform*",
     "*.tfstate",
@@ -92,30 +92,6 @@ data "archive_file" "payload_zip" {
   depends_on = [
     null_resource.archive
   ]
-}
-
-resource "null_resource" "layer_dependencies" {
-  provisioner "local-exec" {
-    command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
-    interpreter = ["/bin/bash", "-c"]
-  }
-}
-
-data "archive_file" "local_layer" {
-  type        = "zip"
-  source_dir  = local.layer_src_path
-  output_path = "${local.layer_src_path}/${var.layer_name}-layer.zip"
-  depends_on = [
-    null_resource.layer_dependencies,
-  ]
-}
-
-resource "time_sleep" "wait_20_seconds" {
-  depends_on = [
-    null_resource.archive
-  ]
-
-  create_duration = "20s"
 }
 
 resource "aws_lambda_function" "payload" {
@@ -140,6 +116,30 @@ resource "aws_lambda_function" "payload" {
 
   source_code_hash = data.archive_file.payload_zip.output_base64sha256
   publish          = true
+}
+
+resource "null_resource" "layer_dependencies" {
+  provisioner "local-exec" {
+    command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
+    interpreter = ["/bin/bash", "-c"]
+  }
+}
+
+data "archive_file" "local_layer" {
+  type        = "zip"
+  source_dir  = local.layer_src_path
+  output_path = "${local.layer_src_path}/${var.layer_name}-layer.zip"
+  depends_on = [
+    null_resource.layer_dependencies,
+  ]
+}
+
+resource "time_sleep" "wait_20_seconds" {
+  depends_on = [
+    null_resource.archive
+  ]
+
+  create_duration = "20s"
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
