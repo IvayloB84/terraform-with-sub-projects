@@ -102,7 +102,7 @@ resource "aws_lambda_function" "payload" {
   description   = var.description
   role          = aws_iam_role.payload.arn
   layers        = [
-    aws_lambda_layer_version.lambda_layers[count.index].arn,
+    aws_lambda_layer_version.lambda_layers.arn,
   ]
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
@@ -128,7 +128,7 @@ resource "null_resource" "layer_dependencies" {
 data "archive_file" "local_layer" {
   type        = "zip"
   source_dir  = local.layer_src_path
-  output_path = "${local.layer_src_path}/${var.layer_name}-layer.zip"
+  output_path = "./${var.layer_name}-layer.zip"
   depends_on = [
     null_resource.layer_dependencies,
   ]
@@ -145,9 +145,9 @@ resource "time_sleep" "wait_20_seconds" {
 resource "aws_lambda_layer_version" "lambda_layers" {
   count = local.create && var.create_layer ? 1 : 0
 
-  filename            = "./layers/${var.layer_name}-layer.zip"
+  filename            = "./${var.layer_name}-layer.zip"
   layer_name          = var.layer_name
-  source_code_hash    = filebase64sha256("./layers/${var.layer_name}-layer.zip")
+  source_code_hash    = filebase64sha256("./${var.layer_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   depends_on = [
