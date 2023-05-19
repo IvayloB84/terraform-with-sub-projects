@@ -100,7 +100,7 @@ resource "aws_lambda_function" "payload" {
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
-  layers        = var.layer_name
+  layers        = var.layers
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
@@ -151,7 +151,7 @@ resource "aws_lambda_layer_version" "lambda_layers" {
   count = var.create && var.create_layer && !var.create_function ? 1 : 0
 
   filename            = "./${var.layer_name}-layer.zip"
-  layer_name          = var.layer_name
+  layer_name          = var.layers
   source_code_hash    = filebase64sha256("./${var.layer_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
