@@ -101,7 +101,7 @@ resource "aws_lambda_function" "payload" {
   description   = var.description
   role          = aws_iam_role.payload.arn
  // layers        = var.layers
-  layers = [var.layer_name]
+  layers = ["${var.layer_name}.arn"]
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
