@@ -50,6 +50,8 @@ resource "aws_lambda_layer_version" "lambda_layers" {
   source_code_hash    = filebase64sha256("${path.module}/layers/${var.function_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
+  skip_destroy = true
+
   depends_on = [
     data.archive_file.local_archive,
     time_sleep.wait_20_seconds
