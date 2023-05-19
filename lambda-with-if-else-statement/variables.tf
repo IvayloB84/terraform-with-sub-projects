@@ -37,7 +37,7 @@ variable "layer_name" {
 variable "description" {
   description = "Layer for Lambda function"
   type        = string
-  default     = ""
+  default     = "TF test lambda with layer"
 }
 
 variable "compatible_runtimes" {
