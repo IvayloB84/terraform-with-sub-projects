@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 locals {
 
   lambda_src_path = "./lambda"
-  create          = var.create
+//  create          = var.create
   
   layer_src_path  = "./source"
   destination_dir = "${path.module}/layers/${var.layer_name}"
@@ -42,7 +42,7 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
-  count = local.create && var.create_layer ? 1 : 0
+  count = var.create && var.create_layer ? 1 : 0
 
   //  filename   = "${local.destination_dir}/${var.layer_name}.zip"
   filename            = "${path.module}/layers/${var.layer_name}-layer.zip"
