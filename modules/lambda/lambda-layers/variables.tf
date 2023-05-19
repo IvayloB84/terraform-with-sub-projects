@@ -4,16 +4,16 @@ variable "create" {
   default     = true
 }
 
-variable "create_function" {
-  description = "Controls whether Lambda Function resource should be created"
+variable "create_layer" {
+  description = "Controls whether Lambda Layer resource should be created"
   type        = bool
   default     = true
 }
 
-variable "create_layer" {
-  description = "Controls whether Lambda Layer resource should be created"
+variable "create_function" {
+  description = "Controls whether Lambda Function resource should be created"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "layer_name" {
