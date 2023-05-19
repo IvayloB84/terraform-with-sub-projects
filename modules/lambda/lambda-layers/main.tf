@@ -45,9 +45,9 @@ resource "aws_lambda_layer_version" "lambda_layers" {
   count = var.create && var.create_layer ? 1 : 0
 
   //  filename   = "${local.destination_dir}/${var.layer_name}.zip"
-  filename            = "${path.module}/layers/${var.layer_name}-layer.zip"
+  filename            = "${local.destination_dir}/${var.layer_name}-layer.zip"
   layer_name          = var.layer_name
-  source_code_hash    = filebase64sha256("${path.module}/layers/${var.layer_name}-layer.zip")
+  source_code_hash    = filebase64sha256("${local.destination_dir}/${var.layer_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   skip_destroy = true 
