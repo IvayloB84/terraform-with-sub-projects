@@ -100,7 +100,7 @@ resource "aws_lambda_function" "payload" {
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
-  layers        = var.layers
+  layers        = var.layer_name
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
