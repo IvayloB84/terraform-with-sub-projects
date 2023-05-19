@@ -148,10 +148,10 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
-  count = var.create && var.create_layer ? 1 : 0
+  count = var.create && var.create_layer ? 0 : 1
 
   filename            = "./${var.layer_name}-layer.zip"
-  layer_name          = try(var.layer_name[0], null)
+  layer_name          = var.layer_name
   source_code_hash    = filebase64sha256("./${var.layer_name}-layer.zip")
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
