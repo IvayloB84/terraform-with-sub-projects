@@ -13,7 +13,7 @@ resource "null_resource" "layer_dependencies" {
 
     triggers = {
     dependencies_versions = filemd5("./index.js")
-/*     create_file           = fileexists("./readme.txt") */
+    create_file           = fileexists("./readme.txt")
     updated_at            = timestamp() 
 
   }
