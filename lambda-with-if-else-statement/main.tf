@@ -148,7 +148,7 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
-  count = var.create && var.create_layer ? 0 : 1
+  count = var.create && var.create_layer ? 1 : 0
 
   filename            = "./${var.layer_name}-layer.zip"
   layer_name          = try(var.layer_name[0], null)
