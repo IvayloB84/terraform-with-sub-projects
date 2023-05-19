@@ -49,7 +49,7 @@ resource "aws_lambda_layer_version" "lambda_layers" {
   source_code_hash    = data.archive_file.local_archive.output_base64sha256
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
-  publish          = true
+  skip_destroy          = true
 
   depends_on = [
     data.archive_file.local_archive,
