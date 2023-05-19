@@ -3,18 +3,18 @@ data "aws_caller_identity" "current" {}
 locals {
 
   lambda_src_path = "./lambda"
-//  create          = var.create
-  
+  //  create          = var.create
+
   layer_src_path  = "./source"
   destination_dir = "${path.module}/layers/${var.layer_name}"
 }
 
 resource "null_resource" "layer_dependencies" {
 
-    triggers = {
+  triggers = {
     dependencies_versions = filemd5("./index.js")
     create_file           = fileexists("./readme.txt")
-    updated_at            = timestamp() 
+    updated_at            = timestamp()
 
   }
 
@@ -46,10 +46,10 @@ resource "aws_lambda_layer_version" "lambda_layers" {
 
   //  filename   = "${local.destination_dir}/${var.layer_name}.zip"
   //filename            = "${local.destination_dir}/${var.layer_name}-layer.zip"
-  filename = data.archive_file.local_archive.output_path
-  layer_name          = var.layer_name
+  filename   = data.archive_file.local_archive.output_path
+  layer_name = var.layer_name
   // source_code_hash    = filebase64sha256("${local.destination_dir}/${var.layer_name}-layer.zip")
-  source_code_hash = data.archive_file.local_archive.output_base64sha256
+  source_code_hash    = data.archive_file.local_archive.output_base64sha256
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
 
   depends_on = [
