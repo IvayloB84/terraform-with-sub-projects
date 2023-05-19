@@ -31,7 +31,7 @@ variable "create_layer" {
 variable "layer_name" {
   description = "Layer for Lambda function"
   type        = string
-  default     = ""
+  default     = "tf-lambda-new-layer-name"
 }
 
 variable "description" {
