@@ -94,7 +94,7 @@ data "archive_file" "payload_zip" {
 }
 
 resource "aws_lambda_function" "payload" {
-  count = var.create && var.create_function && !var.create_layer ? 1 : 0
+  count = var.create && var.create_function ? 1 : 0
 
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
