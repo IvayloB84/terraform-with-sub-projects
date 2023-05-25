@@ -6,5 +6,5 @@ exports.handler = async (event, context) => {
     console.log('value2 =', event.key2);     
     console.log('value3 =', event.key3);
     return event.key1;  //Echo back the first key value
-    // throw new Error('New update of the lambda layer with function +++');
+    // throw new Error('New update of the lambda layer with function');
 };
