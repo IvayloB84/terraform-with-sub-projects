@@ -25,7 +25,7 @@ variable "layers" {
 variable "create_layer" {
   description = "Controls whether Lambda Layer resource should be created"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "layer_name" {
