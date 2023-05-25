@@ -125,9 +125,8 @@ resource "null_resource" "layer_dependencies" {
   }
 
   provisioner "local-exec" {
-/*     command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
-    interpreter = ["/bin/bash", "-c"] */
-    command = templatefile("./create_layer.sh", "#!/bin/bash")
+    command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
+    interpreter = ["/bin/bash", "-c"]
   }
 }
 
@@ -149,7 +148,7 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
-  count = var.create_layer && var.create ? 1 : 0
+  count = var.create_layer && var.create != data.archive_file.local_layer ? 1 : 0
 /*  count = var.create && var.create_layer ? 0 : 1 */
 
   filename            = "./${var.layer_name}-layer.zip"
