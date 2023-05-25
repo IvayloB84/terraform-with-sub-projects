@@ -162,4 +162,4 @@ resource "aws_lambda_layer_version" "lambda_layers" {
     data.archive_file.local_layer,
     null_resource.layer_dependencies
   ]
-}
+}    
