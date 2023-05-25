@@ -127,7 +127,7 @@ resource "null_resource" "layer_dependencies" {
   provisioner "local-exec" {
 /*     command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"] */
-    command = templatefile("./create_layer.sh")
+    command = templatefile("./create_layer.sh", "#!/bin/bash")
   }
 }
 
