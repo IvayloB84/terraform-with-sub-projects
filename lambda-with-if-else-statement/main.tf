@@ -118,11 +118,11 @@ resource "aws_lambda_function" "payload" {
 
 resource "null_resource" "layer_dependencies" {   
 
-  triggers = {
+ // triggers = {
  //   dependencies_versions = filemd5("./index.js")
  //   create_file           = fileexists("./readme.txt")
  //   updated_at            = timestamp()
-  archive_file = md5("./")
+ // archive_file = md5("./")
 
   }
 
@@ -130,7 +130,15 @@ resource "null_resource" "layer_dependencies" {
     command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"]
   }
-}
+
+    triggers = {
+ //   dependencies_versions = filemd5("./index.js")
+ //   create_file           = fileexists("./readme.txt")
+ //   updated_at            = timestamp()
+  archive_file = md5("./source")
+
+  }
+//}
 
 data "archive_file" "local_layer" {
   type        = "zip"
