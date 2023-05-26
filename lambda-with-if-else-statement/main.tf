@@ -116,7 +116,7 @@ resource "aws_lambda_function" "payload" {
   publish          = true
 }
 
-resource "null_resource" "layer_dependencies" {
+resource "null_resource" "layer_dependencies" {   
 
   triggers = {
  //   dependencies_versions = filemd5("./index.js")
