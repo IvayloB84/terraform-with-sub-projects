@@ -77,7 +77,7 @@ resource "null_resource" "archive" {
 }
 
 data "archive_file" "payload_zip" { 
-  count = null_resource.archive != data.archive_file.payload_zip ? 1 : 0
+  count = null_resource.archive != data.archive_file.payload_zip[0] ? 1 : 0
   type        = "zip"
   source_dir  = local.lambda_src_path
   output_path = "./${var.function_name}-payload.zip"
