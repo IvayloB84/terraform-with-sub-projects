@@ -124,7 +124,7 @@ resource "null_resource" "layer_dependencies" {
  //   updated_at            = timestamp()
  // archive_file = md5("./")
 
-  }
+ // }
 
   provisioner "local-exec" {
     command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
@@ -138,7 +138,7 @@ resource "null_resource" "layer_dependencies" {
   archive_file = md5("./source")
 
   }
-//}
+}
 
 data "archive_file" "local_layer" {
   type        = "zip"
