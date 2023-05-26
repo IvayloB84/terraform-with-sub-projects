@@ -127,7 +127,7 @@ resource "null_resource" "layer_dependencies" {
  //   dependencies_versions = filemd5("./index.js")
  //   create_file           = fileexists("./readme.txt")
  //   updated_at            = timestamp()
-  archive_file = md5("${var.function_name}-payload.zip")
+  archive_file = md5("${var.function_name}-layer.zip")
 
   }
 }
