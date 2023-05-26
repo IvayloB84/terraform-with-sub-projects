@@ -62,9 +62,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 resource "null_resource" "archive" {
 
   triggers = {
-    dependencies_versions = filemd5("./index.js")
+/*     dependencies_versions = filemd5("./index.js")
     create_file           = fileexists("./readme.txt")
-    updated_at            = timestamp()
+    updated_at            = timestamp() */
+    archive_file = md5("./lambda")
 
   }
 
