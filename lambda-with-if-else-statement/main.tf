@@ -63,7 +63,7 @@ resource "null_resource" "archive" {
 
   provisioner "local-exec" {
 
-    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.sh','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   }
 
@@ -119,7 +119,7 @@ resource "aws_lambda_function" "payload" {
 resource "null_resource" "layer_dependencies" {   
 
   provisioner "local-exec" {
-    command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
+    command     = "mkdir -p ./source/nodejs/ && rsync -av --exclude={'*.tf','*.sh','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./source/nodejs/ && cd ./source/nodejs/ && npm install --legacy-peer-deps && cd -"
     interpreter = ["/bin/bash", "-c"]
   }
 
