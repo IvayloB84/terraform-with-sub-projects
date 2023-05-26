@@ -61,18 +61,18 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 resource "null_resource" "archive" {
 
-  triggers = {
+  provisioner "local-exec" {
+
+    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+    interpreter = ["/bin/bash", "-c"]
+  }
+
+    triggers = {
 /*     dependencies_versions = filemd5("./index.js")
     create_file           = fileexists("./readme.txt")
     updated_at            = timestamp() */
     archive_file = md5("./lambda")
 
-  }
-
-  provisioner "local-exec" {
-
-    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
-    interpreter = ["/bin/bash", "-c"]
   }
 }
 
@@ -135,7 +135,7 @@ resource "null_resource" "layer_dependencies" {
  //   dependencies_versions = filemd5("./index.js")
  //   create_file           = fileexists("./readme.txt")
  //   updated_at            = timestamp()
-  archive_file = md5("./source")
+  archive_file = md5("./source/nodejs/node_modules")
 
   }
 }
