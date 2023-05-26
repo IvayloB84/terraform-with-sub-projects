@@ -58,7 +58,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.payload.name
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
-             
+
 resource "null_resource" "archive" {
 
   provisioner "local-exec" {
@@ -71,7 +71,7 @@ resource "null_resource" "archive" {
 /*     dependencies_versions = filemd5("./index.js")
     create_file           = fileexists("./readme.txt")
     updated_at            = timestamp() */
-    archive_file = md5("${var.function_name}-payload.zip")
+     archive_file = md5("${var.function_name}-payload.zip")
 
   }
 }
@@ -135,7 +135,7 @@ resource "null_resource" "layer_dependencies" {
  //   dependencies_versions = filemd5("./index.js")
  //   create_file           = fileexists("./readme.txt")
  //   updated_at            = timestamp()
-  archive_file = md5("./source/nodejs/node_modules")
+  archive_file = md5("${var.layer_name}-layer.zip")
 
   }
 }
