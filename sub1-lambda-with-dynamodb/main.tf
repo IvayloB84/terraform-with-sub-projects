@@ -71,7 +71,7 @@ resource "aws_lambda_function" "tf-lambda-with-dynamodb" {
   function_name    = "tf-lambda-with-dynamodb"
   filename         = data.archive_file.lambda_zip_file.output_path
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
-  handler          = "handler.handler"
+  handler          = "index.handler"
   role             = aws_iam_role.new_role_for_tf.arn
   runtime          = "python3.8"
 
