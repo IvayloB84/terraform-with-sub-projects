@@ -23,7 +23,7 @@ resource "aws_iam_role" "new_role_for_tf" {
 EOF
 }
 
-resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
+resource "aws_iam_role_policy" "dynamodb_read_log_policy-tf" {
   name   = "lambda-dynamodb-tf-log-policy"
   role   = aws_iam_role.new_role_for_tf.id
   policy = <<EOF
@@ -81,19 +81,8 @@ resource "aws_lambda_function" "tf-lambda-with-dynamodb" {
 }
 
 data "archive_file" "lambda_zip_file" {
-  output_path = "${path.module}/lambda_zip/lambda.zip"
-  source_dir  = "${path.module}/../lambda"
+  output_path = "./lambda.zip"
+  source_dir  = "./lambda"
   excludes    = ["__init__.py", "*.pyc"]
   type        = "zip"
 }
-/*
- module "lambda" {
-  source = "../modules/lambda"
-
-  iam_role_name       = "tf-lambda-iam-role-sub1"
-  iam_policy_name     = "tf-lambda-policy-sub1"
-  function_name       = "tf-lambda-sub1"
-  lambda_handler      = "index.handler"
-  compatible_runtimes = "nodejs14.x"
-  dir                 = "sub1"
-} */
