@@ -46,8 +46,8 @@ resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
                     "dynamodb:ListStreams" ],
         "Effect": "Allow",
         "Resource": [
-          "${aws_dynamodb_table.dynamodb_table.arn}",
-          "${aws_dynamodb_table.dynamodb_table.arn}/*"
+          "${aws_dynamodb_table.basic-db-table.arn}",
+          "${aws_dynamodb_table.basic-db-table.arn}/*"
         ]
     }
   ]
