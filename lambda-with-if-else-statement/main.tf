@@ -4,9 +4,9 @@ provider "aws" {
   region = "us-west-2"
 }
 
-/* locals {
+ locals {
   lambda_src_path = "./lambda"
-
+/*
   layer_src_path  = "./source"
 //  destination_dir = "./layers/${var.function_name}"
 }
