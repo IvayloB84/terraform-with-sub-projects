@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 provider "aws" {
-  region = "us-west-2"
+  region = "us-west-2"   
 }
 
 resource "aws_iam_role" "new_role_for_tf" {
