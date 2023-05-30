@@ -24,7 +24,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
-  name   = "lambda-dynamodb-log-policy"
+  name   = "lambda-dynamodb-tf-log-policy"
   role   = aws_iam_role.new_role_for_tf.id
   policy = <<EOF
 {
@@ -39,8 +39,7 @@ resource "aws_iam_role_policy" "dynamodb_read_log_policy" {
         "Action": [ "dynamodb:BatchGetItem",
                     "dynamodb:GetItem",
                     "dynamodb:GetRecords",
-                    "dynamodb:Scan", We will have the recores inside of the lambda function in event `object`. We can also configure the stream to capture additional data such as "before" and "after" images of modified items.
-                    "dynamodb:Query",
+                    "dynamodb:Scan",
                     "dynamodb:GetShardIterator",
                     "dynamodb:DescribeStream",
                     "dynamodb:ListStreams" ],
