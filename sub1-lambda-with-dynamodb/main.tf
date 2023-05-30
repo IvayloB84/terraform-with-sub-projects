@@ -16,7 +16,7 @@ resource "aws_dynamodb_table" "basic-db-table" {
       type = "S"
     }
 }
-/*
+
 resource "aws_lambda_function" "tf-lambda-with-dynamodb" {
   function_name    = "tf-lambda-with-dynamodb"
   filename         = data.archive_file.lambda_zip_file.output_path
@@ -36,7 +36,7 @@ data "archive_file" "lambda_zip_file" {
   excludes    = ["__init__.py", "*.pyc"]
   type        = "zip"
 }
-
+/*
  module "lambda" {
   source = "../modules/lambda"
 
