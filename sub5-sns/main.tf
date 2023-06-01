@@ -1,10 +1,11 @@
+data "aws_caller_identity" "current" {}
+
 ## Default AZ (Availability Zone) for the resources
 provider "aws" {
   region = "us-west-2"
 }
 
-data "aws_caller_identity" "current" {}
-
+/*
 ## SNS basic configuration with name and display name.
 module "sns" {
   source = "../modules/sns"
@@ -13,3 +14,8 @@ module "sns" {
 //  dispay_name = "TF-topic"
 //  dir         = "sub5-sns"
 } 
+*/
+
+resource "aws_sns_topic" "tf-sns-topic" {
+  name = "tf-sns-topic"
+}
