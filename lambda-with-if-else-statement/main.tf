@@ -79,13 +79,11 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   }
 } 
 
-/*
 resource "aws_lambda_event_source_mapping" "tf-source" {
   event_source_arn  = aws_dynamodb_table.basic-db-table.stream_arn
   function_name     = aws_lambda_function.payload.arn
   starting_position = "LATEST"
 }
-*/
 
 resource "null_resource" "archive" {
 
