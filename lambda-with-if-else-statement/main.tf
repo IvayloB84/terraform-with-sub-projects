@@ -66,6 +66,29 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
+resource "aws_sqs_queue" "terraform_queue" {
+  name                      = "terraform-example-queue"
+  delay_seconds             = 90
+  max_message_size          = 2048
+  message_retention_seconds = 86400
+  receive_wait_time_seconds = 10
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.terraform_queue_deadletter.arn
+    maxReceiveCount     = 4
+  })
+
+  tags = {
+    Environment = "production"
+  }
+}
+
+resource "aws_lambda_event_source_mapping" "example" {
+  event_source_arn = aws_sqs_queue.sqs_queue_test.arn
+  function_name    = aws_lambda_function.example.arn
+}
+
+/*
+
  resource "aws_dynamodb_table" "basic-db-table" {
   name             = "tf-dynamodb"
   billing_mode     = "PAY_PER_REQUEST"
@@ -84,6 +107,7 @@ resource "aws_lambda_event_source_mapping" "tf-source" {
   function_name     = aws_lambda_function.payload.arn
   starting_position = "LATEST"
 }
+*/
 
 resource "null_resource" "archive" {
 
