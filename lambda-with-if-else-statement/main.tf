@@ -68,7 +68,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
  resource "aws_dynamodb_table" "basic-db-table" {
   name             = "tf-dynamodb"
-  billing_mode     = "PAY_PER_REQUEST"
+/*   billing_mode     = "PAY_PER_REQUEST"
   hash_key         = "Id"
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
@@ -76,7 +76,7 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   attribute {
     name = "Id"
     type = "S"
-  }
+  } */
 } 
 
 resource "aws_lambda_event_source_mapping" "tf-source" {
