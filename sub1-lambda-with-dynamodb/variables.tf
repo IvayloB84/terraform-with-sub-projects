@@ -1,7 +1,6 @@
 variable "basic-db-table" {
   type = bool
   default = true 
-  name = "tf-dynamodb"
 }
 
 /* variable "name" {
