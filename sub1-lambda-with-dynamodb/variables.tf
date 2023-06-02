@@ -1,6 +1,6 @@
 variable "basic-db-table" {
   type = bool
-  default = true 
+  default = false 
 }
 
 /* variable "name" {
