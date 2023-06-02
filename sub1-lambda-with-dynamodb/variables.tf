@@ -4,4 +4,5 @@ variable "basic-db-table" {
 
 variable "name" {
   type = string 
+  default = "tf-dynamodb"
 }
