@@ -4,6 +4,10 @@ provider "aws" {
   region = "us-west-2"   
 }
 
+locals {
+  resource_name = element(coalescelist(data.aws_dynamodb_table.basic-db-table.*.name, aws_dynamodb_table.basic-db-table.*.name, [""]), 0)
+}
+
 resource "aws_iam_role" "new_role_for_tf" {
   name = "tf-lambda-dynamodb-role"
     assume_role_policy = <<EOF
@@ -54,8 +58,14 @@ resource "aws_iam_role_policy" "dynamodb_read_log_policy-tf" {
 EOF
 }
 
+data "aws_dynamodb_table" "basic-db-table" {
+  count = var.basic-db-table == false ? 1 : 0
+  name = var.basic-db-table 
+}
+
 resource "aws_dynamodb_table" "basic-db-table" {
-    name = "tf-dynamodb"
+  count = var.basic-db-table ? 1 : 0
+    name = var.name
     billing_mode = "PAY_PER_REQUEST"
     hash_key = "Id"
     stream_enabled   = true
