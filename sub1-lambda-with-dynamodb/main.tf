@@ -60,12 +60,12 @@ EOF
 
 data "aws_dynamodb_table" "basic-db-table" {
   count = var.basic-db-table == false ? 1 : 0
-  name = var.basic-db-table 
+    name = var.basic-db-table 
 }
 
 resource "aws_dynamodb_table" "basic-db-table" {
   count = var.basic-db-table ? 1 : 0
-    name = var.name
+    name = var.basic-db-table
     billing_mode = "PAY_PER_REQUEST"
     hash_key = "Id"
     stream_enabled   = true

@@ -3,7 +3,7 @@ variable "basic-db-table" {
   default = true 
 }
 
-variable "name" {
+/* variable "name" {
   type = string 
   default = "tf-dynamodb"
-}
+} */
