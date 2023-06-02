@@ -12,6 +12,65 @@ resource "aws_sns_topic" "user_updates" {
   name = "tf-sns-topic"
 }
 
+resource "aws_iam_role" "payload" {
+  name = var.iam_role_name
+
+  assume_role_policy = <<EOF
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "lambda.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
+
+  name        = var.iam_policy_name
+  path        = "/"
+  description = "AWS IAM Policy for managing aws lambda role"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:ListStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:dynamodb:*:*:*"
+    },
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:logs:*:*:*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
+  role       = aws_iam_role.payload.name
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
+}
+
+
 resource "aws_lambda_event_source_mapping" "tf-source" {
   event_source_arn  = aws_sns_topic.user_updates.arn
   function_name     = aws_lambda_function.TF-if-else-statement.arn
