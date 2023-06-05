@@ -95,18 +95,17 @@ resource "null_resource" "archive" {
     command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.sh','*.tfstate*','*./*','*terraform*','lambda/','*.zip','source/'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   }
-}
 
-data "archive_file" "payload_zip" {
-
-    triggers = {
+  triggers = {
     /*     dependencies_versions = filemd5("./index.js")
     create_file           = fileexists("./readme.txt")
     updated_at            = timestamp() */
-    archive_file = md5("${var.function_name}-payload.zip")
+    archive_file = "${sha256("${var.function_name}-payload.zip")}"
 
   }
-  
+}
+
+data "archive_file" "payload_zip" {
   type        = "zip"
   source_dir  = local.lambda_src_path
   output_path = "./${var.function_name}-payload.zip"
