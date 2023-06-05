@@ -41,7 +41,6 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_layer_version" "lambda_layers" {
-//  count = var.create && var.create_layer ? 1 : 0
 
   filename   = data.archive_file.local_archive.output_path
   layer_name = var.layer_name
