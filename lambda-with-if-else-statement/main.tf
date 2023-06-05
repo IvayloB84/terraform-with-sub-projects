@@ -100,7 +100,7 @@ resource "null_resource" "archive" {
     /*     dependencies_versions = filemd5("./index.js")
     create_file           = fileexists("./readme.txt")
     updated_at            = timestamp() */
-    archive_file = "${sha256("${var.function_name}-payload.zip")}"
+    archive_file = "${md5sum("${var.function_name}-payload.zip")}"
 
   }
 }
