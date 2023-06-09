@@ -5,7 +5,7 @@ provider "aws" {
 module "lambda-layer" {
   source = "../modules/lambda/lambda-layers"
 
-  layer_name    = "sub3-lambda-with-layer"
-  function_name = "tf-lambda-sub3"
-  description   = "Lambda function + layer created with Terraform"
+  for_each = toset(["dev", "staging", "prod"])
+  function_name = "sub3-with-version:${each.value}"
+  description   = "Lambda function + version"
 }
