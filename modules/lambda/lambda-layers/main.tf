@@ -35,7 +35,7 @@ data "archive_file" "local_archive" {
 resource "aws_lambda_layer_version" "lambda_layers" {
   
   for_each = toset(["dev", "staging", "prod"])
-  filename   = "{data.archive_file.local_archive.output_path}:${each.value}"
+  filename   = "${data.archive_file.local_archive.output_path}:${each.value}"
   layer_name = var.layer_name
   source_code_hash    = data.archive_file.local_archive.output_base64sha256
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
