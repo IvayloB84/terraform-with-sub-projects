@@ -5,7 +5,6 @@ provider "aws" {
 module "lambda-layer" {
   source = "../modules/lambda/lambda-layers"
 
-  for_each = toset(["dev", "staging", "prod"])
-  function_name = "sub3-with-version:${each.value}"
+  function_name = "sub3-with-version"
   description   = "Lambda function + version"
 }

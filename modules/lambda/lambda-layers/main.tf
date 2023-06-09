@@ -32,17 +32,10 @@ data "archive_file" "local_archive" {
   ]
 }
 
-resource "time_sleep" "wait_20_seconds" {
-  depends_on = [
-    null_resource.layer_dependencies
-  ]
-
-  create_duration = "20s"
-}
-
 resource "aws_lambda_layer_version" "lambda_layers" {
-
-  filename   = data.archive_file.local_archive.output_path
+  
+  for_each = toset(["dev", "staging", "prod"])
+  filename   = "{data.archive_file.local_archive.output_path}:${each.value}"
   layer_name = var.layer_name
   source_code_hash    = data.archive_file.local_archive.output_base64sha256
   compatible_runtimes = ["nodejs14.x", "nodejs16.x"]
@@ -51,6 +44,5 @@ resource "aws_lambda_layer_version" "lambda_layers" {
 
   depends_on = [
     data.archive_file.local_archive,
-    time_sleep.wait_20_seconds
   ]
 }
