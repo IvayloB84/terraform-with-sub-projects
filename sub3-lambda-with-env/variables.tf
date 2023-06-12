@@ -42,5 +42,9 @@ variable "lambda_handler" {
 
  variable "env_names" {
    type = map(string)
-    default = ["staging", "dev", "prod"]
+    default = {
+      key1= "staging"
+      key2 = "dev"
+      key3 = "prod"
    }
+ }
