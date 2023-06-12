@@ -43,12 +43,5 @@ variable "lambda_handler" {
 
  variable "env_names" {
    type = list(string)
-
-   default = [
-    {
-      staging = "staging"
-     development = "dev"
-     production = "prod"
+    default = ["staging", "dev", "prod"]
    }
-   ]
- }
