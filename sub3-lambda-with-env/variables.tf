@@ -40,8 +40,7 @@ variable "lambda_handler" {
   default = "index.handler"
 }
 
-
  variable "env_names" {
-   type = list(string)
+   type = map(string)
     default = ["staging", "dev", "prod"]
    }
