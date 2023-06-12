@@ -42,7 +42,7 @@ variable "lambda_handler" {
 
 
  variable "env_names" {
-   type = map(string)
+   type = list(string)
 
    default = {
       staging = "staging"
