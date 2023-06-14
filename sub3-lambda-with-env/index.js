@@ -3,7 +3,7 @@ exports.handler = (event, context, callback) => {
 
   const date1 = moment(event["queryStringParameters"]["date1"].split('-'));
   const date2 = moment(event["queryStringParameters"]["date2"].split('-'));
-//Commented on 19.05.22
+//Commented on 14.06.2023
     const diff = date2.diff(date1, 'days');
 
   var response = {
