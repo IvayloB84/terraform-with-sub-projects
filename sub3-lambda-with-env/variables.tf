@@ -8,6 +8,12 @@ variable "function_name" {
   default = "sub3-with-env"  
 }
 
+variable "function_version" {
+  description = "Lambda function version for which you are creating the alias. Pattern: ($LATEST|[0-9]+)."
+  type        = string
+  default     = ""
+}
+
 variable "description" {
   type = string
   default = "Lambda function + environment"
