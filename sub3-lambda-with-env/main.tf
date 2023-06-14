@@ -126,7 +126,8 @@ data "aws_lambda_alias" "production" {
 }
 
 resource "aws_lambda_alias" "test_lambda_alias" {
-  name             = "${var.env_names}"
+  for_each = var.env_names
+  name             = each.value
   description      = "a sample description"
   function_name    = aws_lambda_function.payload.arn
   function_version = "1"
