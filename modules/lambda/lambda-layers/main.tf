@@ -3,7 +3,6 @@ data "aws_caller_identity" "current" {}
 locals {
 
   lambda_src_path = "./lambda"
-  //  create          = var.create
 
   layer_src_path  = "./source"
   destination_dir = "${path.module}/layers/${var.layer_name}"

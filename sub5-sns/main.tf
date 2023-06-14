@@ -5,17 +5,6 @@ provider "aws" {
   region = "us-west-2"
 }
 
-/*
-## SNS basic configuration with name and display name.
-module "sns" {
-  source = "../modules/sns"
-                           
-  name        = "sub5-sns"
-//  dispay_name = "TF-topic"
-//  dir         = "sub5-sns"
-} 
-*/
-
 resource "aws_sns_topic" "tf-sns-topic" {
   name = "tf-sns-topic"
 }
