@@ -120,10 +120,10 @@ resource "aws_lambda_function" "payload" {
   publish          = true
 }
 
-data "aws_lambda_alias" "production" {
+/* data "aws_lambda_alias" "production" {
   function_name = var.function_name
   name          = "some_name"
-}
+} */
 
 resource "aws_lambda_alias" "test_lambda_alias" {
   for_each = var.env_names
