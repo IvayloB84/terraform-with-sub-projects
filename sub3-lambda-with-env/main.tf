@@ -120,15 +120,6 @@ resource "aws_lambda_function" "payload" {
   publish          = true
 }
 
- data "aws_lambda_alias" "version" {
-  function_name = var.function_name
-  name          = "latest"
-
-  depends_on = [ 
-    aws_lambda_alias.test_lambda_alias
-   ]
-} 
-
 resource "aws_lambda_alias" "test_lambda_alias" {
   for_each = var.env_names
   name             = each.value
