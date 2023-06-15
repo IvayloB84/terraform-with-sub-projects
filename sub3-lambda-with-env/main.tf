@@ -127,8 +127,7 @@ data "aws_lambda_function" "lambda" {
 
  data "aws_lambda_alias" "latest" {
   function_name = var.function_name
-  for_each = var.env_names
-  name             = each.value
+  name          = "dev"
 } 
 
 resource "aws_lambda_alias" "test_lambda_alias" {
