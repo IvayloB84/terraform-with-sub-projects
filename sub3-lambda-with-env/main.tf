@@ -122,7 +122,7 @@ resource "aws_lambda_function" "payload" {
 
 data "aws_lambda_function" "lambda" {
   function_name = var.function_name
-  qualifier = data.aws_lambda_alias.latest.function_version
+  qualifier = data.aws_lambda_alias.latest.qualified.arn
 }
 
  data "aws_lambda_alias" "latest" {
