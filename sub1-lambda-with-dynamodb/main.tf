@@ -52,15 +52,10 @@ resource "aws_iam_role_policy" "dynamodb_read_log_policy-tf" {
   ]
 }
 EOF
-}
-
- data "aws_dynamodb_table" "basic-db-table" {
-  count = var.create_table && var.name ? 1 : 0
-    name = var.basic-db-table 
-}     
+}    
 
 resource "aws_dynamodb_table" "basic-db-table" {
-  count = var.create_table && var.name ? 1 : 0
+  count = var.create_table && !var.autoscaling_enabled ? 1 : 0
     name = "tf-dynamodb"
     billing_mode = "PAY_PER_REQUEST"
     hash_key = "Id"
