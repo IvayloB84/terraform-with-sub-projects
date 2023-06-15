@@ -125,7 +125,7 @@ resource "aws_lambda_function" "payload" {
   name          = "version"
 
   depends_on = [ 
-    aws_lambda_function.payload.arn
+    aws_lambda_alias.test_lambda_alias
    ]
 } 
 
