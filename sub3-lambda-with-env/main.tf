@@ -134,6 +134,6 @@ resource "aws_lambda_alias" "test_lambda_alias" {
   for_each = var.env_names
   name             = each.value
   description      = "a sample description"
-  function_name    = aws_lambda_function.payload.arn
-  function_version = data.aws_lambda_function.lambda
+  function_name    = var.function_name
+//  function_version = data.aws_lambda_function.lambda
 }
