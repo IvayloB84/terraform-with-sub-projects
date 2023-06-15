@@ -66,10 +66,8 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
-
-
-
  resource "aws_dynamodb_table" "basic-db-table" {
+  count = var.create_table && !var.autoscaling_enabled ? 1 : 0
   name             = "tf-dynamodb"
   stream_enabled = true
    billing_mode     = "PAY_PER_REQUEST"

@@ -1,7 +1,13 @@
-variable "create" {
-  description = "Controls whether resources should be created"
+variable "create_table" {
+  description = "Controls if DynamoDB table and associated resources are created"
   type        = bool
   default     = true
+}
+
+variable "autoscaling_enabled" {
+  description = "Whether or not to enable autoscaling. See note in README about this setting"
+  type        = bool
+  default     = false
 }
 
 variable "create_function" {
