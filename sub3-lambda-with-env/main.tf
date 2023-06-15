@@ -135,7 +135,7 @@ resource "aws_lambda_alias" "test_lambda_alias" {
   name             = each.value
   description      = "a sample description"
   function_name    = var.function_name
-  function_version = "${aws_lambda_function.payload.version && var.function_version != "dev" ? var.function_version : "$LATEST"}"
+  function_version = "${aws_lambda_function.payload.version != "dev" ? aws_lambda_function.payload.version : "$LATEST"}"
 
   depends_on = [ 
     data.aws_lambda_alias.latest
