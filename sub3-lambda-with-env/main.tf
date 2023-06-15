@@ -122,7 +122,7 @@ resource "aws_lambda_function" "payload" {
 
  data "aws_lambda_alias" "version" {
   function_name = var.function_name
-  name          = "version"
+  name          = "latest"
 
   depends_on = [ 
     aws_lambda_alias.test_lambda_alias
