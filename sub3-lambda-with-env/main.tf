@@ -5,7 +5,9 @@ provider "aws" {
 locals {
   lambda_src_path = "./lambda"
   create          = var.create
-  update_date = formatdate(MMMM,YYYY)
+
+  now = timestamp()
+  update_date = formatdate("MM,YYYY", local.now)
 
 /*   layer_src_path  = "./source"
   destination_dir = "${path.module}./layers/${var.layer_name}" */
