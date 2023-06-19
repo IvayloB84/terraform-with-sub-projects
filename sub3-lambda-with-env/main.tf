@@ -5,6 +5,7 @@ provider "aws" {
 locals {
   lambda_src_path = "./lambda"
   create          = var.create
+  update_date = formatdate(MMMM,YYYY)
 
 /*   layer_src_path  = "./source"
   destination_dir = "${path.module}./layers/${var.layer_name}" */
@@ -133,7 +134,7 @@ data "aws_lambda_function" "lambda" {
 resource "aws_lambda_alias" "test_lambda_alias" {
   for_each = toset( ["staging", "dev", "prod"] )
   name             = each.value
-  description      = "a sample description"
+  description      = "Release candidate - ${local.update_date}"
   function_name    = var.function_name
   function_version = "${aws_lambda_function.payload.version != "dev" ? var.function_version : "$LATEST"}"
 
