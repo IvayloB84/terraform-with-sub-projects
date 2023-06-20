@@ -46,7 +46,8 @@ variable "lambda_handler" {
   default = "index.handler"
 }
 
-/*  variable "env_names" {
+  variable "env_names" {
    type = set(string)
-    default = ["staging", "dev", "prod"]
-   } */
+ //   default = ["staging", "dev", "prod"]
+ default  = ["staging","prod"]
+   } 

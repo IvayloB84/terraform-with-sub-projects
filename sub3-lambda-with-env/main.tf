@@ -120,7 +120,7 @@ resource "aws_lambda_function" "payload" {
   publish          = true
 }
 
-data "aws_lambda_function" "lambda" {
+/* data "aws_lambda_function" "lambda" {
   function_name = var.function_name
   qualifier = data.aws_lambda_alias.latest.function_version
 }
@@ -128,16 +128,24 @@ data "aws_lambda_function" "lambda" {
  data "aws_lambda_alias" "latest" {
   function_name = var.function_name
   name          = "dev"
-} 
+} */ 
 
 resource "aws_lambda_alias" "test_lambda_alias" {
-  for_each = toset( ["staging", "dev", "prod"] )
-  name             = each.value
+//  for_each = toset( ["staging", "dev", "prod"] )
+  name             = "dev"
   description      = "Release candidate -"
   function_name    = var.function_name
-  function_version = "${aws_lambda_function.payload.version != "" ? var.function_version : "$LATEST"}"
-
-  depends_on = [ 
+//  function_version = "${aws_lambda_function.payload.version != "" ? var.function_version : "$LATEST"}"
+  function_version = "$LATEST"
+/*   depends_on = [ 
     data.aws_lambda_alias.latest,
    ]
-}
+ */
+ }
+
+resource "aws_lambda_alias" "test_lambda_alias" {
+  for_each = var.env_names
+  description = "Release candidate - "
+  function_name = var.function_name
+  function_version = "1"
+} 
