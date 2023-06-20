@@ -130,7 +130,7 @@ resource "aws_lambda_function" "payload" {
   name          = "dev"
 } */ 
 
-resource "aws_lambda_alias" "test_lambda_alias" {
+resource "aws_lambda_alias" "dev_lambda_alias" {
 //  for_each = toset( ["staging", "dev", "prod"] )
   name             = "dev"
   description      = "Release candidate -"
@@ -143,7 +143,7 @@ resource "aws_lambda_alias" "test_lambda_alias" {
  */
  }
 
-resource "aws_lambda_alias" "test_lambda_alias" {
+resource "aws_lambda_alias" "prod_lambda_alias" {
   for_each = var.env_names
   description = "Release candidate - "
   function_name = var.function_name
