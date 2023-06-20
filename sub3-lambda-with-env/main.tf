@@ -148,5 +148,5 @@ resource "aws_lambda_alias" "prod_lambda_alias" {
   name = each.value
   description = "Release candidate - "
   function_name = var.function_name
-  function_version = "1"
+  function_version = "${aws_lambda_function.payload.version}"
 } 
