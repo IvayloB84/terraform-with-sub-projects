@@ -145,6 +145,7 @@ resource "aws_lambda_alias" "dev_lambda_alias" {
 
 resource "aws_lambda_alias" "prod_lambda_alias" {
   for_each = var.env_names
+  name = each.value
   description = "Release candidate - "
   function_name = var.function_name
   function_version = "1"
