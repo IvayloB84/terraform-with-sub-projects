@@ -6,7 +6,7 @@ locals {
   lambda_src_path = "./lambda"
   create          = var.create
 
-/*   layer_src_path  = "./source"
+  /*   layer_src_path  = "./source"
   destination_dir = "${path.module}./layers/${var.layer_name}" */
 }
 
@@ -14,14 +14,14 @@ resource "aws_iam_role" "payload" {
   name = var.iam_role_name
 
   assume_role_policy = <<EOF
-  
+
 {
     "Version": "2012-10-17",
     "Statement": [
         {
             "Effect": "Allow",
             "Principal": {
-                "Service": "lambda.amazonaws.com"    
+                "Service": "lambda.amazonaws.com"
             },
             "Action": "sts:AssumeRole"
         }
@@ -66,10 +66,9 @@ resource "null_resource" "archive" {
     updated_at            = timestamp()
 
   }
-
   provisioner "local-exec" {
 
-    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
+    command     = "mkdir -p ./lambda/ && rsync -av --exclude={'*.tf','*.tfstate*','*./*','*terraform*','lambda/','*.zip','*.tfvars'} ./ ./lambda/ && cd ./lambda && npm install --legacy-peer-deps"
     interpreter = ["/bin/bash", "-c"]
   }
 }
@@ -101,7 +100,7 @@ resource "time_sleep" "wait_20_seconds" {
 }
 
 resource "aws_lambda_function" "payload" {
-  
+
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
@@ -128,24 +127,29 @@ resource "aws_lambda_function" "payload" {
  data "aws_lambda_alias" "latest" {
   function_name = var.function_name
   name          = "dev"
-} */ 
-
-resource "aws_lambda_alias" "dev_lambda_alias" {
-//  for_each = toset( ["staging", "dev", "prod"] )
-  name             = "dev"
-  description      = "Release candidate -"
-  function_name    = var.function_name
-  function_version = var.function_version != "" ? var.function_version : "$LATEST"
-/*   depends_on = [ 
-    data.aws_lambda_alias.latest,
-   ]
- */
- }
+} */
 
 resource "aws_lambda_alias" "prod_lambda_alias" {
-  for_each = var.env_names
-  name = each.value
-  description = "Release candidate - "
-  function_name = var.function_name
-  function_version = "${aws_lambda_function.payload.version}"
-} 
+  for_each = var.env_prod
+  name     = each.value
+  //  name = var.env_prod
+  description      = "Release candidate -"
+  function_name    = var.function_name
+  function_version = aws_lambda_function.payload.version
+}
+
+resource "aws_lambda_alias" "staging_lambda_alias" {
+  for_each         = var.env_staging
+  name             = each.value
+  description      = "Release candidate - "
+  function_name    = var.function_name
+  function_version = aws_lambda_function.payload.version
+}
+
+resource "aws_lambda_alias" "dev_lambda_alias" {
+  for_each         = var.env_dev
+  name             = each.value
+  description      = "Release candidate - "
+  function_name    = var.function_name
+  function_version = var.function_version != "" ? var.function_version : "$LATEST"
+}
