@@ -129,27 +129,9 @@ resource "aws_lambda_function" "payload" {
   name          = "dev"
 } */
 
-resource "aws_lambda_alias" "prod_lambda_alias" {
-  for_each = var.env_prod
-  name     = each.value
-  //  name = var.env_prod
-  description      = "Release candidate -"
-  function_name    = var.function_name
-  function_version = aws_lambda_function.payload.version
-}
-
-resource "aws_lambda_alias" "staging_lambda_alias" {
-  for_each         = var.env_staging
-  name             = each.value
+resource "aws_lambda_alias" "env_lambda_alias" {
+  name             = terraform.workspace
   description      = "Release candidate - "
   function_name    = var.function_name
-  function_version = aws_lambda_function.payload.version
-}
-
-resource "aws_lambda_alias" "dev_lambda_alias" {
-  for_each         = var.env_dev
-  name             = each.value
-  description      = "Release candidate - "
-  function_name    = var.function_name
-  function_version = var.function_version != "" ? var.function_version : "$LATEST"
+  function_version = terraform.workspace == "dev" ? "$LATEST" : aws_lambda_function.payload.version
 }

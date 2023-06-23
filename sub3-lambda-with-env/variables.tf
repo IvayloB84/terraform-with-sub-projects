@@ -59,16 +59,13 @@ variable "lambda_handler" {
 }
 
 variable "env_dev" {
-  type    = set(string)
-  default = ["dev"]
+  type    = string
 }
 
 variable "env_prod" {
-  type    = set(string)
-  default = ["prod"]
+  type    = string
 }
 
 variable "env_staging" {
-  type    = set(string)
-  default = ["staging"]
+  type    = string
 }
