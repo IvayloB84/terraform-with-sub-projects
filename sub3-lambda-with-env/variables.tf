@@ -57,15 +57,3 @@ variable "lambda_handler" {
   type        = string
   default     = "index.handler"
 }
-
-variable "env_dev" {
-  type    = string
-}
-
-variable "env_prod" {
-  type    = string
-}
-
-variable "env_staging" {
-  type    = string
-}
