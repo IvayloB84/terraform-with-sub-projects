@@ -16,4 +16,4 @@ resource "aws_s3_bucket" "bucket" {
     tags = {
         Name = "S3 Remote Terraform State Store"
     }
-}
+}   
