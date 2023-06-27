@@ -11,7 +11,7 @@ locals {
 }
 
 resource "random_string" "suffix" {
-  length = 16
+  length = 8
   special = false
 }
 
@@ -107,7 +107,7 @@ resource "time_sleep" "wait_20_seconds" {
 
 resource "aws_lambda_function" "payload" {
 
-  function_name = var.function_name
+  function_name = "${var.function_name}-${random_string.suffix.result}"
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
   role          = aws_iam_role.payload.arn
