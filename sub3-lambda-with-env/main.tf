@@ -32,7 +32,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 
-  name        = "${var.iam_policy_name}${terraform.workspace}"
+  name        = "${var.iam_policy_name}"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
