@@ -17,7 +17,7 @@ resource "random_string" "suffix" {
 
 resource "aws_iam_role" "payload" {
 
-  name = "${var.iam_role_name}-${random_string.suffix.result}"
+  name = "${var.iam_role_name}"
 
   assume_role_policy = <<EOF
 
@@ -38,7 +38,7 @@ EOF
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
    
-  name        = "${var.iam_policy_name}-${random_string.suffix.result}"
+  name        = "${var.iam_policy_name}"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
