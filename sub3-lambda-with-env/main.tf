@@ -58,8 +58,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
-  role       = aws_iam_role.payload.name
-  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
+  role       = aws_iam_role.payload[0].name
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole[0].arn
 }
 
 resource "null_resource" "archive" {
