@@ -17,7 +17,7 @@ variable "refresh_alias" {
 
 variable "function_name" {
   type    = string
-  default = "sub3-with-env"
+  default = "sub3-with-aliases"
 }
 
 variable "function_version" {
