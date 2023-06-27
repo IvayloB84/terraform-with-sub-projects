@@ -107,6 +107,8 @@ resource "time_sleep" "wait_20_seconds" {
 
 resource "aws_lambda_function" "payload" {
 
+  count = var.function_name == var.function_name ? 1 : 0 
+
   function_name = "${var.function_name}"
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
@@ -139,7 +141,7 @@ resource "aws_lambda_alias" "env_lambda_alias" {
   name             = terraform.workspace
   description      = "Release candidate - "
   function_name    = var.function_name
-  function_version = terraform.workspace == "dev" ? "$LATEST" : aws_lambda_function.payload.version
+  function_version = terraform.workspace == "dev" ? "$LATEST" : "${aws_lambda_function.payload.version}"
 
   depends_on = [ 
     aws_lambda_function.payload
