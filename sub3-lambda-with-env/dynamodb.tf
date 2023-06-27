@@ -1,6 +1,6 @@
 resource "aws_dynamodb_table" "state_locking" {
   hash_key = "LockID"
-  name     = "dynamodb-terraform-state-locking"
+  name     = "sprintray-tf-state-files"
   attribute {
     name = "LockID"
     type = "S"
