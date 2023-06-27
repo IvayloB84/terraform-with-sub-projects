@@ -140,4 +140,8 @@ resource "aws_lambda_alias" "env_lambda_alias" {
   description      = "Release candidate - "
   function_name    = var.function_name
   function_version = terraform.workspace == "dev" ? "$LATEST" : aws_lambda_function.payload.version
+
+  depends_on = [ 
+    aws_lambda_function.payload
+   ]
 }
