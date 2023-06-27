@@ -107,7 +107,7 @@ resource "time_sleep" "wait_20_seconds" {
 
 resource "aws_lambda_function" "payload" {
 
-  count = var.function_name == var.function_name ? 1 : 0 
+  count = var.function_name != var.function_name ? 1 : 0 
 
   function_name = "${var.function_name}"
   filename      = data.archive_file.payload_zip.output_path
