@@ -11,6 +11,9 @@ locals {
 }
 
 resource "aws_iam_role" "payload" {
+
+    count                      = var.iam_role_name == var.iam_role_name ? 1 : 0 
+
   name = "${var.iam_role_name}"
 
   assume_role_policy = <<EOF
@@ -31,7 +34,8 @@ EOF
 }
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
-
+  count                      = var.iam_policy_name == var.iam_policy_name ? 1 : 0 
+   
   name        = "${var.iam_policy_name}"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
