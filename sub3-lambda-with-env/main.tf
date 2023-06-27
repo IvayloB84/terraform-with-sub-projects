@@ -10,11 +10,14 @@ locals {
   destination_dir = "${path.module}./layers/${var.layer_name}" */
 }
 
+resource "random_string" "suffix" {
+  length = 16
+  special = false
+}
+
 resource "aws_iam_role" "payload" {
 
-    count                      = var.iam_role_name == var.iam_role_name ? 1 : 0 
-
-  name = "${var.iam_role_name}"
+  name = "${var.iam_role_name}-${random_string.suffix.result}"
 
   assume_role_policy = <<EOF
 
@@ -34,9 +37,8 @@ EOF
 }
 
 resource "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
-  count                      = var.iam_policy_name == var.iam_policy_name ? 1 : 0 
    
-  name        = "${var.iam_policy_name}"
+  name        = "${var.iam_policy_name}-${random_string.suffix.result}"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF
@@ -58,8 +60,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
-  role       = aws_iam_role.payload[0].name
-  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole[0].arn
+  role       = aws_iam_role.payload.name
+  policy_arn = aws_iam_policy.AWSLambdaBasicExecutionRole.arn
 }
 
 resource "null_resource" "archive" {
@@ -108,7 +110,7 @@ resource "aws_lambda_function" "payload" {
   function_name = var.function_name
   filename      = data.archive_file.payload_zip.output_path
   description   = var.description
-  role          = aws_iam_role.payload[0].arn
+  role          = aws_iam_role.payload.arn
   handler       = var.lambda_handler
   runtime       = var.compatible_runtimes
   timeout       = 90
