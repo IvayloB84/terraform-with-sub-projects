@@ -17,3 +17,11 @@ resource "aws_s3_bucket" "bucket" {
         Name = "S3 Remote Terraform State Store"
     }
 }
+
+data "aws_s3_bucket" "bucket" {
+  bucket = "sprintray-tf-state-files"
+}
+
+output "sprintray-tf-state-files" {
+  value = "${data.aws_s3_bucket.bucket.bucket}"
+}

@@ -53,14 +53,14 @@ resource "aws_lambda_function" "payload" {
   runtime       = var.compatible_runtimes
   timeout       = 90
 
-  depends_on = [
+  source_code_hash = data.archive_file.payload_zip.output_base64sha256
+  publish          = true
+
+    depends_on = [
     aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role,
     data.archive_file.payload_zip,
     null_resource.archive
   ]
-
-  source_code_hash = data.archive_file.payload_zip.output_base64sha256
-  publish          = true
 }
 
 resource "aws_lambda_alias" "env_lambda_alias" {
