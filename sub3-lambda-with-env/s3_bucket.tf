@@ -1,4 +1,13 @@
+data "aws_s3_bucket" "bucket" {
+  bucket = "sprintray-tf-state-files"
+}
+
+output "sprintray-tf-state-files" {
+  value = "${data.aws_s3_bucket.bucket.bucket}"
+}
+
 resource "aws_s3_bucket" "bucket" {
+    count = data.aws_s3_bucket != aws_s3_bucket.bucket ? 1 : 0 
     bucket = "sprintray-tf-state-files"
     versioning {
         enabled = true
@@ -16,12 +25,4 @@ resource "aws_s3_bucket" "bucket" {
     tags = {
         Name = "S3 Remote Terraform State Store"
     }
-}
-
-data "aws_s3_bucket" "bucket" {
-  bucket = "sprintray-tf-state-files"
-}
-
-output "sprintray-tf-state-files" {
-  value = "${data.aws_s3_bucket.bucket.bucket}"
 }
