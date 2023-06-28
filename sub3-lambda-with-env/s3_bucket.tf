@@ -7,7 +7,7 @@ output "sprintray-tf-state-files" {
 }
 
 resource "aws_s3_bucket" "bucket" {
-    count = data.aws_s3_bucket.bucket != aws_s3_bucket.aws_s3_bucket.name ? 1 : 0 
+    count = data.aws_s3_bucket.bucket ? 1 : 0 
     bucket = "sprintray-tf-state-files"
     versioning {
         enabled = true
