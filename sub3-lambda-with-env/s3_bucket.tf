@@ -1,17 +1,15 @@
 resource "aws_s3_bucket" "sprintray-tf-state-files" {
   bucket = "sprintray-tf-state-files"
+}
 
-    lifecycle {
-      prevent_destroy = false # should be true to prevent accidentally deleting state file
-    }
-    versioning {
-      enabled = true
-    }
-    server_side_encryption_configuration {
-      rule{
-          apply_server_side_encryption_by_default{
-              sse_algorithm = "AES256"
-          }
-      }
-    }
+resource "aws_s3_bucket_acl" "sprintray-tf-state-files" {
+  bucket = aws_s3_bucket.sprintray-tf-state-files.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.sprintray-tf-state-files.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
