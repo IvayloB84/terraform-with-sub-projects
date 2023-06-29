@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 provider "aws" {
   region = "us-west-2"
 }
-
+ 
 locals {
   lambda_src_path = "./lambda"
   create          = var.create
